@@ -1,45 +1,51 @@
 [submodule "mcp-deep-dive"]
 	path = mcp-deep-dive
-	url = git@github.com:Ailuue/mcp-deep-dive.git
+	url = https://github.com/alexvervloet/mcp-deep-dive.git
 [submodule "agent-harness-deep-dive"]
 	path = agent-harness-deep-dive
-	url = git@github.com:Ailuue/agent-harness-deep-dive.git
+	url = https://github.com/alexvervloet/agent-harness-deep-dive.git
 [submodule "agents-deep-dive"]
 	path = agents-deep-dive
-	url = git@github.com:Ailuue/agents-deep-dive.git
+	url = https://github.com/alexvervloet/agents-deep-dive.git
 [submodule "ai-in-production-deep-dive"]
 	path = ai-in-production-deep-dive
-	url = git@github.com:Ailuue/ai-in-production-deep-dive.git
+	url = https://github.com/alexvervloet/ai-in-production-deep-dive.git
 [submodule "claude-api-deep-dive"]
 	path = claude-api-deep-dive
-	url = git@github.com:Ailuue/claude-api-deep-dive.git
+	url = https://github.com/alexvervloet/claude-api-deep-dive.git
 [submodule "context-engineering-deep-dive"]
 	path = context-engineering-deep-dive
-	url = git@github.com:Ailuue/context-engineering-deep-dive.git
+	url = https://github.com/alexvervloet/context-engineering-deep-dive.git
 [submodule "evals-deep-dive"]
 	path = evals-deep-dive
-	url = git@github.com:Ailuue/evals-deep-dive.git
+	url = https://github.com/alexvervloet/evals-deep-dive.git
 [submodule "fine-tuning-deep-dive"]
 	path = fine-tuning-deep-dive
-	url = git@github.com:Ailuue/fine-tuning-deep-dive.git
+	url = https://github.com/alexvervloet/fine-tuning-deep-dive.git
 [submodule "local-models-deep-dive"]
 	path = local-models-deep-dive
-	url = git@github.com:Ailuue/local-models-deep-dive.git
+	url = https://github.com/alexvervloet/local-models-deep-dive.git
 [submodule "multimodal-deep-dive"]
 	path = multimodal-deep-dive
-	url = git@github.com:Ailuue/multimodal-deep-dive.git
+	url = https://github.com/alexvervloet/multimodal-deep-dive.git
 [submodule "openai-api-deep-dive"]
 	path = openai-api-deep-dive
-	url = git@github.com:Ailuue/openai-api-deep-dive.git
+	url = https://github.com/alexvervloet/openai-api-deep-dive.git
 [submodule "prompt-engineering-deep-dive"]
 	path = prompt-engineering-deep-dive
-	url = git@github.com:Ailuue/prompt-engineering-deep-dive.git
+	url = https://github.com/alexvervloet/prompt-engineering-deep-dive.git
 [submodule "prompt-injection-deep-dive"]
 	path = prompt-injection-deep-dive
-	url = git@github.com:Ailuue/prompt-injection-deep-dive.git
+	url = https://github.com/alexvervloet/prompt-injection-deep-dive.git
 [submodule "rag-deep-dive"]
 	path = rag-deep-dive
-	url = git@github.com:Ailuue/rag-deep-dive.git
+	url = https://github.com/alexvervloet/rag-deep-dive.git
 [submodule "realtime-voice-deep-dive"]
 	path = realtime-voice-deep-dive
-	url = git@github.com:Ailuue/realtime-voice-deep-dive.git
+	url = https://github.com/alexvervloet/realtime-voice-deep-dive.git
+[submodule "observability-deep-dive"]
+	path = observability-deep-dive
+	url = https://github.com/alexvervloet/observability-deep-dive.git
+[submodule "deep-dive-capstone"]
+	path = deep-dive-capstone
+	url = https://github.com/alexvervloet/deep-dive-capstone.git
