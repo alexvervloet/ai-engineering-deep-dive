@@ -57,8 +57,6 @@ Standalone chapters that extend the core path. Each notes where it slots in.
 
 The textbook holds itself to the same standard as the labs it accompanies, the one written down in [AUTHORING-LESSONS.md](AUTHORING-LESSONS.md): the reader believes what is on the page, so what is on the page has to be worth believing. The chapters teach the honest tradeoff over the tidy-but-false claim. They tell you where techniques fail, not just where they shine. When they cite a number or a result, it is one the labs actually produced, including the surprising and the unflattering ones. The goal is not to make the material sound impressive. It is to make it clear, accurate, and, where possible, enjoyable to read.
 
-Chapters 7 and 14 (Prompt Injection and MCP) round out the set alongside the rest; every dive in the series now has one.
-
 ---
 
 *Back to the [series overview](README.md) · The decision guide: [CHOOSING.md](CHOOSING.md) · The vocabulary: [GLOSSARY.md](GLOSSARY.md)*
