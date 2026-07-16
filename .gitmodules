@@ -49,3 +49,6 @@
 [submodule "deep-dive-capstone"]
 	path = deep-dive-capstone
 	url = https://github.com/alexvervloet/deep-dive-capstone.git
+[submodule "professional-tools-deep-dive"]
+	path = professional-tools-deep-dive
+	url = https://github.com/alexvervloet/professional-tools-deep-dive.git
