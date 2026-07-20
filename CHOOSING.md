@@ -69,7 +69,8 @@ how to handle missing info. → [Prompt Engineering](prompt-engineering-deep-div
 
 **3. Does it need to *do* something — math, an API call, a database query?**
 → Give it **tools**. You describe functions; the model asks to call them; you run
-them. → [Agents](agents-deep-dive/) (tools), [API dives](openai-api-deep-dive/) (function calling)
+them. → [Agents](agents-deep-dive/) (tools), the API dives
+([OpenAI](openai-api-deep-dive/), [Claude](claude-api-deep-dive/)) (function calling)
 
 **4. Does it need facts it doesn't have — your docs, recent data, private knowledge?**
 → **RAG.** Retrieve the right text and put it in the context, with citations. Don't
@@ -99,13 +100,17 @@ These aren't higher rungs — they're side doors for particular requirements.
 
 | You need… | Go to |
 |-----------|-------|
+| To build *on* an agent loop — hooks, permission policies, sandboxing, subagents, headless runs | [**Agent Harnesses**](agent-harness-deep-dive/) |
 | A long conversation (or agent) to remember without blowing the context window | [**Context Engineering**](context-engineering-deep-dive/) |
-| Images or audio in/out | [**Multimodal**](multimodal-deep-dive/) |
+| Images or audio in/out (batch) | [**Multimodal**](multimodal-deep-dive/) |
+| Real-time, spoken conversation (low latency, interruption) | [**Realtime Voice**](realtime-voice-deep-dive/) |
 | Privacy, offline, or zero per-token cost | [**Local Models**](local-models-deep-dive/) |
 | To share tools/data with an LLM across apps | [**MCP**](mcp-deep-dive/) |
 | To know if any change actually helped | [**Evals**](evals-deep-dive/) — the meta-skill for *every* rung |
 | To stop it being jailbroken or leaking | [**Prompt Injection & Guardrails**](prompt-injection-deep-dive/) |
 | To run any of it for real users | [**Production**](ai-in-production-deep-dive/) |
+| To know it's *still* working weeks later — drift, silent regressions, alerting | [**Observability**](observability-deep-dive/) |
+| To decide whether a framework beats what you hand-rolled — measured, not assumed | [**Professional Tools**](professional-tools-deep-dive/) |
 
 ---
 
