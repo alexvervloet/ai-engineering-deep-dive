@@ -113,6 +113,11 @@ context and cite which chunk it used — the basis of checkable answers. *(RAG)*
 **HyDE / multi-query** — query transformations: embed a hypothetical *answer* (HyDE),
 or fan out into paraphrases, to retrieve better. *(RAG, query transformation)*
 
+**Approximate nearest neighbor (ANN) / IVF / HNSW** — an index that finds *most* of
+the closest vectors without scanning all of them, trading a little **recall** for a
+large speedup. Brute force is exact but O(n); ANN (FAISS, hnswlib, pgvector's IVFFlat/
+HNSW) is what you switch to at millions of vectors. *(RAG §15)*
+
 **Contextual retrieval** — prepend a short situating sentence to each chunk *before
 embedding* so isolated chunks stay findable. *(RAG)*
 
@@ -165,6 +170,57 @@ runs. *(Agents §7)*
 **MCP (Model Context Protocol)** — a standard for serving tools, data (**resources**),
 and **prompts** to an LLM from a separate process. *(MCP dive)*
 
+**Agent harness** — the layer that runs the agent loop for you and adds the things a
+bare loop lacks: an event stream, hooks, a permission policy, a sandbox, and
+subagents. Building *on* a harness (Claude Agent SDK, OpenAI Agents SDK, Managed
+Agents) is most agent work in 2026. *(Agent Harnesses dive)*
+
+**Hook** — a function the harness calls at a fixed point in a tool cycle: *pre-tool*
+(block a call or substitute a result) and *post-tool* (transform a result, e.g.
+redact a secret) — where guardrails live without editing the loop. *(Agent Harnesses §4)*
+
+**Permission policy** — a declarative allow / ask / deny verdict per tool, lifted out
+of the loop so you can read, version, and swap it per environment. The productionized
+form of human-in-the-loop approval. *(Agent Harnesses §5)*
+
+**Sandbox** — the boundary tools execute inside (a path jail, a command allowlist, or
+a hosted container): the model proposes, the sandbox disposes. *(Agent Harnesses §6)*
+
+**Subagent** — a delegate the harness spawns as a nested run with its own context
+window and toolset; only its final answer returns, keeping the parent's context
+focused (context isolation). *(Agent Harnesses §7)*
+
+**Server-side / hosted tool** — a tool the *provider* runs inside the turn (web
+search, code execution) rather than your loop; you declare it and get a grounded
+answer back, with no tool-result round-trip — trading control for zero plumbing.
+*(Agents §hosted tools)*
+
+**Computer use** — the agent loop pointed at a screen: the tools are screenshot /
+click / type and the observation is an image. Reach for it only when the task lives
+in a GUI with no API. *(Agent Harnesses §9)*
+
+**Checkpoint / durable execution** — persisting a run's state (its transcript / step)
+after each step so a crashed or redeployed process can **resume** where it stopped,
+redoing nothing. The transcript *is* the checkpoint. *(Agent Harnesses §10)*
+
+**Run record / task state** — the durable status of a run (`queued` → `running` →
+`done` / `failed`), queryable after the fact — the difference between an agent you
+*hope* finished and one you can *prove* did. *(Agent Harnesses §11)*
+
+**Fan-out / join (map-reduce over agents)** — run many *independent* subagents
+concurrently (each with its own context), then aggregate their results; the batch
+costs the slowest worker, not the sum. *(Agent Harnesses §12)*
+
+**Steering** — acting on a run *while it's in flight*: **inject** a message that
+changes the next step, **queue** follow-ups, or **interrupt** (stop at a safe
+boundary, not mid-tool). Distinct from the permission gate, which acts *before* a
+tool. *(Agent Harnesses §13)*
+
+**Orchestration graph** — driving control flow with *code* instead of the model: a
+graph of nodes wired by conditional edges, giving branching and cycles (route →
+handle → review → loop). Build one when you can draw the flowchart; use the agent
+loop when you can't. The model behind LangGraph. *(Agent Harnesses §14)*
+
 ---
 
 ## Context & memory
@@ -192,12 +248,40 @@ reason to order context by importance. *(Context Engineering §6)*
 **Context rot** — quality degrading as a window fills with irrelevant "just in case"
 context, even under the token limit; relevance beats volume. *(Context Engineering §8)*
 
+**Prompt caching** — providers cache the prompt *prefix* so repeated context is
+cheap (a cache *read*, ~0.1×) instead of reprocessed (a *write*, ~1.25×). Any change
+to the prefix invalidates everything after it — so compaction and pruning, which
+rewrite the prefix, can *raise* your bill even as they shrink the window. *(Context
+Engineering §10; Claude API)*
+
 ---
 
 ## Production & safety
 
 **Observability** — structured traces of what each request did (inputs, tokens, cost,
-tools, latency). *(Production §3)*
+tools, latency). *(Production §3; Observability)*
+
+**Data / input drift** — the distribution of what users send shifts over time (new
+topics, new wording), so a model quietly answers things it was never good at — no
+error, just worse answers. *(Observability §5)*
+
+**Concept drift** — the input→output relationship changes. For LLM apps the usual
+culprit is a **silent model swap** or a prompt edit that makes answers worse on the
+same questions. *(Observability §6)*
+
+**Embedding drift** — measuring input drift by *meaning*: how far today's requests
+sit from a baseline's center of mass in embedding space. *(Observability §5)*
+
+**PSI (Population Stability Index)** — the classic MLOps statistic for "how much did
+this distribution move?" (`<0.1` stable, `>0.25` major shift). *(Observability §5, §9)*
+
+**Baseline / z-score** — learn what "normal" looked like from a clean window, then
+score each new day in standard deviations from it, so "weird" is relative, not a
+hand-tuned constant. *(Observability §4)*
+
+**Alert fatigue** — too many false alarms, so the team mutes the alert — and the
+muted alert is the one that misses the real outage. The reason alerting trades
+false alarms against detection lag. *(Observability §7)*
 
 **Prompt caching** — caching a long, repeated prefix so it bills at ~0.1× on reuse.
 *(API dives; Production)*
@@ -238,6 +322,12 @@ what it knows). *(Fine-tuning dive)*
 **Distillation** — fine-tuning a small/cheap model on a strong model's outputs.
 *(Fine-tuning)*
 
+**SFT / preference tuning (DPO) / RFT** — the three ways to train behavior. **SFT**
+learns from demonstrations (one right answer); **preference tuning / DPO** from
+comparisons (A is better than B); **reinforcement fine-tuning (RFT)** from a
+*grader* that scores each attempt — used when success is checkable but not easily
+demonstrated (how reasoning models are trained). *(Fine-tuning §11–12)*
+
 **LoRA / PEFT** — efficient fine-tuning that trains a small set of added weights
 instead of all of them. *(Fine-tuning; Local Models)*
 
@@ -245,6 +335,24 @@ instead of all of them. *(Fine-tuning; Local Models)*
 *(API dives)*
 
 **Multimodal** — accepting more than text (images, audio). *(Multimodal dive)*
+
+**Native PDF input** — passing a PDF to the model as its own content block (real
+text + page structure), the enterprise default — vs the workaround of screenshotting
+a document and using vision. *(Multimodal §11)*
+
+**Realtime voice** — a low-latency, full-duplex spoken loop: audio streams both ways,
+turns are detected from silence, and the user can interrupt. *(Realtime Voice dive)*
+
+**Barge-in** — the user interrupting the agent mid-response; a good voice agent stops
+speaking instantly and listens. Needs full-duplex audio + fast cancellation. *(Realtime Voice §5)*
+
+**STT→LLM→TTS pipeline vs speech-to-speech** — the two voice architectures: three
+models in series (a text transcript in the middle you can log and moderate — more
+control) vs one model hearing and speaking audio directly (fewer hops — lower latency,
+more natural). *(Realtime Voice §3, §7)*
+
+**Turn detection (VAD)** — deciding the user is done speaking, usually from a run of
+silence; too eager clips them, too patient feels slow. *(Realtime Voice §2)*
 
 **Open-weight / local model** — a model whose weights are public, run on your own
 machine; speaks the OpenAI-compatible API. *(Local Models dive)*
