@@ -1,0 +1,138 @@
+# Careers — what each dive is called on a job description
+
+This series' explicit goal is **hirability**: to get a pre-AI software engineer to
+the point where they'd clear an AI Engineer bar. But you built everything *from
+scratch*, so the work goes by different names in job postings, résumés, and
+interviews than it does here. This doc is the translation layer — each dive mapped
+to the vocabulary a hiring manager uses and the industry tools that productionize
+what you built by hand.
+
+> **The pitch that lands in interviews.** "I built X from scratch, so I understand
+> what the framework is doing" beats "I've used the framework." A candidate who
+> hand-wrote an agent loop can reason about *why* a run took twelve steps; one who
+> only called `AgentExecutor.run()` can't. Lead with the primitive; name the tool
+> second. That's the whole reason this series builds from scratch — see
+> [CHOOSING.md](CHOOSING.md)'s "*but everyone uses agents*" note.
+
+How to use this: find the dive you worked through, read the **résumé line** you can
+now honestly write, and skim the **tools** so you recognize them in a posting and
+can say "that's the productionized version of the retriever/eval/loop I built."
+
+---
+
+## The map
+
+### 1–2. OpenAI API / Claude API
+- **Job-description phrases:** "integrate LLM APIs," "function calling / tool use," "streaming responses," "token/cost management," "structured outputs."
+- **Industry tools:** OpenAI SDK, Anthropic SDK, the Vercel AI SDK, LiteLLM (multi-provider routing).
+- **Résumé line:** *"Built LLM-backed features against the OpenAI and Anthropic APIs — tool calling, streaming, structured JSON output, and per-request cost/token budgeting."*
+- **Interview:** you can explain the stateless request/response model, why "memory" is just resending messages, and how tool calling actually works (the model *requests*, your code *executes*).
+
+### 3. Prompt Engineering
+- **Job-description phrases:** "prompt design/optimization," "few-shot," "chain-of-thought," "structured extraction," "reduce hallucination."
+- **Industry tools:** prompt templates, DSPy (programmatic prompt optimization), `guidance`/`outlines` (constrained decoding), provider structured-output modes.
+- **Résumé line:** *"Designed and iterated production prompts (few-shot, chain-of-thought, role and format control), measured against an eval set rather than by feel."*
+- **Interview:** you can name when a better prompt fixes the problem vs when you need to climb to RAG or fine-tuning ([CHOOSING.md](CHOOSING.md)).
+
+### 4. RAG
+- **Job-description phrases:** "retrieval-augmented generation," "semantic/vector search," "embeddings," "grounding & citations," "reduce hallucination with retrieval."
+- **Industry tools:** pgvector, Pinecone, Weaviate, Qdrant, Chroma, FAISS / hnswlib (the ANN index you built by hand in §15); LlamaIndex / LangChain retrievers; Cohere / Voyage rerankers.
+- **Résumé line:** *"Built a RAG pipeline end to end — chunking, embeddings, hybrid + reranked retrieval, grounded generation with citations — and measured retrieval (hit-rate, MRR) and answer quality separately."*
+- **Interview:** you can explain the exact-vs-approximate (brute force vs IVF/HNSW) recall-for-speed tradeoff and why chunking and reranking matter more than the vector DB choice.
+
+### 5. Evals
+- **Job-description phrases:** "LLM evaluation," "offline & online evals," "LLM-as-judge," "A/B testing," "quality regression gates."
+- **Industry tools:** Braintrust, promptfoo, Langfuse, Ragas, OpenAI Evals, DeepEval, Arize Phoenix.
+- **Résumé line:** *"Stood up an evaluation harness (LLM-as-judge with bias controls, trajectory scoring, statistical significance) and gated releases on it in CI."*
+- **Interview:** this is where most candidates are weakest — you can talk about judge bias, nondeterminism, and why "it seems better" ships regressions. Lead with it.
+
+### 6. Agents
+- **Job-description phrases:** "agentic systems," "tool-calling agents," "multi-step/autonomous workflows," "workflow vs agent."
+- **Industry tools:** LangGraph, the OpenAI Agents SDK, CrewAI, AutoGen, LlamaIndex agents.
+- **Résumé line:** *"Built tool-using agents (the loop, multi-tool routing, step limits, error recovery, human-in-the-loop approval, tracing) and knew when a fixed workflow was the better, cheaper choice."*
+- **Interview:** you hand-wrote the loop, so you can debug why an agent takes too many steps and explain the workflow-vs-agent decision from experience.
+
+### Agent Harnesses (bonus)
+- **Job-description phrases:** "build on the Agent SDK / hosted agents," "agent orchestration," "multi-agent / parallel orchestration," "tool sandboxing," "permission policies / guardrails," "subagents," "computer use," "headless/agentic automation," "durable/resumable agents," "checkpointing / stateful workflows," "human-in-the-loop steering," "workflow graphs (LangGraph)."
+- **Industry tools:** the Claude Agent SDK, OpenAI Agents SDK, Claude Code, Managed/hosted agents, LangGraph (graph orchestration + checkpointers), computer-use tools, sandbox runtimes (E2B, Modal, Firecracker/gVisor), and durable-execution engines (Temporal, Inngest, Restate).
+- **Résumé line:** *"Built agents on top of an agent harness — permission policies, hooks/guardrails, sandboxed tool execution, subagents, headless runs, durable checkpoint/resume, parallel fan-out orchestration, mid-run steering, and graph control flow — and could articulate when to adopt the SDK vs hand-roll the loop."*
+- **Interview:** answers the now-standard question directly — *"you have a working loop; when do you throw it away for the SDK, and what does it give you?"* You built every seam (hooks, policy, sandbox, subagents, headless, checkpoint/resume, parallel orchestration, steering, graph routing), so you know exactly what the SDK hardens — including the orchestration and durable-execution machinery that matters the moment an agent fans out, runs long, or needs steering.
+
+### 7. Prompt Injection & Guardrails
+- **Job-description phrases:** "LLM/AI security," "guardrails," "prompt-injection defense," "red-teaming," "content moderation," "PII handling."
+- **Industry tools:** Llama Guard, NeMo Guardrails, Guardrails AI, Lakera, Rebuff, provider moderation endpoints.
+- **Résumé line:** *"Hardened LLM features against prompt injection and unsafe tool use — treated model I/O as untrusted, contained blast radius, and added input/output guardrails."*
+- **Interview:** unusually deep for a candidate — you can discuss why direct secret-leak attacks fail but task-aligned indirect injection lands, and defense-in-depth.
+
+### 8. Production (LLMOps)
+- **Job-description phrases:** "LLMOps," "observability," "cost/latency optimization," "reliability (retries, fallbacks, circuit breakers)," "caching," "prompt versioning," "eval gates."
+- **Industry tools:** Langfuse, Helicone, LangSmith, Arize Phoenix, OpenTelemetry, semantic caches (GPTCache), feature-flag/prompt-registry tooling.
+- **Résumé line:** *"Operated LLM features in production: structured tracing, per-request cost budgets, retries/fallbacks, response caching, versioned prompts behind eval gates."*
+- **Interview:** you can enumerate the dozen concerns around the model call — the thing that separates "I called an API" from "I ran it for real users."
+
+### Observability (bonus)
+- **Job-description phrases:** "LLM observability / monitoring," "data & concept drift," "model performance monitoring," "quality/regression monitoring," "alerting & on-call," "SLOs / error budgets."
+- **Industry tools:** Langfuse, Arize (Phoenix), Evidently, NannyML, WhyLabs, Grafana/Prometheus, OpenTelemetry, PagerDuty; continuous LLM-as-judge scorers.
+- **Résumé line:** *"Built LLM observability from logs — operational metrics (p95 latency, cost/request, refusal rate), input/embedding drift detection, a sampled LLM-as-judge for quality regressions, and z-score + persistence alerting tuned to catch incidents without alert fatigue."*
+- **Interview:** you can explain why LLM monitoring differs from classic tabular MLOps (no feature vector, labels rarely arrive), why quality has to be *sampled* not measured, and the unavoidable false-alarm-vs-detection-lag tradeoff in alerting. Pairs directly with Evals and Production.
+
+### Context Engineering (bonus)
+- **Job-description phrases:** "context management," "conversation memory," "prompt caching / cost optimization," "long-context handling."
+- **Industry tools:** provider prompt caching, mem0, Zep, LangMem, context-compaction features in the SDKs.
+- **Résumé line:** *"Managed model context under a token budget — sliding-window and summary (compaction) memory, cross-session long-term recall, and cache-aware assembly — trading tokens against the prompt-cache bill deliberately."*
+- **Interview:** you can explain the counterintuitive result that compaction can *raise* cost by breaking the prompt cache (§10).
+
+### Multimodal (bonus)
+- **Job-description phrases:** "vision / document AI," "OCR / structured extraction," "speech-to-text / text-to-speech," "multimodal."
+- **Industry tools:** GPT-4o / Claude vision, Whisper / Deepgram (STT), ElevenLabs / OpenAI TTS, document extraction (Textract, Document AI), CLIP-style image embeddings, native PDF input.
+- **Résumé line:** *"Built multimodal features — vision-based document extraction to structured JSON (screenshot and native PDF), speech-to-text and text-to-speech, and image-token cost control."*
+- **Interview:** you can reason about image token cost, and native-PDF vs screenshot extraction as the enterprise default.
+
+### Realtime Voice (bonus)
+- **Job-description phrases:** "voice AI," "conversational voice agents," "realtime / low-latency speech," "speech-to-speech," "telephony / IVR."
+- **Industry tools:** the OpenAI Realtime API, LiveKit, Pipecat, Vapi, Retell, Deepgram, ElevenLabs; WebRTC / WebSocket transports.
+- **Résumé line:** *"Built realtime voice agents — turn detection, barge-in/interruption handling, latency budgeting, and the STT→LLM→TTS vs speech-to-speech architecture tradeoff."*
+- **Interview:** you can talk about the sub-second latency budget, why barge-in needs full-duplex audio and fast cancellation, and when to pick a pipeline over speech-to-speech.
+
+### Fine-tuning (bonus)
+- **Job-description phrases:** "model fine-tuning," "SFT / preference tuning (DPO) / RFT," "LoRA / PEFT," "distillation," "dataset curation."
+- **Industry tools:** OpenAI fine-tuning, Hugging Face `trl`/`peft`/`transformers`, Axolotl, Unsloth, Together / Fireworks fine-tuning.
+- **Résumé line:** *"Fine-tuned models for behavior — built and validated the dataset, ran the job, and gated on a held-out win-rate vs the base model — and knew when a prompt or RAG was the cheaper fix."*
+- **Interview:** you can place SFT vs preference tuning (DPO) vs reinforcement fine-tuning (RFT), and explain "the dataset is the product" plus the eval gate.
+
+### MCP (bonus)
+- **Job-description phrases:** "Model Context Protocol," "tool servers / integrations," "connect LLMs to external systems."
+- **Industry tools:** the MCP SDK, hosted/remote MCP servers, provider MCP connectors.
+- **Résumé line:** *"Built an MCP server and client from scratch (JSON-RPC tool discovery and invocation) and integrated tools/data into an agent over the protocol."*
+- **Interview:** you can explain MCP as "a tool is a name + description + schema, spoken over a protocol instead of an import."
+
+### Local Models (bonus)
+- **Job-description phrases:** "open-weight / self-hosted inference," "on-prem / private LLMs," "quantization," "GPU cost/throughput."
+- **Industry tools:** Ollama, vLLM, llama.cpp, Hugging Face TGI, LM Studio, SGLang; GGUF/AWQ/GPTQ quantization.
+- **Résumé line:** *"Ran open-weight models locally/self-hosted (Ollama, vLLM), reasoned about quantization tradeoffs, and treated local vs API as an ops decision (privacy, cost, control)."*
+- **Interview:** you can frame "local" as mostly an ops choice and discuss the quantization quality/size tradeoff.
+
+### Professional Tools (bonus)
+- **Job-description phrases:** "experience with LangChain/LangGraph/LlamaIndex," "LLM observability (Langfuse)," "eval frameworks," "framework evaluation / build-vs-buy," "production LLM tooling."
+- **Industry tools:** the whole column of this page, used rather than named — LiteLLM, Instructor, LlamaIndex, DeepEval, LangGraph, Llama Guard, Guardrails AI, Langfuse.
+- **Résumé line:** *"Evaluated and adopted production LLM frameworks against hand-rolled baselines — ported each primitive to the tool, measured both on one held-constant eval, and made build-vs-buy calls from data (what the tool automated, what it hid, when to hand-roll)."*
+- **Interview:** this is the dive that turns every "name the tool" line above into "I've used it, and here's exactly what it does and where it bit." You can say, from measurement, that a metric library brought its own definition of the metric, that a framework silently dropped a citation contract while every score stayed green, that a provider router failed silently on one route, and that an observability platform priced a run to the cent from tokens alone — and that "should we adopt this?" is an experiment whose credibility is what you held constant. Uniquely strong for build-vs-buy and staff-level "should we take on this dependency?" conversations.
+
+---
+
+## Turning the whole series into a résumé
+
+You don't list thirteen line items — you synthesize. A strong summary bullet:
+
+> *"AI engineer: built RAG, tool-using agents, and multimodal features against the
+> OpenAI and Anthropic APIs; stood up LLM evaluation and observability; hardened
+> against prompt injection; and operated it all in production with cost, caching,
+> and reliability controls."*
+
+Then keep the per-dive lines above as detail bullets for the specific roles you're
+targeting. And in the interview, whatever they dig into, the move is the same:
+**describe the primitive you built, then name the tool that productionizes it.**
+
+*(Tool names here are examples of the category, current as of writing — the
+landscape moves fast. What doesn't move is the primitive underneath, which is why
+this series teaches that.)*
