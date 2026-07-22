@@ -1,4 +1,4 @@
-# Models & Pricing — a reference for the series
+# Models & Pricing: a reference for the series
 
 A quick, practical reference: the models these deep dives use, what they cost, and
 how to choose one. Part of the [AI Engineering Deep Dives](README.md).
@@ -17,7 +17,7 @@ how to choose one. Part of the [AI Engineering Deep Dives](README.md).
 ## The one mental model
 
 You pay **per token**, and **input** (tokens you send) and **output** (tokens the
-model generates) are priced **separately** — output is several times more expensive.
+model generates) are priced **separately**; output is several times more expensive.
 A "token" is roughly ¾ of a word (~4 characters) of English. Prices below are in
 **US dollars per 1,000,000 tokens**.
 
@@ -37,11 +37,11 @@ work at 50% off). Both are covered in the API dives.
 
 | Model | Input $/1M | Output $/1M | Context | Notes |
 |-------|-----------:|------------:|--------:|-------|
-| `gpt-4o-mini` | 0.15 | 0.60 | ~128K | **The series default.** Cheap, fast, multimodal — great for learning and most tasks. |
+| `gpt-4o-mini` | 0.15 | 0.60 | ~128K | **The series default.** Cheap, fast, multimodal, great for learning and most tasks. |
 | `gpt-4o` | 2.50 | 10.00 | ~128K | Stronger general model; reach for it on harder reasoning/vision. |
 | `gpt-4-turbo` | 10.00 | 30.00 | ~128K | Older flagship; usually superseded by 4o. |
 | `gpt-3.5-turbo` | 0.50 | 1.50 | ~16K | Legacy; cheap but weaker. |
-| o-series (`o4-mini`, …) | varies | varies | large | **Reasoning models** — think before answering; priced higher, billed for hidden reasoning tokens. See the OpenAI dive's reasoning lesson. |
+| o-series (`o4-mini`, …) | varies | varies | large | **Reasoning models**: think before answering; priced higher, billed for hidden reasoning tokens. See the OpenAI dive's reasoning lesson. |
 
 ### Anthropic (Claude)
 
@@ -53,10 +53,10 @@ work at 50% off). Both are covered in the API dives.
 | Claude Fable 5 | `claude-fable-5` | 10.00 | 50.00 | 1M |
 
 The Claude dives default to **`claude-haiku-4-5`** for cheap iteration. Use exact
-model IDs as written — don't append date suffixes. (Older Opus 4.6/4.7 are also
+model IDs as written; don't append date suffixes. (Older Opus 4.6/4.7 are also
 active at the same $5/$25 as 4.8.)
 
-> Anthropic has no first-party embeddings model — it recommends **Voyage AI**
+> Anthropic has no first-party embeddings model; it recommends **Voyage AI**
 > (separate SDK + key). Voyage embedding prices: `voyage-3.5-lite` $0.02,
 > `voyage-3.5` $0.06, `voyage-3-large` / `voyage-code-3` $0.18 per 1M input tokens.
 
@@ -65,7 +65,7 @@ active at the same $5/$25 as 4.8.)
 ## Embedding models
 
 Embeddings turn text into a vector for search/RAG. There's no "output," so you pay
-only for **input** tokens — and they're cheap.
+only for **input** tokens, and they're cheap.
 
 | Model | Provider | $/1M input |
 |-------|----------|-----------:|
@@ -83,16 +83,16 @@ only for **input** tokens — and they're cheap.
 
 | Situation | Reach for |
 |-----------|-----------|
-| Learning, prototyping, high-volume simple tasks | **`gpt-4o-mini`** / **`claude-haiku-4-5`** — cheap and fast |
+| Learning, prototyping, high-volume simple tasks | **`gpt-4o-mini`** / **`claude-haiku-4-5`**, cheap and fast |
 | Harder reasoning, code, nuanced writing | a mid/large model (`gpt-4o`, `claude-sonnet-4-6`) |
 | The hardest multi-step / agentic / long-horizon work | a top model (`claude-opus-4-8`, `claude-fable-5`) |
 | Math/logic/planning puzzles | a **reasoning** model (o-series; or Claude with extended thinking) |
-| Privacy-sensitive or very high volume | a **local** open-weight model (zero per-token cost — see the Local Models dive) |
+| Privacy-sensitive or very high volume | a **local** open-weight model (zero per-token cost; see the Local Models dive) |
 | A repeated, fixed-format task you can cheapen | **fine-tune** a small model (see the Fine-tuning dive) |
 
 Rules of thumb: **start cheap and only move up when an eval says you need to**
 (that's what the Evals dive is for); **don't pay top-tier prices for bottom-tier
-questions** (route by difficulty — see the Production dive's model-routing lesson);
+questions** (route by difficulty; see the Production dive's model-routing lesson);
 and **measure cost before you ship**, not after.
 
 ---

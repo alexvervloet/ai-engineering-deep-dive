@@ -1,7 +1,7 @@
 # Choosing your approach
 
 The single most useful skill in AI engineering is **reaching for the simplest thing
-that works** — and knowing when to climb to the next rung. This guide maps the
+that works**, and knowing when to climb to the next rung. This guide maps the
 ladder. Part of the [AI Engineering Deep Dives](README.md).
 
 > The golden rule, repeated throughout the series: **start at the bottom and only
@@ -30,14 +30,14 @@ ladder. Part of the [AI Engineering Deep Dives](README.md).
    └──────────────────────────────────────────────┘  start here
 ```
 
-Climb only when the rung below genuinely can't do the job — and prove it with an
+Climb only when the rung below genuinely can't do the job, and prove it with an
 [eval](evals-deep-dive/), not a vibe.
 
 ---
 
 ## What each rung changes
 
-The rungs aren't interchangeable — they change *different* things. This is the key
+The rungs aren't interchangeable; they change *different* things. This is the key
 distinction to internalize:
 
 | Approach | Changes… | Reach for it when… |
@@ -50,7 +50,7 @@ distinction to internalize:
 
 > **Knowledge vs. behavior vs. capability.** RAG changes *what it knows*.
 > Fine-tuning changes *how it behaves*. Tools change *what it can do*. Pick the lever
-> that matches your actual problem — most "we need to fine-tune" instincts are really
+> that matches your actual problem; most "we need to fine-tune" instincts are really
 > a knowledge problem (RAG) or a phrasing problem (a better prompt).
 
 ---
@@ -67,18 +67,18 @@ how to handle missing info. → [Prompt Engineering](prompt-engineering-deep-div
 → Add **few-shot examples** (2–5) that demonstrate the format and the tricky cases.
 → [Prompt Engineering](prompt-engineering-deep-dive/) (few-shot, classification)
 
-**3. Does it need to *do* something — math, an API call, a database query?**
+**3. Does it need to *do* something: math, an API call, a database query?**
 → Give it **tools**. You describe functions; the model asks to call them; you run
 them. → [Agents](agents-deep-dive/) (tools), the API dives
 ([OpenAI](openai-api-deep-dive/), [Claude](claude-api-deep-dive/)) (function calling)
 
-**4. Does it need facts it doesn't have — your docs, recent data, private knowledge?**
+**4. Does it need facts it doesn't have: your docs, recent data, private knowledge?**
 → **RAG.** Retrieve the right text and put it in the context, with citations. Don't
 bake changing facts into a model. → [RAG](rag-deep-dive/)
 
 **5. Does it need to behave a *fixed* way every time (format/tone/narrow skill), or do
 you want a cheaper/faster model on a high-volume task?**
-→ **Fine-tune** — but only after a prompt and RAG fall short, and only if you can
+-> **Fine-tune**, but only after a prompt and RAG fall short, and only if you can
 *measure* that it beat your baseline. → [Fine-tuning](fine-tuning-deep-dive/)
 
 **6. Is the task open-ended and multi-step, where you can't script the path?**
@@ -88,7 +88,7 @@ you want a cheaper/faster model on a high-volume task?**
 > **"But everyone uses agents."** Usually that means everyone *uses* an agent
 > someone else built and hardened (Cursor, Claude Code, a framework's prebuilt loop).
 > The complexity that puts this rung last is paid once by the tool's author, then
-> hidden — so the hardest rung *feels* like the cheapest. Building an agent into
+> hidden, so the hardest rung *feels* like the cheapest. Building an agent into
 > *your own* product is the decision this ladder is about, and there it's rarely the
 > cheapest thing that works. Prove the lower rungs fail first.
 
@@ -96,21 +96,21 @@ you want a cheaper/faster model on a high-volume task?**
 
 ## Branches for specific needs
 
-These aren't higher rungs — they're side doors for particular requirements.
+These aren't higher rungs; they're side doors for particular requirements.
 
 | You need… | Go to |
 |-----------|-------|
-| To build *on* an agent loop — hooks, permission policies, sandboxing, subagents, headless runs | [**Agent Harnesses**](agent-harness-deep-dive/) |
+| To build *on* an agent loop (hooks, permission policies, sandboxing, subagents, headless runs) | [**Agent Harnesses**](agent-harness-deep-dive/) |
 | A long conversation (or agent) to remember without blowing the context window | [**Context Engineering**](context-engineering-deep-dive/) |
 | Images or audio in/out (batch) | [**Multimodal**](multimodal-deep-dive/) |
 | Real-time, spoken conversation (low latency, interruption) | [**Realtime Voice**](realtime-voice-deep-dive/) |
 | Privacy, offline, or zero per-token cost | [**Local Models**](local-models-deep-dive/) |
 | To share tools/data with an LLM across apps | [**MCP**](mcp-deep-dive/) |
-| To know if any change actually helped | [**Evals**](evals-deep-dive/) — the meta-skill for *every* rung |
+| To know if any change actually helped | [**Evals**](evals-deep-dive/), the meta-skill for *every* rung |
 | To stop it being jailbroken or leaking | [**Prompt Injection & Guardrails**](prompt-injection-deep-dive/) |
 | To run any of it for real users | [**Production**](ai-in-production-deep-dive/) |
-| To know it's *still* working weeks later — drift, silent regressions, alerting | [**Observability**](observability-deep-dive/) |
-| To decide whether a framework beats what you hand-rolled — measured, not assumed | [**Professional Tools**](professional-tools-deep-dive/) |
+| To know it's *still* working weeks later: drift, silent regressions, alerting | [**Observability**](observability-deep-dive/) |
+| To decide whether a framework beats what you hand-rolled: measured, not assumed | [**Professional Tools**](professional-tools-deep-dive/) |
 
 ---
 

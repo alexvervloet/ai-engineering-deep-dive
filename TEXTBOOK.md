@@ -50,7 +50,7 @@ Standalone chapters that extend the core path. Each notes where it slots in.
 | 15 | [The Model on Your Own Machine](local-models-deep-dive/TEXTBOOK.md) | An open-weight model speaks the same API, so "local" is mostly an operations choice. | The API chapters (1, 2) |
 | 16 | [The Next Six Weeks](observability-deep-dive/TEXTBOOK.md) | A prototype is judged once; a production system is judged continuously, so quality is a trend you watch. | Production (8); pairs with Evals (5) |
 | 17 | [One Project, Every Lesson](deep-dive-capstone/TEXTBOOK.md) | The capstone, where the ideas from every chapter meet in one codebase and collide. | Everything |
-| 18 | [The Tools Everyone Uses](professional-tools-deep-dive/TEXTBOOK.md) | Rebuild each from-scratch primitive with the professional tool and measure both — an adoption decision is an experiment, and its credibility is what you held constant. | Everything |
+| 18 | [The Tools Everyone Uses](professional-tools-deep-dive/TEXTBOOK.md) | Rebuild each from-scratch primitive with the professional tool and measure both: an adoption decision is an experiment, and its credibility is what you held constant. | Everything |
 
 ---
 
