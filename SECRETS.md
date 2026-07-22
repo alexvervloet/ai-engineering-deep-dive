@@ -1,14 +1,14 @@
-# SECRETS.md — how to store and load your API keys
+# SECRETS.md: how to store and load your API keys
 
 **Short version:** your API keys do **not** go in `.env` (or any file in these
 repos). Store them in your operating system's keychain and inject them into a
 single command with the `secrun` wrapper below. `.env` holds only non-secret
 config (`PROVIDER`, `MODEL`, base URLs).
 
-This is itself an AI-engineering lesson — see [Why not `.env`?](#why-not-env)
-below. If you just want it working, jump to your platform —
+This is itself an AI-engineering lesson; see [Why not `.env`?](#why-not-env)
+below. If you just want it working, jump to your platform:
 [macOS](#macos) · [Linux](#linux) · [Windows](#windows) ·
-[any OS with 1Password/Doppler](#any-os--1password-doppler-vault).
+[any OS with 1Password/Doppler](#any-os-1password-doppler-vault).
 
 ---
 
@@ -19,7 +19,7 @@ Every repo loads config with `load_dotenv()` and then reads keys from the
 
 ```python
 from dotenv import load_dotenv
-load_dotenv()                       # loads .env — but NOT your keys anymore
+load_dotenv()                       # loads .env, but NOT your keys anymore
 key = os.getenv("OPENAI_API_KEY")   # comes from the environment
 ```
 
@@ -27,7 +27,7 @@ key = os.getenv("OPENAI_API_KEY")   # comes from the environment
 wins** over `.env`. That's the whole trick: `secrun` puts the key in the
 environment for one command, the lesson reads it from there, and nothing is ever
 written to disk. Because the lessons only read from the environment, *any* method
-that exports the variable works — Keychain + `secrun` is just the one we
+that exports the variable works; Keychain + `secrun` is just the one we
 recommend.
 
 ---
@@ -40,7 +40,7 @@ concrete problems:
 1. **It gets committed by accident.** The single most common way keys leak. A
    `.gitignore` helps until someone runs `git add -f` or copies the file.
 2. **Every tool in the repo can read it.** Most sharply: an AI coding agent with
-   file access reads `.env` trivially — it's right there in the working tree.
+   file access reads `.env` trivially; it's right there in the working tree.
    Moving keys out of the tree removes that easy target.
 3. **It's plaintext.** No encryption at rest. Anything that can read your files
    (backup, sync client, malware, a shared screen) can read the key.
@@ -49,7 +49,7 @@ A keychain fixes 1–3: the key is encrypted at rest, unlocked by your login, an
 lives outside the repo entirely.
 
 > **Honest limit.** `secrun` narrows *when* a key is live (only during the one
-> command you wrap) — it does **not** hide keys from code you choose to run. Any
+> command you wrap); it does **not** hide keys from code you choose to run. Any
 > process you launch in your session can itself call `security find-generic-password`
 > or read its own environment. A coding agent with shell access is such a process.
 > This defeats *accidental* and *passive* exposure (commits, file scans, `env`
@@ -74,7 +74,7 @@ security add-generic-password -U -a "$USER" -s deepdives:OPENAI_API_KEY    -w
 security add-generic-password -U -a "$USER" -s deepdives:ANTHROPIC_API_KEY -w
 security add-generic-password -U -a "$USER" -s deepdives:VOYAGE_API_KEY    -w
 
-# Optional — only if a project uses LangSmith tracing. (LangSmith is
+# Optional: only if a project uses LangSmith tracing. (LangSmith is
 # region-sharded; the matching LANGSMITH_ENDPOINT is not a secret and goes in
 # that project's .env, not here.)
 security add-generic-password -U -a "$USER" -s deepdives:LANGSMITH_API_KEY -w
@@ -88,7 +88,7 @@ security find-generic-password -a "$USER" -s deepdives:OPENAI_API_KEY -w | tr -d
 
 ### 2. Add `secrun` to your shell profile
 
-Paste this into `~/.zshrc` (or `~/.bashrc` — the body is POSIX-ish; adjust the
+Paste this into `~/.zshrc` (or `~/.bashrc`; the body is POSIX-ish; adjust the
 first line), then open a new terminal:
 
 ```zsh
@@ -109,7 +109,7 @@ secrun() {
     local k v
     for k in $keys; do
       if ! v=$(security find-generic-password -a "$USER" -s "deepdives:$k" -w 2>/dev/null); then
-        print -u2 "secrun: missing Keychain item 'deepdives:$k' — see SECRETS.md"
+        print -u2 "secrun: missing Keychain item 'deepdives:$k'; see SECRETS.md"
         exit 1
       fi
       export $k="$v"
@@ -143,7 +143,7 @@ key exists only inside the wrapped process, for its lifetime.
 
 ## Linux
 
-Uses `secret-tool` (libsecret — the GNOME Keyring or KDE Wallet). The keyring is
+Uses `secret-tool` (libsecret: the GNOME Keyring or KDE Wallet). The keyring is
 unlocked automatically when you log into a desktop session.
 
 ### 1. Install secret-tool
@@ -187,7 +187,7 @@ secrun() {
   (  # subshell: exported keys never leak back into the interactive shell
     for k in ANTHROPIC_API_KEY OPENAI_API_KEY VOYAGE_API_KEY; do
       if ! v=$(secret-tool lookup service deepdives key "$k" 2>/dev/null); then
-        echo "secrun: missing keyring item '$k' — see SECRETS.md" >&2
+        echo "secrun: missing keyring item '$k'; see SECRETS.md" >&2
         exit 1
       fi
       export "$k=$v"
@@ -226,7 +226,7 @@ vault (protected by your Windows account, encrypted at rest). Run these in
 **PowerShell 7+** (`pwsh`).
 
 > **Prefer the Linux tooling?** If you have **WSL**, open your WSL shell and follow
-> the [Linux](#linux) section there instead — it's the smoother path, and it's
+> the [Linux](#linux) section there instead; it's the smoother path, and it's
 > where you'll run the lessons anyway.
 
 ### 1. Install the modules and register a vault
@@ -236,7 +236,7 @@ Install-Module Microsoft.PowerShell.SecretManagement, Microsoft.PowerShell.Secre
 Register-SecretVault -Name deepdives -ModuleName Microsoft.PowerShell.SecretStore -DefaultVault
 ```
 
-Optional — skip the per-session vault-password prompt (convenience vs. security;
+Optional: skip the per-session vault-password prompt (convenience vs. security;
 the store stays encrypted at rest under your Windows account):
 
 ```powershell
@@ -301,15 +301,15 @@ python examples\02_offline.py          # offline examples need no wrapper
 
 ---
 
-## Any OS — 1Password, Doppler, Vault
+## Any OS: 1Password, Doppler, Vault
 
 Team-grade secrets managers inject secrets on demand and work identically on every
-OS — often the most robust option here, with central rotation and audit on top. No
+OS, often the most robust option here, with central rotation and audit on top. No
 `secrun` needed: the tool *is* the wrapper.
 
 **1Password** ([`op` CLI](https://developer.1password.com/docs/cli/)). Store the
 three keys in a "DeepDives" item, then keep a small **reference** file in the repo
-— it holds `op://` paths, *not* secrets, so it's safe to commit:
+It holds `op://` paths, *not* secrets, so it's safe to commit:
 
 ```bash
 # op.env  (references, not values)
@@ -330,7 +330,7 @@ doppler secrets set OPENAI_API_KEY         # prompts for the value (repeat per k
 doppler run -- python examples/01_foo.py   # injects all secrets as env vars
 ```
 
-**Production** — HashiCorp Vault and the cloud managers (AWS Secrets Manager, GCP
+**Production**: HashiCorp Vault and the cloud managers (AWS Secrets Manager, GCP
 Secret Manager, Azure Key Vault) follow the same inject-on-demand pattern behind a
 short-lived token or workload identity. Same goal as `secrun`: the key is never in
 `.env`, your shell, or the repo.
@@ -340,7 +340,7 @@ short-lived token or workload identity. Same goal as `secrun`: the key is never 
 ## Fallback: a local `.env` (simplest, least safe)
 
 If you can't set up a keychain right now, you *can* create a local `.env` and add
-the key line yourself — the loaders will read it (`override=False` means it only
+the key line yourself; the loaders will read it (`override=False` means it only
 fills in what the environment doesn't already provide):
 
 ```bash
@@ -362,14 +362,14 @@ someone leaves a team. A rotated key makes any past exposure worthless.
    ([OpenAI](https://platform.openai.com/api-keys) ·
    [Anthropic](https://console.anthropic.com/settings/keys) ·
    [Voyage](https://www.voyageai.com/)) **create a new key and revoke the old one.**
-   Copy the new key now — most consoles reveal it in full only once.
-2. Replace it in your store (below). Nothing else changes — `secrun` reads the new
+   Copy the new key now; most consoles reveal it in full only once.
+2. Replace it in your store (below). Nothing else changes; `secrun` reads the new
    value on its next run; no `.env` or profile edits.
 
-### macOS — delete, then re-add (do **not** use `-U`)
+### macOS: delete, then re-add (do **not** use `-U`)
 
 `security add-generic-password -U` is meant to update in place, but in practice it
-often **creates a duplicate** instead — and then `find-generic-password` may hand
+often **creates a duplicate** instead, and then `find-generic-password` may hand
 `secrun` the *stale* copy, so you keep authenticating with the old key. Always
 delete every copy first, then add exactly one. This block does that and verifies
 in one go (copy the new key to your clipboard first):
@@ -409,17 +409,17 @@ curl -s -o /dev/null -w 'HTTP %{http_code}\n' https://api.anthropic.com/v1/model
   returns an arbitrary one. The `while … delete` loop removes *all* copies first.
 - **Truncated paste.** Pasting a key with an embedded newline into the interactive
   `-w` prompt stores only the part *before* the newline (e.g. 128 of 164 chars, and
-  it looks clean — just short). `pbpaste | tr -d '\r\n'` pastes the whole thing.
+  it looks clean, just short). `pbpaste | tr -d '\r\n'` pastes the whole thing.
 - **Miscounting.** When you add without `-l`, the item's label defaults to the
   service name, so `grep -c deepdives:$K` counts it **twice** (label + service).
   Count `"svce"` lines only, as above.
 - **Sanity-check the length.** Roughly: OpenAI `sk-proj-…` ≈ 164, Anthropic
   `sk-ant-…` = 108, Voyage `pa-…` ≈ 46. A surprising length means a bad copy.
-  (Providers change formats over time — treat these as a smell test, not a spec.)
+  (Providers change formats over time; treat these as a smell test, not a spec.)
 
 ### Linux / Windows
 
-Simpler — the store updates in place, so just re-run the store step with the new
+Simpler: the store updates in place, so just re-run the store step with the new
 value; no delete dance needed:
 
 - **Linux:** `secret-tool store --label='DeepDives OPENAI_API_KEY' service deepdives key OPENAI_API_KEY`
