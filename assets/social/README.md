@@ -25,6 +25,7 @@ core path in sequence, the bonus dives, and `18-capstone` last.
 | Card | Repo |
 |------|------|
 | `00-series` | the series as a whole (`ai-engineering-deep-dive`) |
+| `01-02-both-apis` | dives 1 and 2 in one post, when posting them together |
 | `01`–`08` | the core path, in order |
 | `09`–`17` | the bonus dives |
 | `18-capstone` | `deep-dive-capstone` (askrepo) |

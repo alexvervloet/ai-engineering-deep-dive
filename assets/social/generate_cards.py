@@ -27,7 +27,8 @@ SERIES_REPO = "ai-engineering-deep-dive"
 
 # Each card: slug, kind, badge, title, tagline, footnote chips.
 # Hue drives the accent colour; saturation and lightness are fixed in the
-# template so the whole set reads as one family.
+# template so the whole set reads as one family. A (hue, hue2) pair sets the
+# left bar's gradient explicitly, for a card that stands for two dives at once.
 CARDS = [
     # slug, kind, badge, hue, title, tagline, chips
     (
@@ -59,6 +60,18 @@ CARDS = [
         "The same idea the Anthropic way: content blocks, tool use, and "
         "extended thinking.",
         ["21 examples", "exercises", "textbook chapter"],
+    ),
+    (
+        # Posted as one launch post covering dives 1 and 2 together; the bar
+        # runs from the OpenAI card's blue to the Claude card's orange.
+        "01-02-both-apis",
+        "core",
+        "CORE PATH · 1 & 2 / 8",
+        (210, 25),
+        "Two APIs,<br>one shape",
+        "You send a list of messages, you get back a message. Where the two "
+        "APIs differ is where each vendor tells you what an LLM is.",
+        ["46 examples", "side by side"],
     ),
     (
         "03-prompt-engineering",
@@ -227,6 +240,8 @@ REPOS = {
     "00-series": SERIES_REPO,
     "01-openai-api": "openai-api-deep-dive",
     "02-claude-api": "claude-api-deep-dive",
+    # Not a repo: a brace expansion standing in for both of the above.
+    "01-02-both-apis": "{openai,claude}-api-deep-dive",
     "03-prompt-engineering": "prompt-engineering-deep-dive",
     "04-rag": "rag-deep-dive",
     "05-evals": "evals-deep-dive",
@@ -388,13 +403,14 @@ def fit_bottom(url: str, chips: list[str]):
 
 def build_html(card) -> str:
     slug, _kind, badge, hue, title, tagline, chips = card
+    hue, hue2 = hue if isinstance(hue, tuple) else (hue, (hue + 28) % 360)
     url = f"github.com/{USER}/{REPOS[slug]}"
     url_fs, chip_fs, chip_gap, chips = fit_bottom(url, list(chips))
     return TEMPLATE.format(
         w=WIDTH,
         h=HEIGHT,
         hue=hue,
-        hue2=(hue + 28) % 360,
+        hue2=hue2,
         badge=html.escape(badge),
         title=title,  # contains intentional <br>
         tagline=html.escape(tagline),
