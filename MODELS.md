@@ -35,13 +35,37 @@ work at 50% off). Both are covered in the API dives.
 
 ### OpenAI
 
+Prices verified 2026-08-08. Everything current is on the GPT-5 line; the GPT-4
+models below still serve but are a generation behind.
+
 | Model | Input $/1M | Output $/1M | Context | Notes |
 |-------|-----------:|------------:|--------:|-------|
-| `gpt-4o-mini` | 0.15 | 0.60 | ~128K | **The series default.** Cheap, fast, multimodal, great for learning and most tasks. |
-| `gpt-4o` | 2.50 | 10.00 | ~128K | Stronger general model; reach for it on harder reasoning/vision. |
-| `gpt-4-turbo` | 10.00 | 30.00 | ~128K | Older flagship; usually superseded by 4o. |
-| `gpt-3.5-turbo` | 0.50 | 1.50 | ~16K | Legacy; cheap but weaker. |
-| o-series (`o4-mini`, …) | varies | varies | large | **Reasoning models**: think before answering; priced higher, billed for hidden reasoning tokens. See the OpenAI dive's reasoning lesson. |
+| `gpt-5.6-sol` | 5.00 | 30.00 | 400K | Current flagship. Complex professional work. |
+| `gpt-5.6-terra` | 2.00 | 12.00 | 400K | Current mid tier; balances cost and intelligence. |
+| `gpt-5.6-luna` | 0.20 | 1.20 | 400K | Current cheap tier. **Reads cheap, behaves differently**: see the caveat below. |
+| `gpt-5.4-mini` | 0.75 | 4.50 | 400K | Step up from nano when quality matters (judges, capstones). |
+| `gpt-5.4-nano` | 0.20 | 1.25 | 400K | **The series default.** Vision, tools, and structured outputs, and it still accepts `temperature`. |
+| `gpt-5-nano` | 0.05 | 0.40 | 400K | Cheapest current model. Weakest of the line; fine for classification. |
+| `gpt-4o` | 2.50 | 10.00 | 128K | Previous generation. |
+| `gpt-4o-mini` | 0.15 | 0.60 | 128K | Previous-generation cheap tier. Still the only line that accepts `stop`. |
+| o-series (`o4-mini`, `o3`, `o1`) | varies | varies | large | **Reasoning models**: think before answering; billed for hidden reasoning tokens. See the OpenAI dive's reasoning lesson. |
+
+> **Why the series defaults to `gpt-5.4-nano` and not the newer `gpt-5.6-luna`.**
+> The 5.6 tiers reject `temperature`, `top_p`, and function calling on
+> `/v1/chat/completions` unless you set `reasoning_effort: "none"` or move to the
+> Responses API. `gpt-5.4-nano` defaults `reasoning.effort` to `none`, so tools
+> and sampling knobs work the way the lessons describe, at the same price. This
+> is a real tradeoff, not an oversight: the newest model is not automatically
+> the right teaching default.
+
+**Three parameter changes on the GPT-5 line** that will bite code written for
+GPT-4:
+
+| Parameter | What happened |
+|-----------|---------------|
+| `max_tokens` | Rejected. Use `max_completion_tokens`. It also covers reasoning tokens you never see, so a generous cap can still return an empty string. |
+| `stop` | Removed from the whole GPT-5 line. Use structured outputs for a shape, `max_completion_tokens` for a length. |
+| `temperature` / `top_p` | Fine on the 5.4 line; rejected on 5.6, which only accepts the default. |
 
 ### Anthropic (Claude)
 
@@ -49,12 +73,25 @@ work at 50% off). Both are covered in the API dives.
 |-------|----------|-----------:|------------:|--------:|
 | Claude Haiku 4.5 | `claude-haiku-4-5` | 1.00 | 5.00 | 200K |
 | Claude Sonnet 4.6 | `claude-sonnet-4-6` | 3.00 | 15.00 | 1M |
+| Claude Sonnet 5 | `claude-sonnet-5` | 3.00 | 15.00 | 1M |
 | Claude Opus 4.8 | `claude-opus-4-8` | 5.00 | 25.00 | 1M |
+| Claude Opus 5 | `claude-opus-5` | 5.00 | 25.00 | 1M |
 | Claude Fable 5 | `claude-fable-5` | 10.00 | 50.00 | 1M |
 
 The Claude dives default to **`claude-haiku-4-5`** for cheap iteration. Use exact
 model IDs as written; don't append date suffixes. (Older Opus 4.6/4.7 are also
 active at the same $5/$25 as 4.8.)
+
+Two things to know if you move the Claude dives off Haiku 4.5:
+
+- **Thinking.** On 4.6 and newer, the fixed `budget_tokens` thinking budget is
+  gone; you use `thinking: {"type": "adaptive"}` plus `output_config.effort`.
+  Haiku 4.5 still uses the older `budget_tokens` form, which is why the dives
+  read the way they do.
+- **Assistant prefill.** Putting words in the assistant's mouth as the last
+  message returns a 400 on Opus/Sonnet 4.6 and newer. Haiku 4.5 still allows it,
+  and a couple of dives use it to force JSON. Use structured outputs instead if
+  you upgrade.
 
 > Anthropic has no first-party embeddings model; it recommends **Voyage AI**
 > (separate SDK + key). Voyage embedding prices: `voyage-3.5-lite` $0.02,
@@ -83,7 +120,7 @@ only for **input** tokens, and they're cheap.
 
 | Situation | Reach for |
 |-----------|-----------|
-| Learning, prototyping, high-volume simple tasks | **`gpt-4o-mini`** / **`claude-haiku-4-5`**, cheap and fast |
+| Learning, prototyping, high-volume simple tasks | **`gpt-5.4-nano`** / **`claude-haiku-4-5`**, cheap and fast |
 | Harder reasoning, code, nuanced writing | a mid/large model (`gpt-4o`, `claude-sonnet-4-6`) |
 | The hardest multi-step / agentic / long-horizon work | a top model (`claude-opus-4-8`, `claude-fable-5`) |
 | Math/logic/planning puzzles | a **reasoning** model (o-series; or Claude with extended thinking) |
