@@ -96,7 +96,7 @@ can say "that's the productionized version of the retriever/eval/loop I built."
 
 ### Fine-tuning (bonus)
 - **Job-description phrases:** "model fine-tuning," "SFT / preference tuning (DPO) / RFT," "LoRA / PEFT," "distillation," "dataset curation."
-- **Industry tools:** OpenAI fine-tuning, Hugging Face `trl`/`peft`/`transformers`, Axolotl, Unsloth, Together / Fireworks fine-tuning.
+- **Industry tools:** Hugging Face `trl`/`peft`/`transformers`, Axolotl, Unsloth, Together / Fireworks fine-tuning, MLX on Apple silicon. (OpenAI is winding self-serve fine-tuning down through 2026 into January 2027, so hosted SFT on the big closed providers is a shrinking skill; the open-weight LoRA path is where this work is moving.)
 - **Résumé line:** *"Fine-tuned models for behavior: built and validated the dataset, ran the job, and gated on a held-out win-rate vs the base model, and knew when a prompt or RAG was the cheaper fix."*
 - **Interview:** you can place SFT vs preference tuning (DPO) vs reinforcement fine-tuning (RFT), and explain "the dataset is the product" plus the eval gate.
 

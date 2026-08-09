@@ -26,7 +26,19 @@ and output format for the whole conversation. *(API dives; Prompt Engineering)*
 **Content block**: Claude returns a *list* of typed pieces (text, tool-use,
 thinking) rather than a plain string. *(Claude API dive)*
 
-**max_tokens**: a hard cap on how many tokens the model may generate in one reply.
+**max_tokens / max_completion_tokens**: a hard cap on how many tokens the model
+may generate in one reply. The two names are the same idea on different
+providers: Anthropic still calls it `max_tokens`, while OpenAI's GPT-5 line
+rejects that name and requires `max_completion_tokens`. The rename is
+meaningful, not cosmetic: on a reasoning model the cap also covers reasoning
+tokens you never see, so a generous-looking cap can return an *empty* answer
+with a finish reason of "length". *(API dives)*
+
+**stop sequence**: a string that, if the model is about to generate it, ends the
+reply there. A text-completion era idea, and a retreating one: OpenAI's GPT-5
+line dropped `stop` entirely (Anthropic keeps `stop_sequences`). Where you would
+once chop output at a marker, you now ask for a shape with structured outputs.
+*(OpenAI dive §06)*
 
 **Stateless**: the API remembers nothing between calls. "Memory" is just you
 re-sending the growing message list each turn. *(API dives; Agents §9)*
