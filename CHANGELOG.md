@@ -97,8 +97,56 @@ as they were when the run happened:
 Re-running those comparisons on `gpt-5.4-nano` is follow-up work. A find and
 replace would have made them claim something that never ran.
 
-### Still to do
+- **deep-dive-capstone had the same MCP breakage**, found later via the pin
+  audit: `askrepo/mcp_server.py` imports `mcp.server.fastmcp` and its
+  requirements allowed 2.x. Ported and pinned the same way.
 
-Anthropic API surface audit, dependency pins across all repos, the remaining
-parent docs (GLOSSARY, README, TEXTBOOK), a per-repo content audit of the other
-dives, and the new modules (starting with the Responses API).
+- **Dependency pins now carry an upper bound.** `context-engineering` and
+  `prompt-engineering` asked for `anthropic>=0.40.0` while every sibling asked
+  for `>=0.111.0`, and 0.40 predates `messages.parse`. Nothing anywhere had an
+  upper bound, which is exactly how the MCP breakage happened, so provider SDKs
+  are now ranged (`anthropic>=0.111.0,<1`, `openai>=2.0,<3`).
+
+### Added
+
+Five new modules, each covering something the series did not mention at all.
+Every one was verified against the live API before being written up.
+
+- **openai-api-deep-dive, example 26: the Responses API.** The dive taught Chat
+  Completions and never mentioned the other endpoint, which matters now the
+  Assistants API shuts down on 2026-08-26. Covers server-side conversation state
+  and hosted tools, and is explicit that the cost is portability, since
+  `/v1/chat/completions` is the dialect Ollama, LM Studio, vLLM and LiteLLM all
+  speak and example 17 depends on that.
+
+- **context-engineering-deep-dive, section 11: server-side compaction and
+  context editing.** The dive built compaction by hand and never said the API
+  now does it. Covers compaction (summarizes, needs Sonnet/Opus 4.6+) versus
+  context editing (clears, runs on Haiku 4.5), and the trap where keeping only
+  `.text` silently drops the compaction block, which stays invisible until the
+  first real compaction near 150K tokens.
+
+- **agent-harness-deep-dive, section 15: Managed Agents.** Referenced in six
+  places, never demonstrated. Framed as the far end of the axis the dive walks,
+  with a table mapping each section's problem to its hosted answer. Opt-in via
+  `--real` because it provisions billable infrastructure; it cleans up after
+  itself.
+
+- **agent-harness-deep-dive, section 16: Agent Skills.** Progressive-disclosure
+  instructions. Placed in the harness dive because which skills to attach is
+  harness configuration, and because a skill can ship scripts that execute.
+
+- **agents-deep-dive, examples 16 and 17: tool search, programmatic tool
+  calling, and the memory tool.** The first two share a cause: the dive assumed
+  a small tool surface and a small number of calls, and both assumptions fail in
+  the context window. The memory tool is the counterpart to section 9, which
+  dies with the process. The example implements the storage backend including
+  the path-traversal guard, since memory paths are model-generated.
+
+### Known follow-ups
+
+- The seven `professional-tools-deep-dive` verdicts were measured on
+  `gpt-4o-mini` and now carry a dated note saying so. Re-running them on
+  `gpt-5.4-nano` is a deliberate exercise, not a find and replace.
+- `realtime-voice-deep-dive` remains simulation-only and was not otherwise
+  touched by this pass.
