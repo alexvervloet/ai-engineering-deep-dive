@@ -117,6 +117,7 @@ These aren't higher rungs; they're side doors for particular requirements.
 | To run any of it for real users | [**Production**](ai-in-production-deep-dive/) |
 | To know it's *still* working weeks later: drift, silent regressions, alerting | [**Observability**](observability-deep-dive/) |
 | To decide whether a framework beats what you hand-rolled: measured, not assumed | [**Professional Tools**](professional-tools-deep-dive/) |
+| To decide where the pieces go: state, queues, tiers, tenant boundaries | [**Architecture**](architecture-deep-dive/) |
 
 ---
 
