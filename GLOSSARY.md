@@ -358,6 +358,34 @@ turns are detected from silence, and the user can interrupt. *(Realtime Voice di
 **Barge-in**: the user interrupting the agent mid-response; a good voice agent stops
 speaking instantly and listens. Needs full-duplex audio + fast cancellation. *(Realtime Voice §5)*
 
+**Architecture Decision Record (ADR)**: a short document recording one structural
+decision: the context, the options, the choice, the consequences, and the conditions
+that would reverse it. Useful precisely because it names what would change your mind.
+*(Architecture, all chapters)*
+
+**Blast radius**: how much of a system a single failure takes with it. An in-process
+model that is OOM-killed takes the health check and the cached responses with it; a
+separate model tier does not. *(Architecture §4)*
+
+**Circuit breaker**: stop calling a dependency that has stopped answering, so requests
+fail fast instead of holding a worker for the full deadline. A capacity device, not a
+latency-percentile one. *(Architecture §6)*
+
+**Hold-back window**: streaming output while keeping the last N tokens unsent, so an
+output guard sees them before the user does. Buys containment with first-token latency.
+*(Architecture §5)*
+
+**Load shedding**: refusing work immediately when the queue is too deep, rather than
+accepting it and making the client wait for a deadline it will not meet.
+*(Architecture §3)*
+
+**Sticky routing**: sending every request in a session to the same worker, which makes
+in-process state work until that worker restarts. *(Architecture §2)*
+
+**Write-through indexing**: re-embedding a document when it changes, rather than
+rebuilding the index on a timer or on every request. Work scales with the edit rate
+instead of the query rate. *(Architecture §7)*
+
 **STT→LLM→TTS pipeline vs speech-to-speech**: the two voice architectures: three
 models in series (a text transcript in the middle you can log and moderate, more
 control) vs one model hearing and speaking audio directly (fewer hops, lower latency,
