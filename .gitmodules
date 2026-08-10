@@ -52,3 +52,6 @@
 [submodule "professional-tools-deep-dive"]
 	path = professional-tools-deep-dive
 	url = https://github.com/alexvervloet/professional-tools-deep-dive.git
+[submodule "architecture-deep-dive"]
+	path = architecture-deep-dive
+	url = https://github.com/alexvervloet/architecture-deep-dive.git
