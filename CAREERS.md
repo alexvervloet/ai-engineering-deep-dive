@@ -118,6 +118,12 @@ can say "that's the productionized version of the retriever/eval/loop I built."
 - **Résumé line:** *"Evaluated and adopted production LLM frameworks against hand-rolled baselines: ported each primitive to the tool, measured both on one held-constant eval, and made build-vs-buy calls from data (what the tool automated, what it hid, when to hand-roll)."*
 - **Interview:** this is the dive that turns every "name the tool" line above into "I've used it, and here's exactly what it does and where it bit." You can say, from measurement, that a metric library brought its own definition of the metric, that a framework silently dropped a citation contract while every score stayed green, that a provider router failed silently on one route, and that an observability platform priced a run to the cent from tokens alone, and that "should we adopt this?" is an experiment whose credibility is what you held constant. Uniquely strong for build-vs-buy and staff-level "should we take on this dependency?" conversations.
 
+### Architecture (bonus)
+- **Job-description phrases:** "system design for AI products," "LLM application architecture," "multi-tenant RAG," "design reviews / ADRs," "staff engineer," "scalability and reliability of ML services."
+- **Industry tools:** the decisions rather than the products: job queues and load shedding, circuit breakers, shared session stores, dedicated inference tiers (vLLM, TGI, Ollama), ingest pipelines, canary and shadow deploys, per-tenant retrieval filters.
+- **Résumé line:** *"Owned the architecture of an LLM application end to end: measured each structural decision (state placement, request shape, model tiering, guard placement, degradation, index freshness, rollout, tenant isolation) against a reproducible stressor and documented them as ADRs with the conditions that would reverse them."*
+- **Interview:** the dive that gives you numbers instead of opinions in a design review. You can say that in-process conversation state scored 62% correct at four workers, that a fallback took availability from 0% to 100% while correctness went to 17%, that an output guard on a stream detected every violation and prevented none, that filtering permissions after the model call leaked another tenant's contract terms verbatim, and that a circuit breaker saved 2.9x wall clock while moving p95 by nothing at all. Strongest single dive for staff-level and system-design rounds, because every claim comes with what would flip it.
+
 ---
 
 ## Turning the whole series into a résumé
