@@ -54,6 +54,7 @@ Standalone deep dives that extend the core path. Each notes where it slots in.
 | [**MCP**](mcp-deep-dive/) | The Model Context Protocol: hand an LLM tools, data, and prompts from a separate process: write the server once, any client can use it. | Agents (6) |
 | [**Local Models**](local-models-deep-dive/) | An open-weight model on your machine speaks the same OpenAI API, so "local" is mostly an *ops* choice: privacy, cost, control. | the API dives (1–2); pairs with Fine-tuning |
 | [**Observability**](observability-deep-dive/) | A prototype is judged once; a production system is judged continuously, so watch quality as a *trend*: drift, silent regressions, and alerting that doesn't cry wolf. | Production (8); pairs with Evals (5) |
+| [**Architecture**](architecture-deep-dive/) | The seams between the components: where conversation state lives, what a queue buys, what streaming costs your guardrails, and where the tenant boundary goes. Each decision measured, not asserted. | Production (8); pairs with Observability |
 | [**Professional Tools**](professional-tools-deep-dive/) | "Volume 2": rebuild each from-scratch primitive with the tool professionals actually reach for (LiteLLM, Instructor, LlamaIndex, DeepEval, LangGraph, Llama Guard, Langfuse) and measure both on the same eval, so "should we adopt this framework?" becomes an experiment, not a taste. | Everything (you need the primitives first) |
 
 ---
@@ -86,14 +87,15 @@ Standalone deep dives that extend the core path. Each notes where it slots in.
  └──────────────┬───────────────┘
                 ▼
  ┌──────────────────────────────┐
- │         Production (8)        │ ──────▶ Observability  (bonus)
+ │         Production (8)        │ ──────▶ Observability · Architecture  (bonus)
  └──────────────────────────────┘  operate one app end to end
 ```
 
 The thread: **build the call (1–2) → ask well (3) → ground it (4) → measure it (5) →
 let it act (6) → harden it (7) → operate it (8).** The bonus dives branch off where
 they're most useful. **Observability** extends Production from one request to six
-weeks of them.
+weeks of them, and **Architecture** asks where all these parts belong once there
+is more than one of everything.
 
 ---
 
