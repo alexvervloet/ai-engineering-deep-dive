@@ -153,8 +153,11 @@ the eval anatomy, the injection attack catalog, the quantization calculator).
 - [**SAFETY.md**](SAFETY.md): the cross-cutting view: injection, moderation, PII,
   hallucination, and unsafe actions: what each is and which dive covers it.
 - [**RESPONSIBILITY.md**](RESPONSIBILITY.md): the other half of safety: honest
-  capability claims, bias & fairness, disclosure, data consent, human accountability,
-  and the question upstream of all of them: *should* this be an LLM?
+  capability claims, bias & fairness, sycophancy, disclosure, where your training data
+  came from, what a fluent system does to the person using it, energy footprint,
+  agent autonomy, the 2026 regulatory picture, and the question upstream of all of
+  them: *should* this be an LLM? Ends with the arguments the field hasn't settled,
+  left unsettled.
 - [**SECRETS.md**](SECRETS.md): where your API keys actually go (your OS keychain,
   injected per-command with `secrun`) and why not `.env`. The `.env` → keychain
   progression is itself a lesson in the AI-agent threat model.
