@@ -11,6 +11,52 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-11: mcp-deep-dive, sessions and stateless HTTP
+
+Section 9 taught stdio versus HTTP and stopped there, so the dive never
+mentioned the one thing the network transport adds: a session. That left the
+series' oldest thread (the API is stateless, so any server can take your next
+call) with a hole exactly where it repeats one layer down.
+
+### Added
+
+- **The session, made visible.** `servers/calculator_http.py` takes
+  `--stateless`, which passes `stateless_http=True` to `run()`, and
+  `examples/08_http_transport.py` drops to raw HTTP after the SDK part to print
+  whether the server issued an `Mcp-Session-Id` (then ends the session with a
+  `DELETE`). The tool call is identical in both modes; only the header moves.
+  Raw HTTP via stdlib `urllib`, deliberately: `mcp` 2.x depends on `httpx2`, so
+  an `import httpx` would only work because the provider SDKs happen to pull the
+  old one in, and Sections 2 to 9 are supposed to run without them.
+- **README section 9 and TEXTBOOK 14.5** carry the tradeoff, stated precisely
+  rather than as "stateless loses features": notifications during a call still
+  work (they ride the open request's stream), while resumable streams and
+  server-to-client requests like sampling do not, because the client's reply
+  has nowhere to land. Verified against the SDK, which sets
+  `can_send_request=False` on the stateless path and raises `NoBackChannelError`
+  instead of hanging.
+- **An exercise** in section 9: predict what disappears, then move the mode to
+  an environment variable and defend stateless as the default.
+
+### Fixed
+
+- **`MCPServer` constructor kwargs.** `calculator_http.py` said host and port
+  could be set on the constructor. True in SDK 1.x; in 2.x `host`, `port`,
+  `streamable_http_path`, `json_response` and `stateless_http` are all `run()`
+  arguments and the constructor raises `TypeError`. Added as a troubleshooting
+  row, since anyone porting 1.x code hits it.
+
+### Worth recording
+
+The 2026-08-08 port to SDK 2.x was verified in a fresh environment, so nobody
+noticed that the dive's own `.venv` still had `mcp` 1.28.0 in it. The repo was
+correct and green for a new reader while failing at `initialize()` for the
+person who wrote it. Rebuilding from `requirements.txt` fixed it. Verifying a
+dependency change in a clean venv is right, but it is not a substitute for
+re-running in the venv that is actually sitting on disk.
+
+---
+
 ## 2026-08-11: RESPONSIBILITY.md deepened
 
 The page was thin relative to how much of the current argument about AI is
