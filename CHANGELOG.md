@@ -11,6 +11,58 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-11: RESPONSIBILITY.md deepened
+
+The page was thin relative to how much of the current argument about AI is
+actually live. It went from 113 lines to ~390, keeping its shape (a map that
+turns a worry into a measurement or a limit and points at the dive that
+operationalizes it) rather than becoming an essay.
+
+### Added
+
+- **The person on the other side.** Anthropomorphism as a design choice rather
+  than a user error, sycophancy as a thing with a clean eval, engagement as the
+  wrong objective, a handoff path for users in distress, and the fact that a
+  single disclosure at the top of a session decays.
+- **Where your data came from.** Provenance notes per source, consent, the
+  difference between deleting a row from a RAG index and retraining a fine-tune,
+  output copyright, and annotation labor.
+- **The footprint.** Framed honestly: published per-query numbers disagree by
+  orders of magnitude because they measure different things, and the lever you
+  actually have (smaller model, caching, shorter contexts, fewer agent steps) is
+  the same lever as cost.
+- **Autonomy changes the calculus.** Sort actions by reversibility, not
+  difficulty.
+- **The rules stopped being hypothetical.** Dated August 2026 and sourced.
+- **Where reasonable people disagree.** Six open questions left open, because a
+  page that presented ethics as settled would break the series' own rule about
+  showing the real tradeoff instead of a clean-but-false claim.
+
+### Changed
+
+- Concerns table split into four groups: what the system says, the person on the
+  other side, what it's built on, who owns it.
+- Four cross-cutting principles became six.
+- Pre-launch checklist grew from 7 items to 13.
+- `SAFETY.md` and `README.md` pointers updated to match the wider scope.
+
+### Ground truth used for the regulation section
+
+Verified against live sources on 2026-08-11, not from memory. Worth re-checking
+before relying on it, in the same spirit as MODELS.md and prices:
+
+| Fact | Status |
+|------|--------|
+| EU AI Act high-risk obligations | Deferred by the Digital Omnibus (in force 27 July 2026): Annex III to 2 Dec 2027, Annex I to 2 Aug 2028 |
+| EU AI Act Article 50 transparency duties | Most still applied from 2 August 2026 |
+| US state companion-chatbot laws | 12 states enacted in the first half of 2026 |
+| Colorado | HB 26-1263 signed 1 Jul 2026, effective 1 Jan 2027; SB 26-189 repealed and re-enacted the Colorado AI Act, duties from 1 Jan 2027 |
+
+The pattern worth noting: the disclosure and crisis-handling behavior this page
+argued for on its own merits is the behavior the statutes are converging on.
+
+---
+
 ## 2026-08-08: currency audit
 
 A full pass over every submodule (except `architecture-deep-dive`) checking that
