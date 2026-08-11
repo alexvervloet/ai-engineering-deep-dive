@@ -10,7 +10,8 @@ tie them together. Part of the [AI Engineering Deep Dives](README.md).
 > [Prompt Injection & Guardrails](prompt-injection-deep-dive/) dive is strictly
 > defensive (every attack targets its own toy bot); use these techniques only on
 > systems you own or are authorized to test. For the *other* half (honest claims,
-> bias & fairness, disclosure, consent, and human accountability) see its sibling
+> bias & fairness, disclosure, consent, what the training data is built on, the
+> effect on the person on the other side, and human accountability) see its sibling
 > [RESPONSIBILITY.md](RESPONSIBILITY.md).
 
 ---
