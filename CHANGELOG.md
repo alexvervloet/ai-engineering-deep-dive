@@ -11,6 +11,57 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-12: typescript-ai-deep-dive, a companion outside the sequence
+
+The series teaches in Python and will keep doing so. But the most common question
+it gets is from people whose AI work has to ship inside a TypeScript codebase,
+and the honest answer needed measuring rather than asserting: which differences
+are real, which are folklore, and which one is dangerous.
+
+This is deliberately **not** a dive in the sequence. It is not in the core or
+bonus tables, its textbook chapter is unnumbered, and nothing in the series
+depends on it.
+
+### Added
+
+- **`typescript-ai-deep-dive/`**, a standalone repo in the house style: 13
+  runnable examples, a `tsai/` from-scratch library, `check_setup.ts`, EXERCISES,
+  an unnumbered TEXTBOOK, and a capstone (`hands_on/ask.ts`, a typed streaming
+  agent CLI). Twelve of the thirteen examples need no API key; the whole repo
+  runs on an offline mock provider by default, with the same loud fallback the
+  sibling dives use.
+- **One big idea, and it is not the one people expect.** TypeScript's types are
+  erased at runtime, so the place a Pydantic user expects the most help (parsing
+  what the model said) is the one place annotations do nothing. The repo builds
+  everything around that: Zod at the boundary, `unknown` for tool arguments, and
+  a `ParseResult` union where skipping the check does not compile.
+- **Three measurements with no Python equivalent to point at.** The standard
+  library gap, counted rather than complained about (13 lines of statistics, one
+  genuine hole in binary formats, and `node:test` as a row where Node wins). The
+  single event loop, measured from a second process. And a live PyPI-versus-npm
+  ecosystem comparison that re-fetches on every run instead of going stale.
+- **An aside in [README.md](README.md) and [TEXTBOOK.md](TEXTBOOK.md)** pointing
+  at it, phrased as a companion rather than a step.
+
+### Notes
+
+Four findings changed what the repo teaches, and are written up in its
+[LESSONS.md](typescript-ai-deep-dive/LESSONS.md):
+
+- The unchecked cast does **not** produce `NaN`. `"12.40" * 0.21` is the correct
+  VAT, which is why the bug survives review.
+- Forced to fill a required field it could not know, neither default model
+  hallucinated: `gpt-5.4-nano` returned `""` and `claude-haiku-4-5` returned
+  `"<UNKNOWN>"`. The real problem is that each invents its own undocumented
+  encoding for "absent" and `z.string()` accepts all of them.
+- Aborting a stream throws on two of three stacks and never the same way, so
+  matching on `error.name` is wrong on two of them.
+- A blocked event loop is invisible from inside the blocked process. The first
+  version of that example measured a healthy 2ms and printed it under the word
+  "stalled."
+
+---
+
 ## 2026-08-11: mcp-deep-dive, sessions and stateless HTTP
 
 Section 9 taught stdio versus HTTP and stopped there, so the dive never
