@@ -59,6 +59,27 @@ Standalone deep dives that extend the core path. Each notes where it slots in.
 
 ---
 
+## Building this in TypeScript?
+
+The series teaches in Python, because that is where the AI ecosystem's centre of
+gravity still is. But most software that will call a language model is already
+written, and a great deal of it is written in TypeScript.
+
+> **[TypeScript AI Deep Dive](typescript-ai-deep-dive/)**: the same ideas in
+> TypeScript, and an honest account of what actually changes. Your types stop at
+> the network boundary, so everything a model says is `unknown` until you check
+> it at runtime; every call is a promise; and one blocking handler stalls the
+> whole process in a way you cannot detect from inside it. Thirteen runnable
+> examples, twelve of which need no API key.
+
+It is a **companion, not a step in the sequence**. Nothing above depends on it,
+and it does not replace any dive: for depth on any subject it touches, the Python
+dive on that subject goes much further. Read it if your AI work ships in
+TypeScript, or if you want to know which of the differences are real and which
+are folklore.
+
+---
+
 ## How they fit together
 
 ```
