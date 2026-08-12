@@ -55,3 +55,6 @@
 [submodule "architecture-deep-dive"]
 	path = architecture-deep-dive
 	url = https://github.com/alexvervloet/architecture-deep-dive.git
+[submodule "typescript-ai-deep-dive"]
+	path = typescript-ai-deep-dive
+	url = https://github.com/alexvervloet/typescript-ai-deep-dive.git
