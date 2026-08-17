@@ -58,3 +58,6 @@
 [submodule "typescript-ai-deep-dive"]
 	path = typescript-ai-deep-dive
 	url = https://github.com/alexvervloet/typescript-ai-deep-dive.git
+[submodule "ai-data-engineering-deep-dive"]
+	path = ai-data-engineering-deep-dive
+	url = https://github.com/alexvervloet/ai-data-engineering-deep-dive.git
