@@ -48,6 +48,7 @@ Standalone deep dives that extend the core path. Each notes where it slots in.
 |-----------|------------------|----------------|
 | [**Agent Harnesses**](agent-harness-deep-dive/) | Once you've hand-written the loop, most agent work is building *on* a harness: the layer that adds hooks, permission policies, sandboxing, subagents, and headless runs around it. | Agents (6) |
 | [**Context Engineering**](context-engineering-deep-dive/) | The model only knows what's in its context window, so manage it: conversation memory, compaction, long-term recall, and what to drop when it won't all fit. | Agents (6); pairs with RAG (4) |
+| [**AI Data Engineering**](ai-data-engineering-deep-dive/) | A retrieval index is a disposable view of source truth: ingest and version documents, preserve lineage and ACLs, propagate deletes, reconcile drift, and prove the corpus can be rebuilt. | RAG (4); before Production (8) |
 | [**Multimodal**](multimodal-deep-dive/) | A multimodal model takes more than text: images and audio. Put the right modality in the right slot, and mind the token cost. | the API dives (1–2); pairs with RAG (4) |
 | [**Realtime Voice**](realtime-voice-deep-dive/) | Conversational voice is a low-latency, full-duplex loop: stream audio both ways, handle interruption (barge-in), and choose a pipeline vs a speech-to-speech model. | Multimodal; the API dives (1–2) |
 | [**Fine-tuning**](fine-tuning-deep-dive/) | Fine-tuning changes how a model *behaves*, not what it *knows*: teach behavior by example, then *prove* it beat your baseline. | RAG (4) + Evals (5) |
@@ -150,6 +151,7 @@ the eval anatomy, the injection attack catalog, the quantization calculator).
 | To run for $0 | Use |
 |---------------|-----|
 | The whole ops stack, no key | [Production](ai-in-production-deep-dive/) (mock provider) |
+| A complete document lifecycle, no key | [AI Data Engineering](ai-data-engineering-deep-dive/) (deterministic corpus and embeddings) |
 | Six weeks of monitoring, no key | [Observability](observability-deep-dive/) (synthetic traffic) |
 | Real models, no per-token bill | [Local Models](local-models-deep-dive/) (Ollama on your machine) |
 | Offline sections | the first lesson in most repos (look for "offline, no key") |
