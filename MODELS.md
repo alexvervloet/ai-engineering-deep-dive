@@ -3,7 +3,7 @@
 A quick, practical reference: the models these deep dives use, what they cost, and
 how to choose one. Part of the [AI Engineering Deep Dives](README.md).
 
-> ⚠️ **Prices and models change. This is a snapshot, last updated 2026-06-26.**
+> ⚠️ **Prices and models change. This is a snapshot, last verified 2026-08-17.**
 > Always confirm against the provider's own page before relying on a number:
 > [OpenAI pricing](https://platform.openai.com/docs/pricing) ·
 > [Anthropic pricing](https://platform.claude.com/docs/en/about-claude/pricing).
@@ -35,14 +35,14 @@ work at 50% off). Both are covered in the API dives.
 
 ### OpenAI
 
-Prices verified 2026-08-08. Everything current is on the GPT-5 line; the GPT-4
+Prices and limits verified 2026-08-17. Everything current is on the GPT-5 line; the GPT-4
 models below still serve but are a generation behind.
 
 | Model | Input $/1M | Output $/1M | Context | Notes |
 |-------|-----------:|------------:|--------:|-------|
-| `gpt-5.6-sol` | 5.00 | 30.00 | 400K | Current flagship. Complex professional work. |
-| `gpt-5.6-terra` | 2.00 | 12.00 | 400K | Current mid tier; balances cost and intelligence. |
-| `gpt-5.6-luna` | 0.20 | 1.20 | 400K | Current cheap tier. **Reads cheap, behaves differently**: see the caveat below. |
+| `gpt-5.6-sol` | 5.00 | 30.00 | 1.05M | Current flagship. Complex professional work. 128K max output. |
+| `gpt-5.6-terra` | 2.00 | 12.00 | 1.05M | Current mid tier; balances cost and intelligence. 128K max output. |
+| `gpt-5.6-luna` | 0.20 | 1.20 | 1.05M | Current cheap tier. 128K max output. **Reads cheap, behaves differently**: see the caveat below. |
 | `gpt-5.4-mini` | 0.75 | 4.50 | 400K | Step up from nano when quality matters (judges, capstones). |
 | `gpt-5.4-nano` | 0.20 | 1.25 | 400K | **The series default.** Vision, tools, and structured outputs, and it still accepts `temperature`. |
 | `gpt-5-nano` | 0.05 | 0.40 | 400K | Cheapest current model. Weakest of the line; fine for classification. |
@@ -57,6 +57,11 @@ models below still serve but are a generation behind.
 > and sampling knobs work the way the lessons describe, at the same price. This
 > is a real tradeoff, not an oversight: the newest model is not automatically
 > the right teaching default.
+
+> **Long-context pricing:** for all three GPT-5.6 tiers, requests with more than
+> 272K input tokens are billed at **2× input and 1.5× output for the full
+> request**. Cache writes cost 1.25× the uncached input rate. A 1.05M context
+> window is a capacity limit, not a promise that every token costs the base rate.
 
 **Three parameter changes on the GPT-5 line** that will bite code written for
 GPT-4:
