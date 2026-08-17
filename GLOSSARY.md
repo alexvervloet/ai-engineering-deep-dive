@@ -135,6 +135,86 @@ embedding* so isolated chunks stay findable. *(RAG)*
 
 ---
 
+## The corpus behind the retrieval
+
+*The vocabulary of keeping an index current, separated, and provable. Retrieval
+assumes this work is done; these are its terms. (AI Data Engineering dive)*
+
+**Data contract**: the rules a connector payload must satisfy, checked at runtime
+rather than described in a document: known fields only, timestamps with offsets, a
+non-empty ACL, a supported MIME type. A schema nobody enforces is a note, not a
+contract. *(AI Data Engineering §1)*
+
+**Connector**: the code that gets documents out of the system that owns them (a wiki,
+a drive, a ticket tracker) and into your pipeline, with its rate limits, pagination,
+and outages attached. *(AI Data Engineering §2)*
+
+**Snapshot and high-watermark**: a full read of source state, plus the exact position
+in the source's change history that the read corresponds to. Capturing them together
+is what lets the incremental feed start with no gap and no loss. *(§2)*
+
+**CDC (change data capture)**: consuming a source's stream of creates, updates, and
+deletes instead of re-crawling it. The idea predates AI by decades; it comes from
+database replication. *(§2, §6)*
+
+**Cursor / checkpoint**: your saved position in the change stream. The rule that
+makes crashes survivable: apply the change first, persist the cursor second. Reversed,
+a crash skips events permanently and reports nothing. *(§2, §6)*
+
+**Idempotency**: an effect that can be applied twice without changing the result.
+Since delivery is at-least-once in practice, idempotent writes plus version comparison
+are the workable substitute for exactly-once processing. *(§6)*
+
+**Source version**: the monotonic number the source assigns a document, and the only
+trustworthy way to decide whether an arriving event is news or an echo. Arrival order
+is not, because retries and partitions reorder it. *(§6)*
+
+**Tombstone**: a durable record that a document was deleted, at the version it was
+deleted at. Without one, a late retry of an older event finds nothing in the index,
+concludes the document is new, and resurrects it. *(§8)*
+
+**Backfill**: a deliberate rerun of current source state after the *code* changed
+(new parser, chunker, or embedding model) rather than the data. The one mode allowed
+to rewrite a document at its existing version, and still not allowed to lift a
+tombstone. *(§7)*
+
+**Reconciliation**: periodically comparing source truth against index state to find
+what the event stream missed: missing, stale, orphaned, or ACL-drifted documents.
+Repair needs a budget, because a half-degraded source snapshot looks exactly like a
+source that deleted everything. *(§8)*
+
+**Lineage / provenance**: the record of which source document produced which chunk,
+through which transform, at which version. What turns "why did it say that?" into a
+query rather than an afternoon. *(§9)*
+
+**Content addressing**: identifying work by the hash of its bytes so identical content
+is parsed or embedded once. An optimization on compute only: identity, ACLs, and
+lineage stay keyed to the document, or one tenant's cache becomes another's leak.
+*(§4)*
+
+**ACL propagation**: copying the source document's access control list onto every
+chunk derived from it, so retrieval can filter before it ranks. Filtering after
+ranking both leaks and silently under-returns. *(§5)*
+
+**Tenant isolation**: keeping one customer's data unreachable from another's, in the
+IDs, the query predicates, and the database itself. *(§5)*
+
+**Row-level security (RLS)**: a database policy that filters rows per session, used
+here as a second layer behind the application's own predicates. Note the trap:
+Postgres exempts a table's *owner* from its policies unless the table is declared
+`FORCE ROW LEVEL SECURITY`, so an app connecting as its migration role gets a policy
+that enforces nothing. *(AI Data Engineering, capstone)*
+
+**Data quality gate**: checks on the corpus itself (coverage, drift, empty chunks,
+ACL parity, lineage coverage) that run before answer-quality evals. A stale corpus
+scores perfectly against a stale eval set. *(§9)*
+
+**RPO / RTO**: recovery point objective, how much source and change history you can
+afford to lose; recovery time objective, how long a full rebuild actually takes. Both
+are measured by rebuilding once, not estimated. *(§10)*
+
+---
+
 ## Evaluation
 
 **Eval**: a repeatable measurement of quality: **dataset → task → scorer → report**.
