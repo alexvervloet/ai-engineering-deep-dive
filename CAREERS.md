@@ -64,6 +64,12 @@ can say "that's the productionized version of the retriever/eval/loop I built."
 - **Résumé line:** *"Hardened LLM features against prompt injection and unsafe tool use: treated model I/O as untrusted, contained blast radius, and added input/output guardrails."*
 - **Interview:** unusually deep for a candidate: you can discuss why direct secret-leak attacks fail but task-aligned indirect injection lands, and defense-in-depth.
 
+### GenAI Security (bonus)
+- **Job-description phrases:** "AI/ML security engineering," "AI threat modeling," "secure agentic systems," "model and data supply-chain security," "AI red teaming," "OWASP LLM Top 10," "NIST AI RMF," "least privilege / policy as code," "sandboxing," "AI incident response."
+- **Industry tools:** OPA or Cedar-style policy engines; Sigstore/Cosign and SLSA provenance; garak and promptfoo-style adversarial suites; SBOM and dependency scanners; egress proxies; container or microVM isolation such as gVisor and Firecracker; the organization's SIEM and incident platform.
+- **Résumé line:** *"Built a deterministic GenAI security control plane across the full OWASP LLM surface: threat models, sensitive-data boundaries, signed artifact provenance, poisoning gates, sink validation, trusted agent identity and approvals, tenant-safe retrieval, SSRF and sandbox policy, denial-of-wallet budgets, adversarial release gates, and rehearsed incident recovery."*
+- **Interview:** you can move beyond "we added guardrails" and draw where authority really lives. You can explain why a tool schema is not authorization, why a checksum is not provenance, why post-filtered retrieval leaks, why an allowlisted hostname can still reach metadata, why a Python wrapper is not a sandbox, and why a block-everything red-team result fails the release. This is senior-level evidence because the capstone proves the naive boundary fails, the hardened boundary passes without losing benign utility, and recovery is tied to a regression gate.
+
 ### 8. Production (LLMOps)
 - **Job-description phrases:** "LLMOps," "observability," "cost/latency optimization," "reliability (retries, fallbacks, circuit breakers)," "caching," "prompt versioning," "eval gates."
 - **Industry tools:** Langfuse, Helicone, LangSmith, Arize Phoenix, OpenTelemetry, semantic caches (GPTCache), feature-flag/prompt-registry tooling.
