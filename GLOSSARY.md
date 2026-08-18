@@ -348,6 +348,62 @@ Engineering §10; Claude API)*
 
 ---
 
+## GenAI security
+
+**Untrusted principal**: the security model for an LLM: it may *propose* data and
+actions, but trusted code derives identity and decides what is authorized. A model's
+intent is never authority. *(GenAI Security)*
+
+**Threat model / trust boundary**: the system-specific map of assets, owners, entry
+points, data flows, attacker capabilities, and consequences; a trust boundary is where
+data or authority moves between differently trusted components. A top-ten list helps
+review the map but cannot replace it. *(GenAI Security §1)*
+
+**Capability broker / reference monitor**: trusted code between a model proposal and
+an effect. It combines authenticated subject, tenant, roles, object policy, approval,
+idempotency, and limits, then denies or creates the effective tool arguments. *(§6)*
+
+**Least privilege**: giving a principal only the smallest capability, scope, and
+duration required. For an agent that means narrow tools, tenant-scoped objects,
+bounded output and time, and separately approved irreversible actions. *(§6)*
+
+**Artifact provenance / attestation**: evidence binding exact model, prompt, dataset,
+dependency, or image bytes to an immutable version, source, builder, and approval. A
+checksum detects changed bytes; provenance answers who produced and approved them.
+*(§3; SLSA)*
+
+**Data or model poisoning**: changing training, fine-tuning, evaluation, or retrieval
+data so future behavior is manipulated. Record-level triggers, conflicting labels,
+untrusted sources, duplicates, and population shifts are quarantined with evidence.
+*(§4)*
+
+**Sink-specific output validation**: treating model output as untrusted input to the
+next interpreter: an exact schema for structured actions, parameter binding for SQL,
+and context-appropriate encoding for HTML. There is no universal sanitizer. *(§5)*
+
+**Retrieval prefilter**: applying tenant, ACL, and source-approval policy before
+similarity ranking, context construction, tracing, or caching. Filtering afterward is
+both a disclosure risk and a relevance bug. *(§7; AI Data Engineering §5)*
+
+**Egress policy / SSRF**: restricting a server-side fetch by scheme, exact host, port,
+resolved public address, redirects, bytes, and time. A model-selected URL is
+attacker-controlled even when its hostname looks familiar. *(§8; CWE-918)*
+
+**Denial-of-wallet / resource reservation**: exhausting money or capacity through
+tokens, recursive steps, tools, retries, bytes, or time. Reserve the worst-case effect
+against one shared request budget *before* starting work. *(§10)*
+
+**Adversarial release gate**: a CI decision that combines attack success, benign
+utility, required-risk coverage, and evaluator health. Block-all behavior, missing
+categories, and harness exceptions all fail. *(§11)*
+
+**Containment / eradication / recovery**: the incident sequence: stop the active blast
+radius, remove the root cause and add its regression, then restore service only after
+the release gate passes. Evidence preservation begins before destructive repair.
+*(§12)*
+
+---
+
 ## Production & safety
 
 **Observability**: structured traces of what each request did (inputs, tokens, cost,
