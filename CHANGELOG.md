@@ -11,6 +11,56 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-18: genai-security-deep-dive, chapter 20
+
+The [Prompt Injection](prompt-injection-deep-dive/) dive covers one attack on one
+surface: the text the model reads. Everything else a production system is made of,
+identities, tools, build artifacts, retrieval indexes, interpreters, networks, and
+budgets, can fail without a single crafted prompt. This dive is that larger system.
+
+### Added
+
+- **`genai-security-deep-dive/`**, offline start to finish: 13 modules under
+  `genai_security/`, 12 narrated lessons, EXERCISES, chapter 20 of the TEXTBOOK, and
+  a capstone (`hands_on/security_review.py`) that attacks a naive and a hardened
+  build of the same boundary and writes deterministic release evidence. No API key,
+  no network call, standard library only. It is the third repo in the series that
+  runs entirely for $0, after Production and AI Data Engineering.
+- **One big idea: treat the model as an untrusted principal, not a security
+  boundary.** The model proposes; trusted code decides. Identity, policy, provenance,
+  isolation, and budgets are enforced where a compromised model cannot argue with
+  them.
+- **The complete OWASP LLM Top 10 2025 surface**, plus SSRF and generated-code
+  isolation, each wired to an executable control rather than a checklist row. The
+  first lesson exists to make the distinction: a taxonomy is a review aid, not your
+  threat model.
+- **Cross-references**: the bonus table and diagram in [README.md](README.md),
+  chapter 20 in [TEXTBOOK.md](TEXTBOOK.md), a GenAI security section in
+  [GLOSSARY.md](GLOSSARY.md), a senior-role entry in [CAREERS.md](CAREERS.md), ten
+  new concern rows and a fifth cross-cutting principle in [SAFETY.md](SAFETY.md),
+  and a row in [CHOOSING.md](CHOOSING.md).
+
+### Notes
+
+An audit after the initial build found three defects, all in the capstone rather
+than the controls, and all now fixed with tests. They are written up in the repo's
+[LESSONS.md](genai-security-deep-dive/LESSONS.md) because the shape they share is
+worth carrying into any release gate:
+
+- The gate derived its required risk categories from the probe suite it was
+  grading, so deleting a probe deleted its own requirement. Coverage could not fail.
+- The cloud-metadata SSRF probe used an `http://` URL and was rejected by the scheme
+  allowlist, so the resolved-address policy it was named for never ran. The report
+  recorded a pass either way.
+- The benign-utility probe returned a hardcoded `ALLOW`, so the measurement that
+  catches an over-blocking regression was a constant.
+
+The common thread: each was a check whose expectation came from its own input.
+Probe outcomes now carry the control that decided them into
+`security-report.json`, which is what makes that class of defect visible.
+
+---
+
 ## 2026-08-12: typescript-ai-deep-dive, a companion outside the sequence
 
 The series teaches in Python and will keep doing so. But the most common question
