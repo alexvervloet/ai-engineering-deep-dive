@@ -112,6 +112,7 @@ These aren't higher rungs; they're side doors for particular requirements.
 | Real-time, spoken conversation (low latency, interruption) | [**Realtime Voice**](realtime-voice-deep-dive/) |
 | Privacy, offline, or zero per-token cost | [**Local Models**](local-models-deep-dive/) |
 | To share tools/data with an LLM across apps | [**MCP**](mcp-deep-dive/) |
+| To own the corpus behind the index: versions, lineage, ACLs, deletes | [**AI Data Engineering**](ai-data-engineering-deep-dive/) |
 | To know if any change actually helped | [**Evals**](evals-deep-dive/), the meta-skill for *every* rung |
 | To stop it being jailbroken or leaking | [**Prompt Injection & Guardrails**](prompt-injection-deep-dive/) |
 | To secure the *system* around the model: identity, supply chain, tenant isolation, egress, budgets, release gates | [**GenAI Security**](genai-security-deep-dive/) |
