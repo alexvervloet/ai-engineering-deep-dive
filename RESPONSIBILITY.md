@@ -51,7 +51,7 @@ who *owns* it when it goes wrong.
 |---------|-----------|--------------------|
 | **Data provenance & consent** | Whether you had the right to train, fine-tune, or index on the data you used, and whether the people in it agreed | [Fine-tuning](fine-tuning-deep-dive/) (you own your training set), [RAG](rag-deep-dive/) (you own your corpus) |
 | **Copyright & attribution** | Outputs that reproduce training data, and generated code whose license you can't name | [RAG](rag-deep-dive/) (cite what you retrieved), review policy for generated code |
-| **Data governance** | What you may send upstream, retain, log, or train on | [Production](ai-in-production-deep-dive/) (PII touchpoints, retention), [SAFETY.md](SAFETY.md) |
+| **Data governance** | What you may send upstream, retain, log, or train on | [Production](ai-in-production-deep-dive/) (PII touchpoints, retention), [GenAI Security](genai-security-deep-dive/) (classification ceiling, declared purpose, keyed audit fingerprints), [SAFETY.md](SAFETY.md) |
 | **Labor** | The annotation work behind the model, and the jobs the product is aimed at | not a code decision; a disclosure and staffing decision you make in the open |
 | **Footprint** | Energy and water for training and for every inference you serve | [MODELS.md](MODELS.md) + [CHOOSING.md](CHOOSING.md) (smaller model, fewer calls), [Local Models](local-models-deep-dive/), caching in [Production](ai-in-production-deep-dive/) |
 
@@ -60,7 +60,7 @@ who *owns* it when it goes wrong.
 | Concern | What it is | Operationalized in |
 |---------|-----------|--------------------|
 | **Accountability** | When it's wrong, a named human owns the outcome, not "the AI did it" | a process you define before launch, not after the incident |
-| **Autonomy & reversibility** | An agent that *acts* is a different problem than a model that *advises* | [Agents](agents-deep-dive/) (approval, step limits), [Agent Harnesses](agent-harness-deep-dive/) (permission policy, sandboxing) |
+| **Autonomy & reversibility** | An agent that *acts* is a different problem than a model that *advises* | [Agents](agents-deep-dive/) (approval, step limits), [Agent Harnesses](agent-harness-deep-dive/) (permission policy, sandboxing), [GenAI Security](genai-security-deep-dive/) (approval bound to one exact irreversible effect) |
 | **Regulatory duties** | Disclosure, record-keeping, and risk classification that now carry deadlines | [below](#the-rules-stopped-being-hypothetical); check what applies to you |
 | **Cost of being wrong** | Whether a mistake is a typo or a denied loan / wrong dosage; sets every bar above | informs your eval bar and whether to ship at all |
 
@@ -367,7 +367,9 @@ Before a system reaches real users, you can answer these, and they're concrete:
 9. **Data out**: can you honor a deletion request? Do you know whether that means
    dropping a row or retraining a model?
 10. **Actions**: for anything an agent can do irreversibly, is there human approval and
-    a capability limit? *(→ [Agents](agents-deep-dive/))*
+    a capability limit, and is that approval bound to the one operation it was given
+    for? *(→ [Agents](agents-deep-dive/),
+    [GenAI Security](genai-security-deep-dive/))*
 11. **Oversight**: for consequential outputs, who reviews, who overrides, how does a
     user contest?
 12. **Owner**: is there a named human accountable for outcomes?
