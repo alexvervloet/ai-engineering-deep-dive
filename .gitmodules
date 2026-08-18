@@ -61,3 +61,6 @@
 [submodule "ai-data-engineering-deep-dive"]
 	path = ai-data-engineering-deep-dive
 	url = https://github.com/alexvervloet/ai-data-engineering-deep-dive.git
+[submodule "genai-security-deep-dive"]
+	path = genai-security-deep-dive
+	url = https://github.com/alexvervloet/genai-security-deep-dive.git
