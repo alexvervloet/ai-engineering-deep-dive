@@ -128,7 +128,7 @@ CARDS = [
         "core",
         "CORE PATH · 8 / 8",
         95,
-        "Production",
+        "AI in Production",
         "The model call is one line. Production is the dozen lines around it "
         "that make it safe, cheap, observable, and reliable.",
         ["12 examples", "exercises", "textbook"],
@@ -158,7 +158,7 @@ CARDS = [
         "bonus",
         "BONUS DIVE",
         320,
-        "Multimodal",
+        "Multimodal AI",
         "A multimodal model takes more than text. Put the right modality in "
         "the right slot, and mind the token cost.",
         ["10 examples", "exercises", "after: API dives"],
@@ -208,7 +208,7 @@ CARDS = [
         "bonus",
         "BONUS DIVE",
         200,
-        "Observability",
+        "AI Observability",
         "A prototype is judged once, a production system continuously. Watch "
         "quality as a trend: drift, regressions, alerting.",
         ["9 examples", "exercises", "after: Production"],
@@ -218,7 +218,7 @@ CARDS = [
         "bonus",
         "VOLUME 2",
         315,
-        "Professional Tools",
+        "AI Professional Tools",
         "Rebuild each from-scratch primitive with the tool professionals "
         "reach for, and measure both on the same eval.",
         ["7 chapters", "LiteLLM · LangGraph", "same-eval"],
