@@ -111,6 +111,7 @@ These aren't higher rungs; they're side doors for particular requirements.
 | Images or audio in/out (batch) | [**Multimodal**](multimodal-deep-dive/) |
 | Real-time, spoken conversation (low latency, interruption) | [**Realtime Voice**](realtime-voice-deep-dive/) |
 | Privacy, offline, or zero per-token cost | [**Local Models**](local-models-deep-dive/) |
+| To serve open weights as a fleet: KV memory, batching, parallelism, admission, GPU placement, scaling, rollouts, and capacity | [**Inference Platform Engineering**](inference-platform-deep-dive/) |
 | To share tools/data with an LLM across apps | [**MCP**](mcp-deep-dive/) |
 | To own the corpus behind the index: versions, lineage, ACLs, deletes | [**AI Data Engineering**](ai-data-engineering-deep-dive/) |
 | To know if any change actually helped | [**Evals**](evals-deep-dive/), the meta-skill for *every* rung |
