@@ -533,11 +533,42 @@ silence; too eager clips them, too patient feels slow. *(Realtime Voice §2)*
 **Open-weight / local model**: a model whose weights are public, run on your own
 machine; speaks the OpenAI-compatible API. *(Local Models dive)*
 
-**Quantization**: storing model weights in fewer bits (q4, q8) to shrink memory at a
-small quality cost, and what lets a model fit on a laptop. *(Local Models)*
+**Quantization**: representing weights (and sometimes activations or KV state) at lower
+precision to reduce memory and potentially change performance. Quality loss, kernel
+support, and speed depend on format, model, workload, runtime, and hardware; bit width
+alone is not a throughput result. *(Local Models; Inference Platform §22.6)*
 
 **KV cache**: memory holding the keys/values for tokens in context; grows with
 context length and can rival the weights in size. *(Local Models)*
 
 **Serving engine**: the program that loads and runs a local model (Ollama,
 llama.cpp, vLLM). *(Local Models)*
+
+**TTFT / TPOT**: time to first token measures arrival through queueing and prefill to
+the first streamed token; time per output token measures average decode spacing after
+it. They diagnose different serving phases and must not collapse into one latency
+average. *(Inference Platform §22.3)*
+
+**Continuous batching**: revisiting batch membership between decode iterations so
+finished sequences leave and newly arrived work can fill their lanes. It reduces
+request-level head-of-line blocking but still has prefill/decode fairness trade-offs.
+*(Inference Platform §22.4)*
+
+**Prefix caching**: reusing prefill KV blocks for an exact token prefix under the same
+model, tokenizer, adapter, and security scope. Visible text or a caller's cache label
+is not sufficient identity. *(Inference Platform §22.5)*
+
+**Speculative decoding**: a cheaper draft model proposes several tokens and the target
+model verifies them in parallel, preserving the target distribution under the exact
+algorithm. It helps only when acceptance repays drafting and verification overhead.
+*(Inference Platform §22.7)*
+
+**Tensor / pipeline / data / expert parallelism (TP / PP / DP / EP)**: four distinct
+ways to distribute inference: split operations inside layers, split layer ranges into
+stages, duplicate complete replicas, or distribute MoE experts. Fit, divisibility, and
+physical link topology constrain which compositions are useful. *(Inference Platform
+§22.8)*
+
+**Admission control**: deciding and reserving worst-case request work before allocation;
+when live capacity and the bounded queue are full, the platform sheds rather than
+accepting work it predicts it cannot serve. *(Inference Platform §22.9)*
