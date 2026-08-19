@@ -53,7 +53,7 @@ who *owns* it when it goes wrong.
 | **Copyright & attribution** | Outputs that reproduce training data, and generated code whose license you can't name | [RAG](rag-deep-dive/) (cite what you retrieved), review policy for generated code |
 | **Data governance** | What you may send upstream, retain, log, or train on | [Production](ai-in-production-deep-dive/) (PII touchpoints, retention), [GenAI Security](genai-security-deep-dive/) (classification ceiling, declared purpose, keyed audit fingerprints), [SAFETY.md](SAFETY.md) |
 | **Labor** | The annotation work behind the model, and the jobs the product is aimed at | not a code decision; a disclosure and staffing decision you make in the open |
-| **Footprint** | Energy and water for training and for every inference you serve | [MODELS.md](MODELS.md) + [CHOOSING.md](CHOOSING.md) (smaller model, fewer calls), [Local Models](local-models-deep-dive/), caching in [Production](ai-in-production-deep-dive/) |
+| **Footprint** | Energy and water for training and for every inference you serve | [MODELS.md](MODELS.md) + [CHOOSING.md](CHOOSING.md) (smaller model, fewer calls), [Local Models](local-models-deep-dive/), caching in [Production](ai-in-production-deep-dive/), measured utilization/headroom/capacity in [Inference Platform Engineering](inference-platform-deep-dive/) |
 
 ### 4. Who owns it
 
