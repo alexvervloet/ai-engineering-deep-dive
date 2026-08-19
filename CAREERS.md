@@ -118,6 +118,12 @@ can say "that's the productionized version of the retriever/eval/loop I built."
 - **Résumé line:** *"Ran open-weight models locally/self-hosted (Ollama, vLLM), reasoned about quantization tradeoffs, and treated local vs API as an ops decision (privacy, cost, control)."*
 - **Interview:** you can frame "local" as mostly an ops choice and discuss the quantization quality/size tradeoff.
 
+### Inference Platform Engineering (bonus)
+- **Job-description phrases:** "LLM inference / serving platform," "GPU fleet orchestration," "model serving performance," "capacity planning," "distributed inference," "admission control / load shedding," "SLOs and autoscaling."
+- **Industry tools:** vLLM, SGLang, Hugging Face TGI, NVIDIA Triton/TensorRT-LLM, Ray Serve, Kubernetes device plugins and custom-metric autoscaling, Prometheus/Grafana, GPU/fabric discovery and scheduling.
+- **Résumé line:** *"Designed an LLM inference control plane from memory and workload evidence: sized weights and KV cache, measured TTFT/TPOT/token throughput, evaluated batching/caching/quantization/speculation, selected TP/PP/DP/EP layouts, placed GPU groups, bounded overload, scaled queued token work, gated canaries, and planned burst capacity and cost."*
+- **Interview:** you can explain why weight fit is not service fit, why four-bit is not a throughput claim, when tensor parallelism should stay inside a fast-link domain, why CPU is a poor serving scaler, and how a requirement survives removal of the test case that was meant to prove it. The capstone produces the deciding control for every fleet claim and fails under independent workload, placement, shedding, and rollout counterfactuals.
+
 ### Professional Tools (bonus)
 - **Job-description phrases:** "experience with LangChain/LangGraph/LlamaIndex," "LLM observability (Langfuse)," "eval frameworks," "framework evaluation / build-vs-buy," "production LLM tooling."
 - **Industry tools:** the whole column of this page, used rather than named: LiteLLM, Instructor, LlamaIndex, DeepEval, LangGraph, Llama Guard, Guardrails AI, Langfuse.
