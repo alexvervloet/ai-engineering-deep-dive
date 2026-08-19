@@ -241,6 +241,43 @@ example remove what genuinely doesn't belong, and keep what does.
   *wanted* `support@acme.example` too (same over-redaction as a blunt regex), so any
   redactor, LLM or rules, needs an allowlist / keep-rules, never "just ask the model."
 
+### 17. A rounded metric ties, and the tie-break will quietly name a winner
+When a decision takes a max or a top-1 over values that have been rounded, bucketed, or
+truncated, ties are the common case, not the edge case. Something still has to return
+one answer, so the sort order picks one, and the example reports it as *the* result. The
+reader has no way to see that three other candidates were level with it, or that the
+winner was the weakest of them. Return everything that reached the top; if you still
+want one name, rank it by the *unrounded* value.
+
+- **Inference platform ex12 / capstone:** fleet size is the max of prefill, decode,
+  concurrency, and a replica floor, each rounded up to whole replicas. In the capstone
+  all four landed on 2, and the alphabetical tie-break reported "request concurrency",
+  which had the *most* slack of the four (1.08 raw against decode's 1.77). The capstone's
+  headline line, the one naming what binds the fleet, was an artifact of sorting. Two
+  fixes, and both were needed: the planner now returns every binding dimension and ranks
+  by raw demand, *and* the fixture was changed so one dimension genuinely binds. The
+  first alone would have produced an honest report that nothing binds except the floor,
+  which is true but is not the lesson chapter 12 is there to teach.
+
+### 18. Check that the capstone obeys the rule its own chapters teach
+An integrated capstone reimplements, in glue code, decisions the chapters made carefully
+in isolation. That glue is where a rule quietly gets dropped: a value restated instead of
+passed through, a stage handed a number that skips a term the previous stage computed.
+Nothing fails, because the fixture has slack, and the flagship artifact ends up
+demonstrating the mistake the course exists to prevent. Derive every downstream input
+from the upstream decision object, and add a counterfactual sized to sit *between* the
+right number and the wrong one.
+
+- **Inference platform capstone:** chapter 22.2 exists to say that weight fit is not
+  service fit, because the KV cache grows with live tokens. The capstone described the
+  model twice, once for the memory check and once inline for the layout planner, and then
+  reserved GPUs using weights plus a runtime constant, dropping the KV reservation it had
+  computed one line earlier. Every test passed: the GPUs had 40 GiB and the true
+  requirement was 34.75. The tell was two different runtime-overhead constants for one
+  physical quantity. The fix that makes it stay fixed is not the corrected number, it is
+  the counterfactual: inventory sized between weights-and-runtime and the full footprint,
+  which fails loudly if anyone drops the term again.
+
 ---
 
 ## Case studies
@@ -275,12 +312,16 @@ Each is a symptom the reader would notice, its real diagnosis, and the fix.
 7. **If the effect won't reproduce,** isolate it in a tiny purpose-built corpus, or, if you measured that this instance genuinely doesn't show the effect, switch to one that does; don't rig a threshold to fake it.
 8. **If you're teaching detection/inference,** is the ground-truth label *out* of the observable data, and does the signal come from a real simulated change rather than a stamped-in value?
 9. **If you're demoing a guardrail/filter,** does it remove what genuinely doesn't belong, not a value that should stay? A filter firing on screen isn't proof it's doing its job.
+10. **If a decision takes a max or top-1 over rounded values,** does the output show everything that tied, and is the named winner ranked by the unrounded number?
+11. **If it's an integrated capstone,** does each stage take its inputs from the previous stage's output rather than restating them, and is there a counterfactual sized between the right number and the plausible wrong one?
 
 ---
 
 *These lessons came out of hardening the RAG and evals deep dives' examples, building
 the capstone that exercises all of them, building the observability dive on a
-synthetic-log environment (which added the detection-specific principles 13–15), and
-hardening the ai-in-production dive's guardrail examples (principle 16). They
-generalize to any runnable teaching material: the reader believes the output, so the
-output has to be worth believing.*
+synthetic-log environment (which added the detection-specific principles 13–15),
+hardening the ai-in-production dive's guardrail examples (principle 16), and auditing
+the inference platform dive after it was finished, which is where the two
+arithmetic-and-glue principles (17–18) came from. They generalize to any runnable
+teaching material: the reader believes the output, so the output has to be worth
+believing.*
