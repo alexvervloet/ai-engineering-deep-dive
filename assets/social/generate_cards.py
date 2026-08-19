@@ -233,6 +233,41 @@ CARDS = [
         "answers with file:line citations. Its corpus is the series itself.",
         ["8 build tags", "evals + tests", "cost per answer"],
     ),
+    # Bonus dives added after the capstone was numbered; capstone stays the
+    # conceptual finale, these carry higher slug numbers only for ordering.
+    (
+        "19-data-engineering",
+        "bonus",
+        "BONUS DIVE",
+        170,
+        "AI Data Engineering",
+        "RAG assumes the corpus is already clean, current, and authorized. "
+        "Production assumes none of that. Build the machinery that keeps a "
+        "retrieval corpus trustworthy.",
+        ["10 lessons", "Postgres · pgvector", "multi-tenant"],
+    ),
+    (
+        "20-genai-security",
+        "bonus",
+        "BONUS DIVE",
+        0,
+        "GenAI Security",
+        "Prompt injection is one attack. The security boundary also holds your "
+        "data, models, dependencies, indexes, tools, and identities. Build the "
+        "control plane around all of it.",
+        ["12 lessons", "threat model", "release review"],
+    ),
+    (
+        "21-architecture",
+        "bonus",
+        "BONUS DIVE",
+        230,
+        "LLM App Architecture",
+        "Every other dive teaches a component. This one teaches the seams "
+        "between them: where retrieval lives, what happens when a call fails, "
+        "and who owns state across workers.",
+        ["the seams", "design reviews", "tradeoffs"],
+    ),
 ]
 
 # slug -> the GitHub repo it links to
@@ -258,6 +293,9 @@ REPOS = {
     "16-observability": "observability-deep-dive",
     "17-professional-tools": "professional-tools-deep-dive",
     "18-capstone": "deep-dive-capstone",
+    "19-data-engineering": "ai-data-engineering-deep-dive",
+    "20-genai-security": "genai-security-deep-dive",
+    "21-architecture": "architecture-deep-dive",
 }
 
 TEMPLATE = """

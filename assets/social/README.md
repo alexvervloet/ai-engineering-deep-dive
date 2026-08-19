@@ -20,7 +20,9 @@ accent hue, title, tagline, and the chips along the bottom. Edit there and re-ru
 ## Posting order
 
 The filenames are the running order: `00-series` as the launch post, then the
-core path in sequence, the bonus dives, and `18-capstone` last.
+core path in sequence, the bonus dives, and the capstone. `18-capstone` keeps its
+number for stability; the bonus dives added after it (`19`+) carry higher numbers
+but the capstone is still the conceptual finale.
 
 | Card | Repo |
 |------|------|
@@ -28,7 +30,10 @@ core path in sequence, the bonus dives, and `18-capstone` last.
 | `01-02-both-apis` | dives 1 and 2 in one post, when posting them together |
 | `01`–`08` | the core path, in order |
 | `09`–`17` | the bonus dives |
-| `18-capstone` | `deep-dive-capstone` (askrepo) |
+| `18-capstone` | `deep-dive-capstone` (askrepo), the conceptual finale |
+| `19-data-engineering` | `ai-data-engineering-deep-dive` |
+| `20-genai-security` | `genai-security-deep-dive` |
+| `21-architecture` | `architecture-deep-dive` |
 
 ## Notes
 
