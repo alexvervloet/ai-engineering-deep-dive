@@ -11,6 +11,41 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-19: inference-platform-deep-dive, chapter 22
+
+The Local Models dive ends at running open weights. This chapter starts where that
+leaves off: turning model execution into a fleet whose latency, throughput, overload,
+rollout, and cost behavior follows explicit evidence rather than a GPU count.
+
+### Added
+
+- **`inference-platform-deep-dive/`**, offline start to finish: 12 substantive decision
+  modules, 12 isolated runnable lessons, EXERCISES, Chapter 22 of the textbook, 58
+  tests, and an integrated fleet planner that emits deterministic JSON. It requires no
+  GPU, model, API key, or network after installation.
+- **Memory and execution mechanics:** weight/KV/runtime fit, TTFT/TPOT/E2E and token
+  throughput, continuous batching, exact scoped prefix caching, measured quantization,
+  and speculative decoding whose real acceptance must repay verification.
+- **Fleet mechanics:** tensor/pipeline/data/expert parallel planning, pre-allocation
+  admission and bounded shedding, capability/topology/residency-aware GPU placement,
+  queued-token autoscaling with warmup semantics, independent canary gates, and
+  burst/headroom/cost capacity planning.
+- **A non-vacuous release contract.** Workload/control requirements are declared
+  separately from stimuli and decisions. Counterfactual tests delete a required
+  workload, shrink inventory, regress canary TPOT, and bypass shedding; each removes
+  evidence without rewriting the requirement. Benign work traverses real admission and
+  placement paths, and every primary decision reports the exact reason that decided it.
+- **Cross-references** in the series map, textbook, decision guide, careers map,
+  glossary, and responsible-engineering footprint view.
+
+### Notes
+
+The build's [LESSONS.md](inference-platform-deep-dive/LESSONS.md) records four concrete
+authoring failures caught during verification: two fixtures that never reached their
+intended capacity boundary, a tuple-vs-substring assertion that obscured decision
+evidence, and the difference between source-tree verification and installing into a
+bare Python 3.13 virtual environment without its declared build backend.
+
 ## 2026-08-18: genai-security-deep-dive, chapter 20
 
 The [Prompt Injection](prompt-injection-deep-dive/) dive covers one attack on one
