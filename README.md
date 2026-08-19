@@ -55,6 +55,7 @@ Standalone deep dives that extend the core path. Each notes where it slots in.
 | [**Fine-tuning**](fine-tuning-deep-dive/) | Fine-tuning changes how a model *behaves*, not what it *knows*: teach behavior by example, then *prove* it beat your baseline. | RAG (4) + Evals (5) |
 | [**MCP**](mcp-deep-dive/) | The Model Context Protocol: hand an LLM tools, data, and prompts from a separate process: write the server once, any client can use it. | Agents (6) |
 | [**Local Models**](local-models-deep-dive/) | An open-weight model on your machine speaks the same OpenAI API, so "local" is mostly an *ops* choice: privacy, cost, control. | the API dives (1–2); pairs with Fine-tuning |
+| [**Inference Platform Engineering**](inference-platform-deep-dive/) | A self-hosted model becomes a service only when memory and queue scheduling turn finite GPUs into measured latency, throughput, reliability, and cost. | Local Models; Production; Architecture |
 | [**Observability**](observability-deep-dive/) | A prototype is judged once; a production system is judged continuously, so watch quality as a *trend*: drift, silent regressions, and alerting that doesn't cry wolf. | Production (8); pairs with Evals (5) |
 | [**Architecture**](architecture-deep-dive/) | The seams between the components: where conversation state lives, what a queue buys, what streaming costs your guardrails, and where the tenant boundary goes. Each decision measured, not asserted. | Production (8); pairs with Observability |
 | [**Professional Tools**](professional-tools-deep-dive/) | "Volume 2": rebuild each from-scratch primitive with the tool professionals actually reach for (LiteLLM, Instructor, LlamaIndex, DeepEval, LangGraph, Llama Guard, Langfuse) and measure both on the same eval, so "should we adopt this framework?" becomes an experiment, not a taste. | Everything (you need the primitives first) |
@@ -93,7 +94,7 @@ are folklore.
         ▼               ▼                            ▼
  ┌──────────────┐  ┌─────────┐               ┌──────────────┐
  │   Prompt     │  │   RAG   │               │  Multimodal ─┼─▶ Realtime Voice  (bonus)
- │ Engineering  │  │   (4)   │               │  Local Models│  (bonus)
+ │ Engineering  │  │   (4)   │               │  Local Models├─▶ Inference Platform (bonus)
  │     (3)      │  └────┬────┘               └──────────────┘
  └──────┬───────┘       │
         │          ┌────▼────┐
@@ -158,6 +159,7 @@ the eval anatomy, the injection attack catalog, the quantization calculator).
 | The whole ops stack, no key | [Production](ai-in-production-deep-dive/) (mock provider) |
 | A complete document lifecycle, no key | [AI Data Engineering](ai-data-engineering-deep-dive/) (deterministic corpus and embeddings) |
 | The complete AI security control plane, no key | [GenAI Security](genai-security-deep-dive/) (deterministic attacks and release gate) |
+| A complete inference fleet control plane, no GPU | [Inference Platform Engineering](inference-platform-deep-dive/) (deterministic memory, scheduling, scaling, and rollout decisions) |
 | Six weeks of monitoring, no key | [Observability](observability-deep-dive/) (synthetic traffic) |
 | Real models, no per-token bill | [Local Models](local-models-deep-dive/) (Ollama on your machine) |
 | Offline sections | the first lesson in most repos (look for "offline, no key") |
