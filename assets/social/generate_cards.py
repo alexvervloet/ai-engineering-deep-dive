@@ -268,6 +268,17 @@ CARDS = [
         "and who owns state across workers.",
         ["the seams", "design reviews", "tradeoffs"],
     ),
+    (
+        "22-inference-platform",
+        "bonus",
+        "BONUS DIVE",
+        60,
+        "Inference Platforms",
+        "A model that runs is not a service. Turn finite GPU memory and a "
+        "request queue into first-token latency, throughput, and a fleet size "
+        "you can defend.",
+        ["12 lessons", "KV math", "no GPU needed"],
+    ),
 ]
 
 # slug -> the GitHub repo it links to
@@ -296,6 +307,7 @@ REPOS = {
     "19-data-engineering": "ai-data-engineering-deep-dive",
     "20-genai-security": "genai-security-deep-dive",
     "21-architecture": "architecture-deep-dive",
+    "22-inference-platform": "inference-platform-deep-dive",
 }
 
 TEMPLATE = """

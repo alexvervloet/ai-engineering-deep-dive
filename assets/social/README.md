@@ -34,6 +34,7 @@ but the capstone is still the conceptual finale.
 | `19-data-engineering` | `ai-data-engineering-deep-dive` |
 | `20-genai-security` | `genai-security-deep-dive` |
 | `21-architecture` | `architecture-deep-dive` |
+| `22-inference-platform` | `inference-platform-deep-dive` |
 
 ## Notes
 
