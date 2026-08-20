@@ -59,8 +59,8 @@ who *owns* it when it goes wrong.
 
 | Concern | What it is | Operationalized in |
 |---------|-----------|--------------------|
-| **Accountability** | When it's wrong, a named human owns the outcome, not "the AI did it" | a process you define before launch, not after the incident |
-| **Autonomy & reversibility** | An agent that *acts* is a different problem than a model that *advises* | [Agents](agents-deep-dive/) (approval, step limits), [Agent Harnesses](agent-harness-deep-dive/) (permission policy, sandboxing), [GenAI Security](genai-security-deep-dive/) (approval bound to one exact irreversible effect) |
+| **Accountability** | When it's wrong, a named human owns the outcome, not "the AI did it" | a process you define before launch, not after the incident; [Testing & Delivery](testing-and-delivery-deep-dive/) makes the artifact side auditable, since every passing result names the candidate digest and source revision it actually tested |
+| **Autonomy & reversibility** | An agent that *acts* is a different problem than a model that *advises* | [Agents](agents-deep-dive/) (approval, step limits), [Agent Harnesses](agent-harness-deep-dive/) (permission policy, sandboxing), [GenAI Security](genai-security-deep-dive/) (approval bound to one exact irreversible effect), [Testing & Delivery](testing-and-delivery-deep-dive/) (a rollback path verified before release, and the effects that cannot be rolled back at all) |
 | **Regulatory duties** | Disclosure, record-keeping, and risk classification that now carry deadlines | [below](#the-rules-stopped-being-hypothetical); check what applies to you |
 | **Cost of being wrong** | Whether a mistake is a typo or a denied loan / wrong dosage; sets every bar above | informs your eval bar and whether to ship at all |
 
