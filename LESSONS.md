@@ -57,3 +57,18 @@ detected immediately by comparing the commit diff with the intended new entry.
 Next time: before adding a repository-root convention file, check both the working
 tree and `git cat-file -e HEAD:<path>`. If the path is tracked but not materialized,
 read its committed contents and preserve them before editing.
+
+## 2026-08-20: Offline execution can still require installed SDK interfaces
+
+Expected: the capstone test suite and local-model sizing lesson would run from a
+fresh Python because their behavior is offline and the capstone mock needs no
+dependencies.
+
+Actual: capstone local-provider tests patch `openai.OpenAI`, which requires the
+module to be installed, and importing the local-model package loads `dotenv` before
+the sizing-only example runs. Both failed in isolated CI while passing on the
+dependency-rich development machine.
+
+Next time: distinguish "no network or service at execution time" from "standard
+library only." Verify in isolated environments and install declared dependencies
+even when the selected runtime path makes no external call.
