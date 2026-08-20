@@ -11,6 +11,49 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-20: testing-and-delivery-deep-dive, chapter 23
+
+Evals answer whether the application is good enough. Production answers what the
+runtime around a model call must do. This chapter answers the question that sits
+between them and is usually settled by vibes: has this exact build earned promotion,
+and can it be taken back if it has not?
+
+### Added
+
+- **`testing-and-delivery-deep-dive/`**, offline start to finish: 12 decision modules,
+  12 predict-then-run lessons, EXERCISES, Chapter 23 of the textbook, 87 tests, and a
+  release-evidence capstone that emits deterministic JSON. Standard library only. No
+  API key, cloud account, deployment target, or network after installation.
+- **Test mechanics:** evidence portfolios chosen by failure mode, SDK contracts kept
+  separate from recorded fixtures, seeded property tests with bounded shrinking that
+  admits when it did not finish, deterministic doubles with explicit state bounds, and
+  load evidence derived in named units from request events.
+- **Delivery mechanics:** after-commit faults and idempotency under repeated lost
+  responses, the artifact tuple as the unit of compatibility, PEP 751 `pylock.toml`
+  auditing, a CI matrix that executes the support promise rather than declaring it,
+  security findings judged by an independent severity policy, staged shadow and canary
+  rollout with verified rollback, and evidence bound to a candidate digest and revision.
+- **A non-vacuous release contract.** Policy, candidate artifacts, and stimuli are
+  three separate inputs everywhere. Eight adversarial capstone scenarios remove a CI
+  cell, delete a fixture field, change the index schema, drop idempotency, break the
+  clamp property, inject an advisory, regress the canary, and age the evidence out.
+  Each flips the final decision without rewriting the requirement.
+- **Cross-references** in the series map, textbook, decision guide, careers map,
+  glossary, and responsible-engineering ownership view.
+
+### Notes
+
+A post-build audit ran the suite, every example, the capstone twice for byte equality,
+and fifteen seeded mutations against the modules. Thirteen mutations were caught; the
+two survivors were behaviors the textbook asserts but no test pinned, and both now have
+tests. The audit also found the load lesson printing "same measurements" above two
+visibly different floats, and a scripted after-commit fault that the idempotent
+deduplication path consumed without raising. Both are fixed, and all four findings are
+recorded in the dive's
+[LESSONS.md](testing-and-delivery-deep-dive/LESSONS.md).
+
+---
+
 ## 2026-08-19: inference-platform-deep-dive, chapter 22
 
 The Local Models dive ends at running open weights. This chapter starts where that
