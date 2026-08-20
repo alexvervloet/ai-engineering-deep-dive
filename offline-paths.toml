@@ -125,7 +125,7 @@ claim = "Segment synthetic audio frames and run the offline session tests."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
 commands = [
   ["python", "examples/01_audio_is_frames.py"],
-  ["python", "-m", "unittest", "discover", "-v"],
+  ["python", "-m", "unittest", "discover", "-s", "tests", "-v"],
 ]
 environment = { PROVIDER = "mock", NO_COLOR = "1" }
 
@@ -145,7 +145,7 @@ python = "3.11"
 claim = "Validate and test the mock CLI, retrieval, hardening, and operations stack."
 commands = [
   ["python", "check_setup.py"],
-  ["python", "-m", "unittest", "discover", "-v"],
+  ["python", "-m", "unittest", "discover", "-s", "tests", "-v"],
 ]
 environment = { PROVIDER = "mock", NO_COLOR = "1" }
 
