@@ -67,3 +67,6 @@
 [submodule "inference-platform-deep-dive"]
 	path = inference-platform-deep-dive
 	url = https://github.com/alexvervloet/inference-platform-deep-dive.git
+[submodule "testing-and-delivery-deep-dive"]
+	path = testing-and-delivery-deep-dive
+	url = https://github.com/alexvervloet/testing-and-delivery-deep-dive.git
