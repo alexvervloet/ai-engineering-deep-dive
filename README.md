@@ -58,6 +58,7 @@ Standalone deep dives that extend the core path. Each notes where it slots in.
 | [**Inference Platform Engineering**](inference-platform-deep-dive/) | A self-hosted model becomes a service only when memory and queue scheduling turn finite GPUs into measured latency, throughput, reliability, and cost. | Local Models; Production; Architecture |
 | [**Observability**](observability-deep-dive/) | A prototype is judged once; a production system is judged continuously, so watch quality as a *trend*: drift, silent regressions, and alerting that doesn't cry wolf. | Production (8); pairs with Evals (5) |
 | [**Architecture**](architecture-deep-dive/) | The seams between the components: where conversation state lives, what a queue buys, what streaming costs your guardrails, and where the tenant boundary goes. Each decision measured, not asserted. | Production (8); pairs with Observability |
+| [**Testing & Delivery**](testing-and-delivery-deep-dive/) | A release is an evidence pipeline, not a push: independently defined requirements decide whether reproducible behavior, compatibility, security, rollout, and recovery evidence earns promotion. | Evals (5) + Production (8); pairs with GenAI Security |
 | [**Professional Tools**](professional-tools-deep-dive/) | "Volume 2": rebuild each from-scratch primitive with the tool professionals actually reach for (LiteLLM, Instructor, LlamaIndex, DeepEval, LangGraph, Llama Guard, Langfuse) and measure both on the same eval, so "should we adopt this framework?" becomes an experiment, not a taste. | Everything (you need the primitives first) |
 
 ---
@@ -116,14 +117,15 @@ are folklore.
                 ▼
  ┌──────────────────────────────┐
  │         Production (8)        │ ──────▶ Observability · Architecture  (bonus)
- └──────────────────────────────┘  operate one app end to end
+ └──────────────────────────────┘ ──────▶ Testing & Delivery             (bonus)
 ```
 
 The thread: **build the call (1–2) → ask well (3) → ground it (4) → measure it (5) →
 let it act (6) → harden it (7) → operate it (8).** The bonus dives branch off where
 they're most useful. **Observability** extends Production from one request to six
 weeks of them, and **Architecture** asks where all these parts belong once there
-is more than one of everything.
+is more than one of everything. **Testing & Delivery** turns those quality,
+security, and operational signals into reproducible promotion and rollback evidence.
 
 ---
 
@@ -160,6 +162,7 @@ the eval anatomy, the injection attack catalog, the quantization calculator).
 | A complete document lifecycle, no key | [AI Data Engineering](ai-data-engineering-deep-dive/) (deterministic corpus and embeddings) |
 | The complete AI security control plane, no key | [GenAI Security](genai-security-deep-dive/) (deterministic attacks and release gate) |
 | A complete inference fleet control plane, no GPU | [Inference Platform Engineering](inference-platform-deep-dive/) (deterministic memory, scheduling, scaling, and rollout decisions) |
+| A complete release-evidence pipeline, no services | [Testing & Delivery](testing-and-delivery-deep-dive/) (deterministic tests, gates, rollout, and rollback) |
 | Six weeks of monitoring, no key | [Observability](observability-deep-dive/) (synthetic traffic) |
 | Real models, no per-token bill | [Local Models](local-models-deep-dive/) (Ollama on your machine) |
 | Offline sections | the first lesson in most repos (look for "offline, no key") |
