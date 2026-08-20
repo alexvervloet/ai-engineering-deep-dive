@@ -122,6 +122,9 @@ These aren't higher rungs; they're side doors for particular requirements.
 | To decide whether a framework beats what you hand-rolled: measured, not assumed | [**Professional Tools**](professional-tools-deep-dive/) |
 | To decide where the pieces go: state, queues, tiers, tenant boundaries | [**Architecture**](architecture-deep-dive/) |
 | To decide whether a specific build has earned promotion: contract, compatibility, supply-chain, rollout, and rollback evidence | [**Testing & Delivery**](testing-and-delivery-deep-dive/) |
+| To write down who decided, on what evidence, and what would reverse it | [**GOVERNANCE.md**](GOVERNANCE.md) |
+| To have a runbook ready before the 2am page | [**INCIDENTS.md**](INCIDENTS.md) |
+| To make a wrong answer visible, contestable, and undoable | [**AI-UX.md**](AI-UX.md) |
 
 ---
 
