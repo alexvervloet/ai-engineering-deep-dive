@@ -34,7 +34,9 @@ CARDS = [
     (
         "00-series",
         "series",
-        "17 DIVES + CAPSTONE",
+        # Bump when a dive is added: 8 core + the bonus dives, capstone counted
+        # separately, and the TypeScript companion excluded as an aside.
+        "22 DIVES + CAPSTONE",
         265,
         "AI Engineering,<br>from scratch",
         "Hands-on courses you walk through. Every concept is a small runnable "
