@@ -121,6 +121,7 @@ These aren't higher rungs; they're side doors for particular requirements.
 | To know it's *still* working weeks later: drift, silent regressions, alerting | [**Observability**](observability-deep-dive/) |
 | To decide whether a framework beats what you hand-rolled: measured, not assumed | [**Professional Tools**](professional-tools-deep-dive/) |
 | To decide where the pieces go: state, queues, tiers, tenant boundaries | [**Architecture**](architecture-deep-dive/) |
+| To decide whether a specific build has earned promotion: contract, compatibility, supply-chain, rollout, and rollback evidence | [**Testing & Delivery**](testing-and-delivery-deep-dive/) |
 
 ---
 
