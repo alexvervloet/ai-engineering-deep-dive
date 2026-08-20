@@ -1,0 +1,210 @@
+version = 1
+
+# Each entry declares the smallest representative path that can run without an
+# API key or external service after dependency installation. Commands are argv
+# arrays, never shell strings. The verifier requires exact coverage of .gitmodules.
+
+[[repositories]]
+path = "mcp-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Render protocol messages without a model, server, key, or network."
+commands = [["python", "examples/01_protocol.py"]]
+
+[[repositories]]
+path = "agent-harness-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Validate the deterministic mock harness and its offline capstone."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [["python", "check_setup.py"]]
+environment = { PROVIDER = "mock", NO_COLOR = "1" }
+
+[[repositories]]
+path = "agents-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Execute direct tool functions and render their schemas without a model call."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [["python", "examples/01_tools.py"]]
+
+[[repositories]]
+path = "ai-in-production-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Validate the complete production stack on its deterministic mock provider."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [["python", "check_setup.py"]]
+environment = { PROVIDER = "mock", NO_COLOR = "1" }
+
+[[repositories]]
+path = "claude-api-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Run local Claude and Voyage cost arithmetic without token-counting API calls."
+commands = [["python", "utils/pricing.py"]]
+
+[[repositories]]
+path = "context-engineering-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Execute deterministic token-budget planning without a provider."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [["python", "examples/01_token_budget.py"]]
+environment = { PROVIDER = "mock", NO_COLOR = "1" }
+
+[[repositories]]
+path = "evals-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Run the dataset-task-scorer-report loop over a local rule-based task."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [["python", "examples/01_anatomy.py"]]
+
+[[repositories]]
+path = "fine-tuning-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Validate the simulated fine-tuning path on the offline mock provider."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [["python", "check_setup.py"]]
+environment = { PROVIDER = "mock", NO_COLOR = "1" }
+
+[[repositories]]
+path = "local-models-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Run model memory and quantization arithmetic without a local model server."
+commands = [["python", "examples/01_quant_math.py"]]
+
+[[repositories]]
+path = "multimodal-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Build multimodal content blocks and inspect local PNG bytes with a mock."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [["python", "examples/01_vision_offline.py"]]
+environment = { PROVIDER = "openai", NO_COLOR = "1" }
+
+[[repositories]]
+path = "openai-api-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Count local tokens and estimate request cost without an API call."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [["python", "examples/07_token_counting.py"]]
+
+[[repositories]]
+path = "prompt-engineering-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Compile every prompt lesson and shared path; this dive has no runnable model-free lesson."
+commands = [["python", "-m", "compileall", "-q", "common", "fundamentals", "examples", "hands_on", "check_setup.py"]]
+
+[[repositories]]
+path = "prompt-injection-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Run the local attack catalog and heuristic detector without a model."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [["python", "examples/01_attack_catalog.py"]]
+
+[[repositories]]
+path = "rag-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Chunk a local corpus with no embedding or generation request."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [["python", "examples/02_chunking.py"]]
+
+[[repositories]]
+path = "realtime-voice-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Segment synthetic audio frames and run the offline session tests."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [
+  ["python", "examples/01_audio_is_frames.py"],
+  ["python", "-m", "unittest", "discover", "-v"],
+]
+environment = { PROVIDER = "mock", NO_COLOR = "1" }
+
+[[repositories]]
+path = "observability-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Validate synthetic traffic, drift, alerting, and dashboard paths on mocks."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [["python", "check_setup.py"]]
+environment = { PROVIDER = "mock", NO_COLOR = "1" }
+
+[[repositories]]
+path = "deep-dive-capstone"
+runtime = "python"
+python = "3.11"
+claim = "Validate and test the mock CLI, retrieval, hardening, and operations stack."
+commands = [
+  ["python", "check_setup.py"],
+  ["python", "-m", "unittest", "discover", "-v"],
+]
+environment = { PROVIDER = "mock", NO_COLOR = "1" }
+
+[[repositories]]
+path = "professional-tools-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Compile every pinned-tool comparison; measured tool runs require external services."
+commands = [["python", "-m", "compileall", "-q", "ch01-litellm", "ch02-instructor", "ch03-llamaindex", "ch04-deepeval", "ch05-langgraph", "ch06-guardrails", "ch07-langfuse"]]
+
+[[repositories]]
+path = "architecture-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Validate the offline reference system, stress harness, and architecture capstone."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [["python", "check_setup.py"]]
+environment = { PROVIDER = "mock", NO_COLOR = "1" }
+
+[[repositories]]
+path = "typescript-ai-deep-dive"
+runtime = "node"
+node = "22"
+claim = "Type-check and test deterministic TypeScript runtime-boundary examples."
+install = [["npm", "ci"]]
+commands = [
+  ["npm", "run", "typecheck"],
+  ["npm", "test"],
+]
+
+[[repositories]]
+path = "ai-data-engineering-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Validate and test the deterministic multi-tenant corpus synchronization path."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [
+  ["python", "check_setup.py"],
+  ["python", "-m", "unittest", "discover", "-v"],
+]
+
+[[repositories]]
+path = "genai-security-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Validate and test the deterministic GenAI security control plane."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [
+  ["python", "check_setup.py"],
+  ["python", "-m", "unittest", "discover", "-v"],
+]
+
+[[repositories]]
+path = "inference-platform-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Validate and test the deterministic inference fleet control plane."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [
+  ["python", "check_setup.py"],
+  ["python", "-m", "unittest", "discover", "-v"],
+]
