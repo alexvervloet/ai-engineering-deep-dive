@@ -55,6 +55,7 @@ Standalone chapters that extend the core path. Each notes where it slots in.
 | 20 | [The Model Is Not the Boundary](genai-security-deep-dive/TEXTBOOK.md) | Treat the model as an untrusted principal: identity, policy, provenance, isolation, budgets, release gates, and incident response live in enforceable code around it. | Prompt Injection (7); before Production (8) |
 | 21 | [The Seams Between the Parts](architecture-deep-dive/TEXTBOOK.md) | Every other chapter teaches a component; this one teaches where the boundaries between them go, and what each boundary costs when you insist on measuring it. | Production (8); pairs with Observability (16) |
 | 22 | [The Memory-and-Queue Scheduler](inference-platform-deep-dive/TEXTBOOK.md) | An inference platform turns finite accelerator memory and compute into latency, throughput, reliability, and cost outcomes by scheduling KV state and queued token work. | Local Models (15); Production (8); Architecture (21) |
+| 23 | [The Evidence a Release Owes](testing-and-delivery-deep-dive/TEXTBOOK.md) | A release is a claim, and the claim is only as good as the independent evidence behind it: no check may take its expected answer from the input it judges, and no passing result counts unless it names the candidate it tested. | Evals (5) + Production (8); pairs with GenAI Security (20) |
 
 ---
 
