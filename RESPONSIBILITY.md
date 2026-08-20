@@ -16,6 +16,12 @@ This is the map. Part of the [AI Engineering Deep Dives](README.md).
 > **This page takes positions.** Where the field genuinely disagrees, it says so
 > rather than picking a side and calling it consensus. See
 > [where reasonable people disagree](#where-reasonable-people-disagree).
+>
+> **The operational half** lives in three sibling pages:
+> [GOVERNANCE.md](GOVERNANCE.md) turns these judgments into a written record with
+> named owners and assessment templates, [INCIDENTS.md](INCIDENTS.md) is the runbook
+> set for when a limit fails, and [AI-UX.md](AI-UX.md) is where the duties to the
+> person on the other side become an interface.
 
 ---
 
