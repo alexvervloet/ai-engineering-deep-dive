@@ -11,6 +11,47 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-20: operational documentation
+
+GenAI Security, Testing & Delivery, and RESPONSIBILITY.md each covered part of what
+happens after a system is real. What was missing was the concrete layer: the forms
+you fill in, the runbook you follow while tired, and the interface the person on the
+other side actually sees.
+
+### Added
+
+- **[GOVERNANCE.md](GOVERNANCE.md)**, the decision record. Named roles and who signs
+  what, a change classification that keeps review from becoming noise, and
+  copy-pasteable templates for a system register entry, a pre-deployment assessment,
+  a risk register entry, a vendor and model assessment, and an appeal and redress
+  record. Its one idea is that governance is a record of decisions, not a committee,
+  and its most useful line is the reversal condition written before you have an
+  incentive to argue.
+- **[INCIDENTS.md](INCIDENTS.md)**, the runbooks. A severity ladder with two rules
+  that settle 2am arguments, the first thirty minutes in order, the containment
+  levers that have to exist before you need them, and seven runbooks: injection
+  reaching a tool, PII in output, harmful output, silent quality regression, cost
+  blowout, provider outage, and corpus poisoning. Ends with comms templates and a
+  postmortem template whose "what we are not doing" section stops the same debate
+  recurring.
+- **[AI-UX.md](AI-UX.md)**, the interface as part of the safety system. Built on one
+  test: can the user tell a good answer from a bad one without already knowing the
+  answer? Covers disclosure, uncertainty that is behavioral rather than a number,
+  citations that resolve and support the claim, why an output guard on a stream
+  detects everything and prevents nothing, four distinct failure states that are
+  usually collapsed into one, feedback worth collecting, human handoff, and
+  reversibility for systems that act.
+- **Cross-references** in the series map, textbook intro, decision guide, and both
+  SAFETY.md and RESPONSIBILITY.md, which now point onward to the operational layer.
+
+### Notes
+
+The three pages are deliberately template-heavy. A governance process nobody finishes
+governs nothing, so every template is short enough to complete in an afternoon. Where
+a page makes a claim, it names the dive that proves it rather than asserting it.
+
+---
+
 ## 2026-08-20: testing-and-delivery-deep-dive, chapter 23
 
 Evals answer whether the application is good enough. Production answers what the
