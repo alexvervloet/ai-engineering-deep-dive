@@ -75,6 +75,7 @@ path = "local-models-deep-dive"
 runtime = "python"
 python = "3.11"
 claim = "Run model memory and quantization arithmetic without a local model server."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
 commands = [["python", "examples/01_quant_math.py"]]
 
 [[repositories]]
@@ -143,6 +144,7 @@ path = "deep-dive-capstone"
 runtime = "python"
 python = "3.11"
 claim = "Validate and test the mock CLI, retrieval, hardening, and operations stack."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
 commands = [
   ["python", "check_setup.py"],
   ["python", "-m", "unittest", "discover", "-s", "tests", "-v"],
