@@ -72,3 +72,22 @@ dependency-rich development machine.
 Next time: distinguish "no network or service at execution time" from "standard
 library only." Verify in isolated environments and install declared dependencies
 even when the selected runtime path makes no external call.
+
+## 2026-08-20: Push a submodule before the parent commit that points at it
+
+Expected: pushing the parent's updated submodule pointer and the submodule's own
+commits in whichever order they were finished would be equivalent, since both ended
+up on their remotes within a minute of each other.
+
+Actual: the parent pointer was pushed first, referencing a submodule commit that was
+still local. The parent workflow checks out submodules recursively, so
+`actions/checkout` failed with exit code 128 and the message "Fetched in submodule
+path 'testing-and-delivery-deep-dive', but it did not contain b160d96. Direct
+fetching of that commit failed." The whole matrix was skipped. Pushing the submodule
+afterwards did not retrigger the parent, so the red run stayed red until it was
+explicitly rerun.
+
+Next time: push child repositories first, then the parent commit that advances their
+pointers. Before pushing a parent pointer, confirm the target commit is on the child
+remote with `git -C <sub> branch -r --contains <sha>`. Treat a green child run as no
+evidence at all about the parent.
