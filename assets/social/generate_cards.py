@@ -279,6 +279,17 @@ CARDS = [
         "you can defend.",
         ["12 lessons", "KV math", "no GPU needed"],
     ),
+    (
+        "23-testing-delivery",
+        "bonus",
+        "BONUS DIVE",
+        78,
+        "Testing & Delivery",
+        "A green test suite is not a release decision. Build the evidence "
+        "pipeline that decides whether this exact candidate ships, and how "
+        "you take it back.",
+        ["12 lessons", "stdlib only", "rollback"],
+    ),
 ]
 
 # slug -> the GitHub repo it links to
@@ -308,6 +319,7 @@ REPOS = {
     "20-genai-security": "genai-security-deep-dive",
     "21-architecture": "architecture-deep-dive",
     "22-inference-platform": "inference-platform-deep-dive",
+    "23-testing-delivery": "testing-and-delivery-deep-dive",
 }
 
 TEMPLATE = """
