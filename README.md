@@ -20,6 +20,9 @@ See also: [**HOW-LLMS-WORK.md**](HOW-LLMS-WORK.md), what an LLM actually is ·
 vocabulary · [**CAREERS.md**](CAREERS.md), what each dive is called on a job
 description · [**SAFETY.md**](SAFETY.md), the cross-cutting safety view ·
 [**RESPONSIBILITY.md**](RESPONSIBILITY.md), building it responsibly ·
+[**GOVERNANCE.md**](GOVERNANCE.md), who decides and on what record ·
+[**INCIDENTS.md**](INCIDENTS.md), playbooks for when it goes wrong ·
+[**AI-UX.md**](AI-UX.md), the interface as part of the safety system ·
 [**SECRETS.md**](SECRETS.md), where your API keys go (not `.env`).
 
 ---
@@ -192,6 +195,19 @@ the eval anatomy, the injection attack catalog, the quantization calculator).
   agent autonomy, the 2026 regulatory picture, and the question upstream of all of
   them: *should* this be an LLM? Ends with the arguments the field hasn't settled,
   left unsettled.
+- [**GOVERNANCE.md**](GOVERNANCE.md): the operational machinery between "we thought
+  about it" and a record someone can read: named roles, change classification, and
+  copy-pasteable templates for a system register, a pre-deployment assessment, a risk
+  register, a vendor assessment, and an appeal and redress path.
+- [**INCIDENTS.md**](INCIDENTS.md): what to do at 2am. A severity ladder, the first
+  thirty minutes, the containment levers you have to build in advance, and runbooks
+  for injection reaching a tool, PII in output, harmful output, silent quality
+  regression, cost blowout, provider outage, and corpus poisoning. Ends with comms
+  and postmortem templates.
+- [**AI-UX.md**](AI-UX.md): the interface is part of the safety system. Designing for
+  the wrong answer: disclosure, uncertainty that is actionable, citations that
+  resolve, streaming versus guardrails, the four distinct failure states, feedback
+  worth collecting, human handoff, and reversibility for systems that act.
 - [**SECRETS.md**](SECRETS.md): where your API keys actually go (your OS keychain,
   injected per-command with `secrun`) and why not `.env`. The `.env` → keychain
   progression is itself a lesson in the AI-agent threat model.
