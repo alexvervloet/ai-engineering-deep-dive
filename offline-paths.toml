@@ -210,3 +210,14 @@ commands = [
   ["python", "check_setup.py"],
   ["python", "-m", "unittest", "discover", "-v"],
 ]
+
+[[repositories]]
+path = "testing-and-delivery-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Validate and test the deterministic release-evidence delivery pipeline."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [
+  ["python", "check_setup.py"],
+  ["python", "-m", "unittest", "discover", "-v"],
+]
