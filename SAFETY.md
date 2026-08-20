@@ -13,7 +13,10 @@ tie them together. Part of the [AI Engineering Deep Dives](README.md).
 > are authorized to test. For the *other* half (honest claims,
 > bias & fairness, disclosure, consent, what the training data is built on, the
 > effect on the person on the other side, and human accountability) see its sibling
-> [RESPONSIBILITY.md](RESPONSIBILITY.md).
+> [RESPONSIBILITY.md](RESPONSIBILITY.md). For the operational layer on top of both,
+> see [GOVERNANCE.md](GOVERNANCE.md) for the decision record and assessment
+> templates, [INCIDENTS.md](INCIDENTS.md) for what to do when a control fails, and
+> [AI-UX.md](AI-UX.md) for the interface that makes a wrong answer visible.
 
 ---
 
