@@ -13,8 +13,9 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ## 2026-08-21: agents-deep-dive contract audit follow-ups
 
-An audit of the tool-contract work found two correctness gaps and a set of claims
-the code had outgrown. All are closed.
+Successive audits of the tool-contract work found correctness gaps at adoption,
+replay, configuration, approval, trace propagation, and protocol boundaries. All
+are closed.
 
 ### Fixed
 
@@ -30,14 +31,23 @@ the code had outgrown. All are closed.
   the MCP client applies it to every descriptor, and the tradeoff (a sealed schema
   rejects calls an under-declaring server would accept) is stated rather than
   hidden.
+- **A reusable executor cannot silently lose replay scope.** Passing `executor=`
+  without its trusted `context=` now fails before any provider call. Tests cover
+  the omitted, context-only, invalid executor-only, and fully paired modes.
+- **Approval progress is no longer an overloaded Boolean.** Outcomes and steps
+  distinguish `not_reached`, `not_required`, `required`, `approved`, `denied`, and
+  approval-system `error`, so an early policy rejection cannot look like a human
+  denial.
+- **The teaching MCP client keeps its transport invariant under `python -O`.** A
+  missing stdio stream raises explicitly, with a regression test for that branch.
 - `--yes` in the capstone printed a bare tool line, because rich read
   `[auto-approved]` as markup.
 
 ### Changed
 
-- The observability lesson now shows `status`, `replayed`, and argument digests,
-  and explains that `approved` answers only the approval question: a schema
-  rejection also reports `approved=False` without any human having said no.
+- The observability lesson is now deterministic and offline. A real dispatch plus
+  replay visibly expose status, explicit approval state, replay state, and both
+  argument and output digests while proving only one effect reached the sink.
 - The MCP chapter teaches the contract in both directions: the client seals what
   it adopts, the server distrusts its clients. Neither end can verify the other
   checked.
