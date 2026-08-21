@@ -91,3 +91,27 @@ Next time: push child repositories first, then the parent commit that advances t
 pointers. Before pushing a parent pointer, confirm the target commit is on the child
 remote with `git -C <sub> branch -r --contains <sha>`. Treat a green child run as no
 evidence at all about the parent.
+
+## 2026-08-21: A doc path can be a test input, not just a link
+
+Expected: moving the twelve reference docs into `docs/` was a link problem. Rewrite
+every `../SECRETS.md` to `../docs/SECRETS.md`, confirm the link checker goes green,
+done.
+
+Actual: the link checker went green while two classes of reference stayed broken,
+because neither is a Markdown link. The capstone documents its eval fixtures as
+shell commands (`askrepo ask ... --context ../MODELS.md`) inside backticks, and a
+dozen dive READMEs point at `../SECRETS.md` from within `#` comment blocks in setup
+snippets. A reader follows both; no link checker sees either. The eval fixture is
+the worse of the two: it is a path the reader is told to type, so a stale one makes
+the documented command fail rather than merely 404.
+
+The move was safe in one respect that could easily have gone the other way:
+`askrepo`'s indexer selects its corpus by file extension rather than by an explicit
+file list, so `docs/` was picked up with no change. A hardcoded manifest would have
+silently shrunk the corpus and quietly changed every eval score.
+
+Next time: after moving a file, grep for the bare filename across every extension,
+not just `*.md`, and not just inside link syntax. The link checker is a floor, not a
+verification. Check whether anything selects files by an explicit list before
+assuming a move is inert.
