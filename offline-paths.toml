@@ -24,10 +24,13 @@ environment = { PROVIDER = "mock", NO_COLOR = "1" }
 path = "agents-deep-dive"
 runtime = "python"
 python = "3.11"
-claim = "Validate the local tool contract boundary and run its adversarial refund lesson."
+claim = "Validate the tool boundary and run every deterministic offline lesson."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
 commands = [
   ["python", "-m", "unittest", "discover", "-s", "tests", "-v"],
+  ["python", "examples/01_tools.py"],
+  ["python", "examples/07_observability.py"],
+  ["python", "examples/10_mcp.py"],
   ["python", "examples/18_tool_contracts.py"],
 ]
 
