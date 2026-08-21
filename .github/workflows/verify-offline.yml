@@ -27,6 +27,9 @@ jobs:
       - name: Require one declared path per submodule
         run: python scripts/verify_offline.py --validate
 
+      - name: Check every relative markdown link resolves
+        run: python scripts/verify_links.py
+
       - name: Build isolated job matrix
         id: matrix
         shell: bash
