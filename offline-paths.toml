@@ -24,9 +24,12 @@ environment = { PROVIDER = "mock", NO_COLOR = "1" }
 path = "agents-deep-dive"
 runtime = "python"
 python = "3.11"
-claim = "Execute direct tool functions and render their schemas without a model call."
+claim = "Validate the local tool contract boundary and run its adversarial refund lesson."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
-commands = [["python", "examples/01_tools.py"]]
+commands = [
+  ["python", "-m", "unittest", "discover", "-s", "tests", "-v"],
+  ["python", "examples/18_tool_contracts.py"],
+]
 
 [[repositories]]
 path = "ai-in-production-deep-dive"
