@@ -11,6 +11,40 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-21: agents-deep-dive tool contracts
+
+The Agents dive previously explained that the model only requests a tool, but its
+main and streaming loops dispatched those requests directly to Python. This update
+makes the proposal-to-effect gap an executable contract rather than a warning.
+
+### Added
+
+- **A reusable local execution boundary** that rejects forged trusted context,
+  validates Draft 2020-12 schemas, authorizes authenticated roles, fails closed on
+  approval, injects tenant and subject data, bounds time and UTF-8 output bytes,
+  and records structured outcomes with content digests.
+- **Bounded replay protection for mutating calls.** Every post-dispatch outcome is
+  retained within the process so a repeated timeout or after-commit error cannot
+  duplicate an uncertain effect. The lesson explicitly names the production gap:
+  durable, transactional sink idempotency and cross-worker coordination.
+- **Offline example 18 and 14 tests** covering every declared schema constraint,
+  trusted-context forgery, independent role and approval decisions, replay scope
+  and eviction, after-commit failure, timeout, multibyte output bounds, audit
+  provenance, malformed provider JSON, the main loop, and MCP dispatch.
+- **Provider and delivery enforcement:** compatible OpenAI schemas advertise strict
+  mode as defense in depth, every client-executed path uses the local executor, and
+  a Python 3.10/3.14 CI matrix runs tests in normal and optimized mode plus all
+  offline lessons.
+
+### Notes
+
+The migration found two older custom tools whose schemas were open to undeclared
+properties and three teaching paths that bypassed the main loop. Those findings and
+the thread-timeout, in-process replay, eviction, and concurrency simplifications are
+now documented instead of left implicit.
+
+---
+
 ## 2026-08-20: operational documentation
 
 GenAI Security, Testing & Delivery, and RESPONSIBILITY.md each covered part of what
