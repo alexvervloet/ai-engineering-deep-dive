@@ -2,7 +2,7 @@
 
 The single most useful skill in AI engineering is **reaching for the simplest thing
 that works**, and knowing when to climb to the next rung. This guide maps the
-ladder. Part of the [AI Engineering Deep Dives](README.md).
+ladder. Part of the [AI Engineering Deep Dives](../README.md).
 
 > The golden rule, repeated throughout the series: **start at the bottom and only
 > climb when a measurement says you need to.** Each rung up costs more money, more
@@ -31,7 +31,7 @@ ladder. Part of the [AI Engineering Deep Dives](README.md).
 ```
 
 Climb only when the rung below genuinely can't do the job, and prove it with an
-[eval](evals-deep-dive/), not a vibe.
+[eval](../evals-deep-dive/), not a vibe.
 
 ---
 
@@ -61,25 +61,25 @@ Answer these in order; stop at the first "yes."
 
 **1. Is the output just poorly phrased, formatted, or inconsistent?**
 → Fix the **prompt**. Be specific, assign a role, show the exact output format, state
-how to handle missing info. → [Prompt Engineering](prompt-engineering-deep-dive/)
+how to handle missing info. → [Prompt Engineering](../prompt-engineering-deep-dive/)
 
 **2. Does it get the *shape* wrong, or fumble a few edge cases?**
 → Add **few-shot examples** (2–5) that demonstrate the format and the tricky cases.
-→ [Prompt Engineering](prompt-engineering-deep-dive/) (few-shot, classification)
+→ [Prompt Engineering](../prompt-engineering-deep-dive/) (few-shot, classification)
 
 **3. Does it need to *do* something: math, an API call, a database query?**
 → Give it **tools**. You describe functions; the model asks to call them; you run
-them. → [Agents](agents-deep-dive/) (tools), the API dives
-([OpenAI](openai-api-deep-dive/), [Claude](claude-api-deep-dive/)) (function calling)
+them. → [Agents](../agents-deep-dive/) (tools), the API dives
+([OpenAI](../openai-api-deep-dive/), [Claude](../claude-api-deep-dive/)) (function calling)
 
 **4. Does it need facts it doesn't have: your docs, recent data, private knowledge?**
 → **RAG.** Retrieve the right text and put it in the context, with citations. Don't
-bake changing facts into a model. → [RAG](rag-deep-dive/)
+bake changing facts into a model. → [RAG](../rag-deep-dive/)
 
 **5. Does it need to behave a *fixed* way every time (format/tone/narrow skill), or do
 you want a cheaper/faster model on a high-volume task?**
 -> **Fine-tune**, but only after a prompt and RAG fall short, and only if you can
-*measure* that it beat your baseline. → [Fine-tuning](fine-tuning-deep-dive/)
+*measure* that it beat your baseline. → [Fine-tuning](../fine-tuning-deep-dive/)
 >
 > Check *where* you can still do this before you plan around it. OpenAI is
 > winding down self-serve fine-tuning through 2026 and into January 2027, and
@@ -89,7 +89,7 @@ you want a cheaper/faster model on a high-volume task?**
 
 **6. Is the task open-ended and multi-step, where you can't script the path?**
 → Build an **agent** (model-driven loop). If you *can* draw the flowchart, build a
-**workflow** instead (cheaper, predictable). → [Agents](agents-deep-dive/) (workflows vs. agents)
+**workflow** instead (cheaper, predictable). → [Agents](../agents-deep-dive/) (workflows vs. agents)
 
 > **"But everyone uses agents."** Usually that means everyone *uses* an agent
 > someone else built and hardened (Cursor, Claude Code, a framework's prebuilt loop).
@@ -106,22 +106,22 @@ These aren't higher rungs; they're side doors for particular requirements.
 
 | You need… | Go to |
 |-----------|-------|
-| To build *on* an agent loop (hooks, permission policies, sandboxing, subagents, headless runs) | [**Agent Harnesses**](agent-harness-deep-dive/) |
-| A long conversation (or agent) to remember without blowing the context window | [**Context Engineering**](context-engineering-deep-dive/) |
-| Images or audio in/out (batch) | [**Multimodal**](multimodal-deep-dive/) |
-| Real-time, spoken conversation (low latency, interruption) | [**Realtime Voice**](realtime-voice-deep-dive/) |
-| Privacy, offline, or zero per-token cost | [**Local Models**](local-models-deep-dive/) |
-| To serve open weights as a fleet: KV memory, batching, parallelism, admission, GPU placement, scaling, rollouts, and capacity | [**Inference Platform Engineering**](inference-platform-deep-dive/) |
-| To share tools/data with an LLM across apps | [**MCP**](mcp-deep-dive/) |
-| To own the corpus behind the index: versions, lineage, ACLs, deletes | [**AI Data Engineering**](ai-data-engineering-deep-dive/) |
-| To know if any change actually helped | [**Evals**](evals-deep-dive/), the meta-skill for *every* rung |
-| To stop it being jailbroken or leaking | [**Prompt Injection & Guardrails**](prompt-injection-deep-dive/) |
-| To secure the *system* around the model: identity, supply chain, tenant isolation, egress, budgets, release gates | [**GenAI Security**](genai-security-deep-dive/) |
-| To run any of it for real users | [**Production**](ai-in-production-deep-dive/) |
-| To know it's *still* working weeks later: drift, silent regressions, alerting | [**Observability**](observability-deep-dive/) |
-| To decide whether a framework beats what you hand-rolled: measured, not assumed | [**Professional Tools**](professional-tools-deep-dive/) |
-| To decide where the pieces go: state, queues, tiers, tenant boundaries | [**Architecture**](architecture-deep-dive/) |
-| To decide whether a specific build has earned promotion: contract, compatibility, supply-chain, rollout, and rollback evidence | [**Testing & Delivery**](testing-and-delivery-deep-dive/) |
+| To build *on* an agent loop (hooks, permission policies, sandboxing, subagents, headless runs) | [**Agent Harnesses**](../agent-harness-deep-dive/) |
+| A long conversation (or agent) to remember without blowing the context window | [**Context Engineering**](../context-engineering-deep-dive/) |
+| Images or audio in/out (batch) | [**Multimodal**](../multimodal-deep-dive/) |
+| Real-time, spoken conversation (low latency, interruption) | [**Realtime Voice**](../realtime-voice-deep-dive/) |
+| Privacy, offline, or zero per-token cost | [**Local Models**](../local-models-deep-dive/) |
+| To serve open weights as a fleet: KV memory, batching, parallelism, admission, GPU placement, scaling, rollouts, and capacity | [**Inference Platform Engineering**](../inference-platform-deep-dive/) |
+| To share tools/data with an LLM across apps | [**MCP**](../mcp-deep-dive/) |
+| To own the corpus behind the index: versions, lineage, ACLs, deletes | [**AI Data Engineering**](../ai-data-engineering-deep-dive/) |
+| To know if any change actually helped | [**Evals**](../evals-deep-dive/), the meta-skill for *every* rung |
+| To stop it being jailbroken or leaking | [**Prompt Injection & Guardrails**](../prompt-injection-deep-dive/) |
+| To secure the *system* around the model: identity, supply chain, tenant isolation, egress, budgets, release gates | [**GenAI Security**](../genai-security-deep-dive/) |
+| To run any of it for real users | [**Production**](../ai-in-production-deep-dive/) |
+| To know it's *still* working weeks later: drift, silent regressions, alerting | [**Observability**](../observability-deep-dive/) |
+| To decide whether a framework beats what you hand-rolled: measured, not assumed | [**Professional Tools**](../professional-tools-deep-dive/) |
+| To decide where the pieces go: state, queues, tiers, tenant boundaries | [**Architecture**](../architecture-deep-dive/) |
+| To decide whether a specific build has earned promotion: contract, compatibility, supply-chain, rollout, and rollback evidence | [**Testing & Delivery**](../testing-and-delivery-deep-dive/) |
 | To write down who decided, on what evidence, and what would reverse it | [**GOVERNANCE.md**](GOVERNANCE.md) |
 | To have a runbook ready before the 2am page | [**INCIDENTS.md**](INCIDENTS.md) |
 | To make a wrong answer visible, contestable, and undoable | [**AI-UX.md**](AI-UX.md) |
@@ -131,7 +131,7 @@ These aren't higher rungs; they're side doors for particular requirements.
 ## Three rules that apply at every rung
 
 1. **Measure, don't guess.** "It seems better" ships regressions. Put a number on
-   quality and rerun it. → [Evals](evals-deep-dive/)
+   quality and rerun it. → [Evals](../evals-deep-dive/)
 2. **Start cheap.** Use the small model (`gpt-5.4-nano` / `claude-haiku-4-5`) and the
    simplest technique; climb only when an eval forces you to. → [MODELS.md](MODELS.md)
 3. **They combine.** Real systems stack rungs: a fine-tuned model *for behavior* +

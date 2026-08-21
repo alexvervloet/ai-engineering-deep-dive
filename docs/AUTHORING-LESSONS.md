@@ -81,7 +81,7 @@ A misleading *display* fails the reader as surely as a wrong result. Two we hit:
   advertises whatever the chunk happens to start with, often the wrong topic (a
   fixed-size chunk that answers "how do I export?" opened on an unrelated import-error
   code). Fix: center the preview on where the query actually matched
-  (`rag.snippet`, in [rag/preview.py](rag-deep-dive/rag/preview.py)); fall back to the
+  (`rag.snippet`, in [rag/preview.py](../rag-deep-dive/rag/preview.py)); fall back to the
   start only when nothing matches.
 
 ### 7. Match the tool to the structure of the data

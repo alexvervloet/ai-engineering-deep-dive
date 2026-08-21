@@ -100,21 +100,21 @@ other side actually sees.
 
 ### Added
 
-- **[GOVERNANCE.md](GOVERNANCE.md)**, the decision record. Named roles and who signs
+- **[GOVERNANCE.md](docs/GOVERNANCE.md)**, the decision record. Named roles and who signs
   what, a change classification that keeps review from becoming noise, and
   copy-pasteable templates for a system register entry, a pre-deployment assessment,
   a risk register entry, a vendor and model assessment, and an appeal and redress
   record. Its one idea is that governance is a record of decisions, not a committee,
   and its most useful line is the reversal condition written before you have an
   incentive to argue.
-- **[INCIDENTS.md](INCIDENTS.md)**, the runbooks. A severity ladder with two rules
+- **[INCIDENTS.md](docs/INCIDENTS.md)**, the runbooks. A severity ladder with two rules
   that settle 2am arguments, the first thirty minutes in order, the containment
   levers that have to exist before you need them, and seven runbooks: injection
   reaching a tool, PII in output, harmful output, silent quality regression, cost
   blowout, provider outage, and corpus poisoning. Ends with comms templates and a
   postmortem template whose "what we are not doing" section stops the same debate
   recurring.
-- **[AI-UX.md](AI-UX.md)**, the interface as part of the safety system. Built on one
+- **[AI-UX.md](docs/AI-UX.md)**, the interface as part of the safety system. Built on one
   test: can the user tell a good answer from a bad one without already knowing the
   answer? Covers disclosure, uncertainty that is behavioral rather than a number,
   citations that resolve and support the claim, why an output guard on a stream
@@ -235,9 +235,9 @@ budgets, can fail without a single crafted prompt. This dive is that larger syst
   threat model.
 - **Cross-references**: the bonus table and diagram in [README.md](README.md),
   chapter 20 in [TEXTBOOK.md](TEXTBOOK.md), a GenAI security section in
-  [GLOSSARY.md](GLOSSARY.md), a senior-role entry in [CAREERS.md](CAREERS.md), ten
-  new concern rows and a fifth cross-cutting principle in [SAFETY.md](SAFETY.md),
-  and a row in [CHOOSING.md](CHOOSING.md).
+  [GLOSSARY.md](docs/GLOSSARY.md), a senior-role entry in [CAREERS.md](docs/CAREERS.md), ten
+  new concern rows and a fifth cross-cutting principle in [SAFETY.md](docs/SAFETY.md),
+  and a row in [CHOOSING.md](docs/CHOOSING.md).
 
 ### Notes
 

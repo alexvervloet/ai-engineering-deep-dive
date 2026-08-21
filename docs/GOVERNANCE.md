@@ -5,7 +5,7 @@
 and who is accountable when it is wrong. This page is the machinery in between: the
 named roles, the written record, and the templates that turn "we thought about it"
 into something a reviewer, an auditor, or your future self can actually read. Part
-of the [AI Engineering Deep Dives](README.md).
+of the [AI Engineering Deep Dives](../README.md).
 
 > **Scope.** Everything here is a form you fill in. The templates are deliberately
 > short enough to complete in an afternoon, because a governance process nobody
@@ -69,7 +69,7 @@ Reviewing everything is the same as reviewing nothing. Classify first.
 The trap is that a model swap looks routine because it is one line of config. It is
 not. A different model is a different artifact tuple, and everything you measured
 was measured on the old one. See
-[Testing & Delivery](testing-and-delivery-deep-dive/) on why the candidate is the
+[Testing & Delivery](../testing-and-delivery-deep-dive/) on why the candidate is the
 tuple and not the model name.
 
 ---
@@ -204,7 +204,7 @@ Run this before depending on a hosted model, an embedding provider, or a tool AP
 ```
 
 The last line is the one people skip. A fallback that has never been exercised is
-an assumption. [Architecture](architecture-deep-dive/) measures what fallbacks
+an assumption. [Architecture](../architecture-deep-dive/) measures what fallbacks
 actually cost you, and the answer is usually "correctness."
 
 ---
@@ -265,13 +265,13 @@ Governance documents make claims. The dives are where the claims get proven.
 
 | The claim | Proven in |
 |---|---|
-| "It meets a quality bar" | [Evals](evals-deep-dive/) |
-| "This exact build was tested and can be rolled back" | [Testing & Delivery](testing-and-delivery-deep-dive/) |
-| "It resists injection and the blast radius is bounded" | [Prompt Injection](prompt-injection-deep-dive/), [GenAI Security](genai-security-deep-dive/) |
-| "We know what it costs and how it behaves under load" | [Production](ai-in-production-deep-dive/), [Inference Platform](inference-platform-deep-dive/) |
-| "It is still working weeks later" | [Observability](observability-deep-dive/) |
-| "We know where the corpus came from and can delete from it" | [AI Data Engineering](ai-data-engineering-deep-dive/) |
-| "The boundaries between components are where we say they are" | [Architecture](architecture-deep-dive/) |
+| "It meets a quality bar" | [Evals](../evals-deep-dive/) |
+| "This exact build was tested and can be rolled back" | [Testing & Delivery](../testing-and-delivery-deep-dive/) |
+| "It resists injection and the blast radius is bounded" | [Prompt Injection](../prompt-injection-deep-dive/), [GenAI Security](../genai-security-deep-dive/) |
+| "We know what it costs and how it behaves under load" | [Production](../ai-in-production-deep-dive/), [Inference Platform](../inference-platform-deep-dive/) |
+| "It is still working weeks later" | [Observability](../observability-deep-dive/) |
+| "We know where the corpus came from and can delete from it" | [AI Data Engineering](../ai-data-engineering-deep-dive/) |
+| "The boundaries between components are where we say they are" | [Architecture](../architecture-deep-dive/) |
 
 If a governance document asserts something no dive can demonstrate, that assertion
 is the weakest part of the record. Mark it as an assumption rather than letting it

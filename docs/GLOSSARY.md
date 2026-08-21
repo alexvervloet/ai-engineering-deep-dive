@@ -1,6 +1,6 @@
 # Glossary
 
-Plain-English definitions of the terms the [deep dives](README.md) use. Each points
+Plain-English definitions of the terms the [deep dives](../README.md) use. Each points
 to the dive that covers it in depth. Skim it once; come back when a word snags.
 
 ---

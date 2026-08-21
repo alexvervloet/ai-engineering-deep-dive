@@ -5,7 +5,7 @@ doesn't leak, get hijacked, or spew harmful content. This page is the other half
 whether you *should* build the thing, whether you're being honest about what it does,
 what it's built on, who it affects, and who's accountable when it's wrong. Those
 aren't features you can `pip install`. They're decisions you make *around* the code.
-This is the map. Part of the [AI Engineering Deep Dives](README.md).
+This is the map. Part of the [AI Engineering Deep Dives](../README.md).
 
 > **Scope.** The rest of the series is hands-on: every concept is a script you run.
 > This page is deliberately not: it's the judgment that the runnable parts can't
@@ -34,39 +34,39 @@ who *owns* it when it goes wrong.
 
 | Concern | What it is | Operationalized in |
 |---------|-----------|--------------------|
-| **Honest capability claims** | Not selling "it understands" / "it's accurate" when it's a fluent next-token predictor that's right *most* of the time | [HOW-LLMS-WORK.md](HOW-LLMS-WORK.md), [Evals](evals-deep-dive/) (put a number on "how often right") |
-| **Hallucination & grounding** | Confident claims that aren't true or aren't supported, and whether users can tell | [RAG](rag-deep-dive/) (cite sources), [Evals](evals-deep-dive/) (faithfulness) |
-| **Bias & fairness** | The model treats groups differently, or your eval set only represents some users | [Evals](evals-deep-dive/) (slice your dataset; measure per-group) |
-| **Sycophancy** | The model agrees with the user instead of being right, and agreement reads as competence | [Evals](evals-deep-dive/) (score answers where the user is confidently wrong), [Prompt Engineering](prompt-engineering-deep-dive/) |
+| **Honest capability claims** | Not selling "it understands" / "it's accurate" when it's a fluent next-token predictor that's right *most* of the time | [HOW-LLMS-WORK.md](HOW-LLMS-WORK.md), [Evals](../evals-deep-dive/) (put a number on "how often right") |
+| **Hallucination & grounding** | Confident claims that aren't true or aren't supported, and whether users can tell | [RAG](../rag-deep-dive/) (cite sources), [Evals](../evals-deep-dive/) (faithfulness) |
+| **Bias & fairness** | The model treats groups differently, or your eval set only represents some users | [Evals](../evals-deep-dive/) (slice your dataset; measure per-group) |
+| **Sycophancy** | The model agrees with the user instead of being right, and agreement reads as competence | [Evals](../evals-deep-dive/) (score answers where the user is confidently wrong), [Prompt Engineering](../prompt-engineering-deep-dive/) |
 | **Disclosure** | Users have a right to know they're talking to an AI, and which answers are machine-generated | a product decision, and increasingly a legal duty ([below](#the-rules-stopped-being-hypothetical)); nothing hidden in a system prompt should contradict it |
-| **Silent behavior change** | A model or prompt swap quietly changes how the system treats users who depended on the old behavior | [Evals](evals-deep-dive/) (gates), [Observability](observability-deep-dive/) (drift as a trend) |
+| **Silent behavior change** | A model or prompt swap quietly changes how the system treats users who depended on the old behavior | [Evals](../evals-deep-dive/) (gates), [Observability](../observability-deep-dive/) (drift as a trend) |
 
 ### 2. The person on the other side
 
 | Concern | What it is | Operationalized in |
 |---------|-----------|--------------------|
-| **Anthropomorphism & reliance** | A fluent, warm, always-available system invites trust and attachment it hasn't earned, especially over long sessions | a design decision: persona, memory, and how often you re-disclose ([Context Engineering](context-engineering-deep-dive/), [Realtime Voice](realtime-voice-deep-dive/)) |
-| **Vulnerable users & crisis** | Someone in distress, or a minor, reaches your product; a general-purpose assistant is not a clinician | an explicit handoff path, plus [moderation](prompt-injection-deep-dive/) on the way in and out |
+| **Anthropomorphism & reliance** | A fluent, warm, always-available system invites trust and attachment it hasn't earned, especially over long sessions | a design decision: persona, memory, and how often you re-disclose ([Context Engineering](../context-engineering-deep-dive/), [Realtime Voice](../realtime-voice-deep-dive/)) |
+| **Vulnerable users & crisis** | Someone in distress, or a minor, reaches your product; a general-purpose assistant is not a clinician | an explicit handoff path, plus [moderation](../prompt-injection-deep-dive/) on the way in and out |
 | **Persuasion & dark patterns** | The system is good at changing minds, and your incentives may not match the user's | keep the model out of the objective function for upsell, retention, and engagement |
-| **Accessibility** | Generated UI text, alt text, transcripts, and latency budgets that assume one kind of user | [Multimodal](multimodal-deep-dive/) (transcription, image description), your own eval set |
-| **Human oversight & contestability** | A person can review, override, and a user can appeal a consequential output | [Agents](agents-deep-dive/) (human-in-the-loop), [Production](ai-in-production-deep-dive/) (feedback) |
+| **Accessibility** | Generated UI text, alt text, transcripts, and latency budgets that assume one kind of user | [Multimodal](../multimodal-deep-dive/) (transcription, image description), your own eval set |
+| **Human oversight & contestability** | A person can review, override, and a user can appeal a consequential output | [Agents](../agents-deep-dive/) (human-in-the-loop), [Production](../ai-in-production-deep-dive/) (feedback) |
 
 ### 3. What it's built on, and what it costs
 
 | Concern | What it is | Operationalized in |
 |---------|-----------|--------------------|
-| **Data provenance & consent** | Whether you had the right to train, fine-tune, or index on the data you used, and whether the people in it agreed | [Fine-tuning](fine-tuning-deep-dive/) (you own your training set), [RAG](rag-deep-dive/) (you own your corpus) |
-| **Copyright & attribution** | Outputs that reproduce training data, and generated code whose license you can't name | [RAG](rag-deep-dive/) (cite what you retrieved), review policy for generated code |
-| **Data governance** | What you may send upstream, retain, log, or train on | [Production](ai-in-production-deep-dive/) (PII touchpoints, retention), [GenAI Security](genai-security-deep-dive/) (classification ceiling, declared purpose, keyed audit fingerprints), [SAFETY.md](SAFETY.md) |
+| **Data provenance & consent** | Whether you had the right to train, fine-tune, or index on the data you used, and whether the people in it agreed | [Fine-tuning](../fine-tuning-deep-dive/) (you own your training set), [RAG](../rag-deep-dive/) (you own your corpus) |
+| **Copyright & attribution** | Outputs that reproduce training data, and generated code whose license you can't name | [RAG](../rag-deep-dive/) (cite what you retrieved), review policy for generated code |
+| **Data governance** | What you may send upstream, retain, log, or train on | [Production](../ai-in-production-deep-dive/) (PII touchpoints, retention), [GenAI Security](../genai-security-deep-dive/) (classification ceiling, declared purpose, keyed audit fingerprints), [SAFETY.md](SAFETY.md) |
 | **Labor** | The annotation work behind the model, and the jobs the product is aimed at | not a code decision; a disclosure and staffing decision you make in the open |
-| **Footprint** | Energy and water for training and for every inference you serve | [MODELS.md](MODELS.md) + [CHOOSING.md](CHOOSING.md) (smaller model, fewer calls), [Local Models](local-models-deep-dive/), caching in [Production](ai-in-production-deep-dive/), measured utilization/headroom/capacity in [Inference Platform Engineering](inference-platform-deep-dive/) |
+| **Footprint** | Energy and water for training and for every inference you serve | [MODELS.md](MODELS.md) + [CHOOSING.md](CHOOSING.md) (smaller model, fewer calls), [Local Models](../local-models-deep-dive/), caching in [Production](../ai-in-production-deep-dive/), measured utilization/headroom/capacity in [Inference Platform Engineering](../inference-platform-deep-dive/) |
 
 ### 4. Who owns it
 
 | Concern | What it is | Operationalized in |
 |---------|-----------|--------------------|
-| **Accountability** | When it's wrong, a named human owns the outcome, not "the AI did it" | a process you define before launch, not after the incident; [Testing & Delivery](testing-and-delivery-deep-dive/) makes the artifact side auditable, since every passing result names the candidate digest and source revision it actually tested |
-| **Autonomy & reversibility** | An agent that *acts* is a different problem than a model that *advises* | [Agents](agents-deep-dive/) (approval, step limits), [Agent Harnesses](agent-harness-deep-dive/) (permission policy, sandboxing), [GenAI Security](genai-security-deep-dive/) (approval bound to one exact irreversible effect), [Testing & Delivery](testing-and-delivery-deep-dive/) (a rollback path verified before release, and the effects that cannot be rolled back at all) |
+| **Accountability** | When it's wrong, a named human owns the outcome, not "the AI did it" | a process you define before launch, not after the incident; [Testing & Delivery](../testing-and-delivery-deep-dive/) makes the artifact side auditable, since every passing result names the candidate digest and source revision it actually tested |
+| **Autonomy & reversibility** | An agent that *acts* is a different problem than a model that *advises* | [Agents](../agents-deep-dive/) (approval, step limits), [Agent Harnesses](../agent-harness-deep-dive/) (permission policy, sandboxing), [GenAI Security](../genai-security-deep-dive/) (approval bound to one exact irreversible effect), [Testing & Delivery](../testing-and-delivery-deep-dive/) (a rollback path verified before release, and the effects that cannot be rolled back at all) |
 | **Regulatory duties** | Disclosure, record-keeping, and risk classification that now carry deadlines | [below](#the-rules-stopped-being-hypothetical); check what applies to you |
 | **Cost of being wrong** | Whether a mistake is a typo or a denied loan / wrong dosage; sets every bar above | informs your eval bar and whether to ship at all |
 
@@ -85,20 +85,20 @@ uptime.
 time and wrong fluently, with the same confident tone either way (see
 [HOW-LLMS-WORK.md](HOW-LLMS-WORK.md)). Responsible design assumes the user can't tell
 the two apart, so it shows its work: cite sources, surface uncertainty, say "I don't
-know," and never let marketing copy promise an accuracy your [evals](evals-deep-dive/)
+know," and never let marketing copy promise an accuracy your [evals](../evals-deep-dive/)
 don't back.
 
 **3. Measure fairness like any other quality: per group, not just on average.** An
 aggregate pass rate can hide that a system works for one group and fails another. The
 fix is the same discipline as the rest of the series: **slice the eval set** and report
 the metric for each slice. You can't manage a number you never split.
-→ [Evals](evals-deep-dive/)
+→ [Evals](../evals-deep-dive/)
 
 **4. Keep a human accountable: naming the model is not an answer.** "The AI decided"
 is not a thing a person harmed by a decision can appeal to. For any consequential
 output, define *before* launch who reviews it, who can override it, and how a user
-contests it. [Human-in-the-loop](agents-deep-dive/) and a
-[feedback path](ai-in-production-deep-dive/) are the mechanics; the accountability is
+contests it. [Human-in-the-loop](../agents-deep-dive/) and a
+[feedback path](../ai-in-production-deep-dive/) are the mechanics; the accountability is
 the part you own.
 
 **5. The user's mental model of what they're talking to is your design problem.**
@@ -157,10 +157,10 @@ responsibility with a small number of concrete questions.
 - **Can you delete from it?** If a user asks for their data out, you can drop a row
   from a RAG index. You cannot drop it from a model you already fine-tuned; you
   retrain. Knowing which of the two you're in is a design decision, made before you
-  train, not after the request arrives. → [Fine-tuning](fine-tuning-deep-dive/),
-  [RAG](rag-deep-dive/)
+  train, not after the request arrives. → [Fine-tuning](../fine-tuning-deep-dive/),
+  [RAG](../rag-deep-dive/)
 - **What leaves your building?** Every prompt is a data transfer to a third party.
-  [Local models](local-models-deep-dive/) exist partly so that "this data cannot leave"
+  [Local models](../local-models-deep-dive/) exist partly so that "this data cannot leave"
   is an option you can actually take, rather than a promise you break quietly.
 
 **On outputs:** a model can reproduce chunks of what it was trained on, and generated
@@ -187,7 +187,7 @@ search box doesn't.
 **Anthropomorphism is not a user error.** People attribute understanding to systems
 that produce fluent language, and they do it more the more human the interface is:
 first person, a name, a warm tone, memory of past conversations, and above all a
-[voice](realtime-voice-deep-dive/). You are not fighting a misconception; you are
+[voice](../realtime-voice-deep-dive/). You are not fighting a misconception; you are
 choosing how strongly to invite one. Warmth is not automatically wrong. Warmth plus a
 claim of understanding it doesn't have is.
 
@@ -196,7 +196,7 @@ the model that tells the user they're right rates well and retains well, and is 
 at its job. This is one of the few items on this page with a clean eval: build a slice
 where the user asserts something false, or pushes back on a correct answer, and score
 whether the model holds. Track it like any other metric.
-→ [Evals](evals-deep-dive/)
+→ [Evals](../evals-deep-dive/)
 
 **Engagement is the wrong objective.** If time-in-app or message count is the number
 your team optimizes, you have pointed a persuasion-capable system at keeping people
@@ -236,11 +236,11 @@ ones the rest of the series already teaches for other reasons:
 - a smaller model that passes the eval, instead of the biggest one by default
   → [CHOOSING.md](CHOOSING.md), [MODELS.md](MODELS.md)
 - caching, so identical work isn't repaid every time
-  → [Production](ai-in-production-deep-dive/)
+  → [Production](../ai-in-production-deep-dive/)
 - shorter contexts and fewer agent steps, since cost scales with tokens and loops
-  → [Context Engineering](context-engineering-deep-dive/), [Agents](agents-deep-dive/)
+  → [Context Engineering](../context-engineering-deep-dive/), [Agents](../agents-deep-dive/)
 - an eval that tells you when the cheap option is good enough, so "we need the big
-  model" is a finding rather than an assumption → [Evals](evals-deep-dive/)
+  model" is a finding rather than an assumption → [Evals](../evals-deep-dive/)
 
 That's the useful framing: your token bill is a rough proxy for your footprint, and
 you already have tooling to drive it down. Efficiency is not a complete answer to the
@@ -270,7 +270,7 @@ free, writing needs a leash, and anything you can't undo (money out, message sen
 data deleted, anything a third party sees) gets explicit human approval, every time,
 no matter how well the agent has behaved so far. Least-privilege tools, allow-lists,
 step limits, and a sandbox are the mechanics.
-→ [Agents](agents-deep-dive/), [Agent Harnesses](agent-harness-deep-dive/)
+→ [Agents](../agents-deep-dive/), [Agent Harnesses](../agent-harness-deep-dive/)
 
 ---
 
@@ -353,12 +353,12 @@ closed, in either direction, is what this page is against.
 
 Before a system reaches real users, you can answer these, and they're concrete:
 
-1. **Claims**: does every public claim about accuracy match an [eval](evals-deep-dive/)
+1. **Claims**: does every public claim about accuracy match an [eval](../evals-deep-dive/)
    number you can rerun? *(No → soften the copy or raise the bar.)*
 2. **Disclosure**: does the user know they're interacting with AI, which content is
    generated, and does that disclosure repeat in long sessions?
 3. **Grounding**: for factual answers, are sources cited and
-   [faithfulness](evals-deep-dive/) measured? *(→ [RAG](rag-deep-dive/))*
+   [faithfulness](../evals-deep-dive/) measured? *(→ [RAG](../rag-deep-dive/))*
 4. **Fairness**: have you sliced the eval set by the groups your app actually serves
    and checked the metric per slice?
 5. **Sycophancy**: does your eval include cases where the user is confidently wrong,
@@ -369,13 +369,13 @@ Before a system reaches real users, you can answer these, and they're concrete:
    that competes with the user's interest?
 8. **Data in**: do you have consent for what you send upstream, a provenance note per
    training and eval source, and a defined retention policy for logs?
-   *(→ [Production](ai-in-production-deep-dive/), [SAFETY.md](SAFETY.md))*
+   *(→ [Production](../ai-in-production-deep-dive/), [SAFETY.md](SAFETY.md))*
 9. **Data out**: can you honor a deletion request? Do you know whether that means
    dropping a row or retraining a model?
 10. **Actions**: for anything an agent can do irreversibly, is there human approval and
     a capability limit, and is that approval bound to the one operation it was given
-    for? *(→ [Agents](agents-deep-dive/),
-    [GenAI Security](genai-security-deep-dive/))*
+    for? *(→ [Agents](../agents-deep-dive/),
+    [GenAI Security](../genai-security-deep-dive/))*
 11. **Oversight**: for consequential outputs, who reviews, who overrides, how does a
     user contest?
 12. **Owner**: is there a named human accountable for outcomes?
@@ -390,13 +390,13 @@ high-stakes system is a reason to slow down.
 ## Where to start
 
 - Shipping anything that affects a person's opportunities or wellbeing → start with the
-  checklist above, then raise the [eval](evals-deep-dive/) bar to match the stakes.
-- Worried about wrong or unsupported answers → [RAG](rag-deep-dive/) grounding +
-  [Evals](evals-deep-dive/) faithfulness make honesty measurable.
+  checklist above, then raise the [eval](../evals-deep-dive/) bar to match the stakes.
+- Worried about wrong or unsupported answers → [RAG](../rag-deep-dive/) grounding +
+  [Evals](../evals-deep-dive/) faithfulness make honesty measurable.
 - Building something conversational, long-running, or voice → reread
   [the person on the other side](#the-person-on-the-other-side); that's where the
   duties are landing.
 - Giving the model tools → [autonomy](#autonomy-changes-the-calculus), then
-  [Agents](agents-deep-dive/) approval and capability limits.
+  [Agents](../agents-deep-dive/) approval and capability limits.
 - This page's sibling on *operational* safety (injection, leaks, moderation) →
   [SAFETY.md](SAFETY.md).

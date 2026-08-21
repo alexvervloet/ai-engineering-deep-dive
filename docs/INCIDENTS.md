@@ -4,7 +4,7 @@
 [GOVERNANCE.md](GOVERNANCE.md) is about the record of what you decided. This page is
 for the hour when a limit did not hold. It is a set of playbooks you can follow while
 tired, plus the containment levers you have to build **before** you need them. Part
-of the [AI Engineering Deep Dives](README.md).
+of the [AI Engineering Deep Dives](../README.md).
 
 > **Scope.** These are runbooks, not theory. Each one assumes you are mid-incident
 > and skims: what you are looking at, stop the bleeding, find the blast radius, then
@@ -71,13 +71,13 @@ Build these before you need them, and test them the way you test a rollback.
 
 | Lever | What it does | Build it in |
 |---|---|---|
-| **Kill switch** | Disables the AI path, falls back to the non-AI experience | [Production](ai-in-production-deep-dive/) |
-| **Model pin** | Forces one known-good model and prompt version | [Testing & Delivery](testing-and-delivery-deep-dive/) |
-| **Tool disable** | Turns off one tool without taking the system down | [Agents](agents-deep-dive/), [Agent Harnesses](agent-harness-deep-dive/) |
-| **Spend cap** | Hard stop on tokens per minute and per tenant | [Production](ai-in-production-deep-dive/) |
-| **Read-only mode** | Model can answer, cannot act | [GenAI Security](genai-security-deep-dive/) |
-| **Tenant isolation switch** | Cuts one tenant off from shared paths | [Architecture](architecture-deep-dive/) |
-| **Index rollback** | Reverts to a previous corpus revision | [AI Data Engineering](ai-data-engineering-deep-dive/) |
+| **Kill switch** | Disables the AI path, falls back to the non-AI experience | [Production](../ai-in-production-deep-dive/) |
+| **Model pin** | Forces one known-good model and prompt version | [Testing & Delivery](../testing-and-delivery-deep-dive/) |
+| **Tool disable** | Turns off one tool without taking the system down | [Agents](../agents-deep-dive/), [Agent Harnesses](../agent-harness-deep-dive/) |
+| **Spend cap** | Hard stop on tokens per minute and per tenant | [Production](../ai-in-production-deep-dive/) |
+| **Read-only mode** | Model can answer, cannot act | [GenAI Security](../genai-security-deep-dive/) |
+| **Tenant isolation switch** | Cuts one tenant off from shared paths | [Architecture](../architecture-deep-dive/) |
+| **Index rollback** | Reverts to a previous corpus revision | [AI Data Engineering](../ai-data-engineering-deep-dive/) |
 
 The test for each: can an on-call engineer who did not build it trigger it in under
 five minutes, from a runbook, without a deploy? If not, it is a plan, not a lever.
@@ -99,8 +99,8 @@ from retrieved documents. An agent visiting a domain nobody configured.
    Money moved, mail sent, records changed, data read.
 5. **Fix:** the durable fix is almost never a better prompt. It is narrowing what the
    tool can do and who can call it. See
-   [Prompt Injection](prompt-injection-deep-dive/) for why prompt-level defenses
-   degrade, and [GenAI Security](genai-security-deep-dive/) for authorizing effects
+   [Prompt Injection](../prompt-injection-deep-dive/) for why prompt-level defenses
+   degrade, and [GenAI Security](../genai-security-deep-dive/) for authorizing effects
    in code.
 
 ---
@@ -138,7 +138,7 @@ generated content. Support sees an answer containing an address nobody supplied.
 4. **Handle the person first.** Someone received this. The appeal and remedy path in
    [GOVERNANCE.md](GOVERNANCE.md) applies, and it applies faster than your fix.
 5. **Add it to the eval set** before you fix it, so the fix is measured and the
-   regression is caught next time. See [Evals](evals-deep-dive/).
+   regression is caught next time. See [Evals](../evals-deep-dive/).
 
 ---
 
@@ -159,7 +159,7 @@ resolve rate falling. A model version changed under you.
 4. **Contain by pinning** to the last known-good tuple while you diagnose.
 5. **The durable fix is detection,** not the specific regression. If this ran for
    three weeks, the finding is that nothing watches quality as a trend. See
-   [Observability](observability-deep-dive/).
+   [Observability](../observability-deep-dive/).
 
 ---
 
@@ -176,8 +176,8 @@ Retries amplifying an upstream failure.
    for agents and pathological past a bound. Find the bound you never set.
 4. **Check whether it is an attack.** Unbounded cost is a denial-of-wallet vector.
 5. **Fix:** step limits, retry budgets, and per-tenant caps.
-   [Agents](agents-deep-dive/) covers step limits;
-   [Testing & Delivery](testing-and-delivery-deep-dive/) covers retry budgets that
+   [Agents](../agents-deep-dive/) covers step limits;
+   [Testing & Delivery](../testing-and-delivery-deep-dive/) covers retry budgets that
    stop incident amplification.
 
 ---
@@ -191,7 +191,7 @@ Retries amplifying an upstream failure.
    it is not.
 2. **Watch correctness, not just availability.** A fallback model that answers
    everything wrong looks healthy on an uptime graph.
-   [Architecture](architecture-deep-dive/) measures exactly this trade.
+   [Architecture](../architecture-deep-dive/) measures exactly this trade.
 3. **Degrade honestly.** Tell users the system is limited right now. A silent
    downgrade is how trust is lost permanently.
 4. **For deprecation:** treat it as a material change in
@@ -210,7 +210,7 @@ one tenant surfacing for another. An ingest job that ran with the wrong permissi
 3. **Roll the index back,** then re-ingest forward with the fix.
 4. **Check permission propagation.** If ACLs did not travel with the chunk, the leak
    is structural rather than a one-off.
-5. See [AI Data Engineering](ai-data-engineering-deep-dive/) for versions, lineage,
+5. See [AI Data Engineering](../ai-data-engineering-deep-dive/) for versions, lineage,
    and deletes as first-class operations.
 
 ---

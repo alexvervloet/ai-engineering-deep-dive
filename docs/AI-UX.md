@@ -5,7 +5,7 @@ what the person on the other side can see, understand, doubt, and undo. That is 
 decoration on top of the engineering. A model that is right 85% of the time is a
 useful product or a dangerous one depending almost entirely on whether the interface
 makes the other 15% visible and recoverable. Part of the
-[AI Engineering Deep Dives](README.md).
+[AI Engineering Deep Dives](../README.md).
 
 > **Scope.** This is guidance and patterns, not a component library. It assumes you
 > have read [RESPONSIBILITY.md](RESPONSIBILITY.md) on who is affected and
@@ -84,7 +84,7 @@ they are broken:
 
 Measure this. Citation resolve rate and citation match rate are separate numbers, and
 the second is the one that catches confident nonsense.
-[Evals](evals-deep-dive/) covers scoring them; the capstone reports both.
+[Evals](../evals-deep-dive/) covers scoring them; the capstone reports both.
 
 **Design consequence:** if you cannot cite, say so, rather than presenting an
 uncited answer in the same visual style as a cited one.
@@ -96,11 +96,11 @@ uncited answer in the same visual style as a cited one.
 Streaming changes what users perceive and what your guardrails can do.
 
 - **Stream for perceived latency.** First token is the number users feel. See
-  [Inference Platform](inference-platform-deep-dive/) on why TTFT and total time are
+  [Inference Platform](../inference-platform-deep-dive/) on why TTFT and total time are
   different problems.
 - **Do not stream text you might have to retract.** An output guard that runs after
   generation cannot unsay what the user already read.
-  [Architecture](architecture-deep-dive/) measures this directly: an output guard on
+  [Architecture](../architecture-deep-dive/) measures this directly: an output guard on
   a stream detected every violation and prevented none.
 - **Show the stage, not a spinner.** "Searching your documents" then "Reading 4
   sources" then "Writing" sets expectations and makes a slow path feel deliberate.
@@ -145,7 +145,7 @@ a signal with no referent. Make feedback actionable:
   stop giving it.
 - **Watch the rate as a trend,** not the individual votes. A rising thumbs-down rate
   with no deploy is a quality incident. See
-  [Observability](observability-deep-dive/) and section 7 of
+  [Observability](../observability-deep-dive/) and section 7 of
   [INCIDENTS.md](INCIDENTS.md).
 
 Remember that feedback is heavily biased: people report offensive output far more
@@ -191,8 +191,8 @@ before you treat it as good news.
 ## 9. Reversibility and consent for actions
 
 The moment your system acts rather than answers, the interface carries new weight.
-See [Agents](agents-deep-dive/) and
-[Agent Harnesses](agent-harness-deep-dive/) for the mechanics behind these.
+See [Agents](../agents-deep-dive/) and
+[Agent Harnesses](../agent-harness-deep-dive/) for the mechanics behind these.
 
 - **Preview before irreversible actions.** Show exactly what will happen, with the
   real values, not a summary of the intent.

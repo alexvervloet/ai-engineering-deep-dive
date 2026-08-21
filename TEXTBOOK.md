@@ -16,7 +16,7 @@ The textbook is that missing half, gathered and told as a story. Each chapter ta
 
 The chapters follow the same sequence as the series. The eight core chapters build on each other, each adding a layer until you are operating a real application end to end. The bonus chapters branch off where they are most useful and can be read whenever their subject comes up. If you are new, read in order. If you know what you need, jump to it; each chapter stands on its own while linking to its neighbors.
 
-If the question "what *is* a language model, really?" is still fuzzy, start with the primer in [HOW-LLMS-WORK.md](HOW-LLMS-WORK.md), which sits underneath the whole textbook. The [GLOSSARY.md](GLOSSARY.md) defines every term the chapters assume, and [MODELS.md](MODELS.md) covers the specific models and their prices. Once a system is real and has users, three operational pages sit alongside the chapters: [GOVERNANCE.md](GOVERNANCE.md) for the decision record, [INCIDENTS.md](INCIDENTS.md) for the runbooks, and [AI-UX.md](AI-UX.md) for the interface around a fallible model.
+If the question "what *is* a language model, really?" is still fuzzy, start with the primer in [HOW-LLMS-WORK.md](docs/HOW-LLMS-WORK.md), which sits underneath the whole textbook. The [GLOSSARY.md](docs/GLOSSARY.md) defines every term the chapters assume, and [MODELS.md](docs/MODELS.md) covers the specific models and their prices. Once a system is real and has users, three operational pages sit alongside the chapters: [GOVERNANCE.md](docs/GOVERNANCE.md) for the decision record, [INCIDENTS.md](docs/INCIDENTS.md) for the runbooks, and [AI-UX.md](docs/AI-UX.md) for the interface around a fallible model.
 
 ---
 
@@ -76,8 +76,8 @@ which of them the compiler will help you with.
 
 ## A note on how these were written
 
-The textbook holds itself to the same standard as the labs it accompanies, the one written down in [AUTHORING-LESSONS.md](AUTHORING-LESSONS.md): the reader believes what is on the page, so what is on the page has to be worth believing. The chapters teach the honest tradeoff over the tidy-but-false claim. They tell you where techniques fail, not just where they shine. When they cite a number or a result, it is one the labs actually produced, including the surprising and the unflattering ones. The goal is not to make the material sound impressive. It is to make it clear, accurate, and, where possible, enjoyable to read.
+The textbook holds itself to the same standard as the labs it accompanies, the one written down in [AUTHORING-LESSONS.md](docs/AUTHORING-LESSONS.md): the reader believes what is on the page, so what is on the page has to be worth believing. The chapters teach the honest tradeoff over the tidy-but-false claim. They tell you where techniques fail, not just where they shine. When they cite a number or a result, it is one the labs actually produced, including the surprising and the unflattering ones. The goal is not to make the material sound impressive. It is to make it clear, accurate, and, where possible, enjoyable to read.
 
 ---
 
-*Back to the [series overview](README.md) · The decision guide: [CHOOSING.md](CHOOSING.md) · The vocabulary: [GLOSSARY.md](GLOSSARY.md)*
+*Back to the [series overview](README.md) · The decision guide: [CHOOSING.md](docs/CHOOSING.md) · The vocabulary: [GLOSSARY.md](docs/GLOSSARY.md)*

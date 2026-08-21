@@ -14,16 +14,16 @@ Claude, often a local model too), offline-first examples, a real capstone, and a
 > [claude-api-deep-dive](claude-api-deep-dive/) if you prefer Anthropic). Then follow
 > the sequence below. Already comfortable with the API? Jump to whatever you need.
 
-See also: [**HOW-LLMS-WORK.md**](HOW-LLMS-WORK.md), what an LLM actually is ·
-[**CHOOSING.md**](CHOOSING.md), which technique to reach for ·
-[**MODELS.md**](MODELS.md), models & pricing · [**GLOSSARY.md**](GLOSSARY.md), the
-vocabulary · [**CAREERS.md**](CAREERS.md), what each dive is called on a job
-description · [**SAFETY.md**](SAFETY.md), the cross-cutting safety view ·
-[**RESPONSIBILITY.md**](RESPONSIBILITY.md), building it responsibly ·
-[**GOVERNANCE.md**](GOVERNANCE.md), who decides and on what record ·
-[**INCIDENTS.md**](INCIDENTS.md), playbooks for when it goes wrong ·
-[**AI-UX.md**](AI-UX.md), the interface as part of the safety system ·
-[**SECRETS.md**](SECRETS.md), where your API keys go (not `.env`).
+See also: [**HOW-LLMS-WORK.md**](docs/HOW-LLMS-WORK.md), what an LLM actually is ·
+[**CHOOSING.md**](docs/CHOOSING.md), which technique to reach for ·
+[**MODELS.md**](docs/MODELS.md), models & pricing · [**GLOSSARY.md**](docs/GLOSSARY.md), the
+vocabulary · [**CAREERS.md**](docs/CAREERS.md), what each dive is called on a job
+description · [**SAFETY.md**](docs/SAFETY.md), the cross-cutting safety view ·
+[**RESPONSIBILITY.md**](docs/RESPONSIBILITY.md), building it responsibly ·
+[**GOVERNANCE.md**](docs/GOVERNANCE.md), who decides and on what record ·
+[**INCIDENTS.md**](docs/INCIDENTS.md), playbooks for when it goes wrong ·
+[**AI-UX.md**](docs/AI-UX.md), the interface as part of the safety system ·
+[**SECRETS.md**](docs/SECRETS.md), where your API keys go (not `.env`).
 
 ---
 
@@ -146,7 +146,7 @@ python check_setup.py              # verifies your environment; makes no API cal
 
 **Your API key does not go in `.env`.** Store it in your OS keychain and inject
 it per-command with `secrun`: a 2-minute, one-time setup in
-[**SECRETS.md**](SECRETS.md). Then run any key-using script as
+[**SECRETS.md**](docs/SECRETS.md). Then run any key-using script as
 `secrun python examples/…`; offline examples need no wrapper. (`.env` is for the
 non-secret `PROVIDER`/`MODEL` config only.)
 
@@ -174,49 +174,49 @@ the eval anatomy, the injection attack catalog, the quantization calculator).
 
 ## Reference docs
 
-- [**HOW-LLMS-WORK.md**](HOW-LLMS-WORK.md): the mental model underneath the whole
+- [**HOW-LLMS-WORK.md**](docs/HOW-LLMS-WORK.md): the mental model underneath the whole
   series: next-token prediction, training, why models hallucinate, the context
   window. No math. Read it first if "what *is* an LLM?" is still fuzzy.
-- [**CHOOSING.md**](CHOOSING.md): a decision guide: prompt → few-shot → RAG →
+- [**CHOOSING.md**](docs/CHOOSING.md): a decision guide: prompt → few-shot → RAG →
   fine-tune → agent, and when to reach for multimodal, local, or MCP.
-- [**MODELS.md**](MODELS.md): the models the series uses, their context windows and
+- [**MODELS.md**](docs/MODELS.md): the models the series uses, their context windows and
   prices, and how to pick one. Dated; tells you how to get current numbers.
-- [**GLOSSARY.md**](GLOSSARY.md): every term the series assumes (token, embedding,
+- [**GLOSSARY.md**](docs/GLOSSARY.md): every term the series assumes (token, embedding,
   context window, temperature, RAG, agent, eval, guardrail, quantization, …).
-- [**CAREERS.md**](CAREERS.md): the hirability map: each dive translated into the
+- [**CAREERS.md**](docs/CAREERS.md): the hirability map: each dive translated into the
   résumé lines, job-description phrases, and industry tools (Braintrust, Langfuse,
   pgvector, vLLM, LiveKit, …) it corresponds to, so you can turn the work into
   interview answers.
-- [**SAFETY.md**](SAFETY.md): the cross-cutting view: injection, moderation, PII,
+- [**SAFETY.md**](docs/SAFETY.md): the cross-cutting view: injection, moderation, PII,
   hallucination, and unsafe actions: what each is and which dive covers it.
-- [**RESPONSIBILITY.md**](RESPONSIBILITY.md): the other half of safety: honest
+- [**RESPONSIBILITY.md**](docs/RESPONSIBILITY.md): the other half of safety: honest
   capability claims, bias & fairness, sycophancy, disclosure, where your training data
   came from, what a fluent system does to the person using it, energy footprint,
   agent autonomy, the 2026 regulatory picture, and the question upstream of all of
   them: *should* this be an LLM? Ends with the arguments the field hasn't settled,
   left unsettled.
-- [**GOVERNANCE.md**](GOVERNANCE.md): the operational machinery between "we thought
+- [**GOVERNANCE.md**](docs/GOVERNANCE.md): the operational machinery between "we thought
   about it" and a record someone can read: named roles, change classification, and
   copy-pasteable templates for a system register, a pre-deployment assessment, a risk
   register, a vendor assessment, and an appeal and redress path.
-- [**INCIDENTS.md**](INCIDENTS.md): what to do at 2am. A severity ladder, the first
+- [**INCIDENTS.md**](docs/INCIDENTS.md): what to do at 2am. A severity ladder, the first
   thirty minutes, the containment levers you have to build in advance, and runbooks
   for injection reaching a tool, PII in output, harmful output, silent quality
   regression, cost blowout, provider outage, and corpus poisoning. Ends with comms
   and postmortem templates.
-- [**AI-UX.md**](AI-UX.md): the interface is part of the safety system. Designing for
+- [**AI-UX.md**](docs/AI-UX.md): the interface is part of the safety system. Designing for
   the wrong answer: disclosure, uncertainty that is actionable, citations that
   resolve, streaming versus guardrails, the four distinct failure states, feedback
   worth collecting, human handoff, and reversibility for systems that act.
-- [**SECRETS.md**](SECRETS.md): where your API keys actually go (your OS keychain,
+- [**SECRETS.md**](docs/SECRETS.md): where your API keys actually go (your OS keychain,
   injected per-command with `secrun`) and why not `.env`. The `.env` → keychain
   progression is itself a lesson in the AI-agent threat model.
-- [**CAPSTONE.md**](CAPSTONE.md): the whole-series capstone: a codebase Q&A tool
+- [**CAPSTONE.md**](docs/CAPSTONE.md): the whole-series capstone: a codebase Q&A tool
   (`askrepo`) built step by step, one dive per tag, with its eval set pointed at
   this very repo. The build itself lives in
   [**deep-dive-capstone**](deep-dive-capstone/), one tag per step from
   `v00-scaffold` to `v07-production`.
-- [**AUTHORING-LESSONS.md**](AUTHORING-LESSONS.md): for anyone extending these dives:
+- [**AUTHORING-LESSONS.md**](docs/AUTHORING-LESSONS.md): for anyone extending these dives:
   principles for writing runnable teaching examples that actually prove their own
   claim, drawn from hardening the RAG examples. The reader believes the output, so
   the output has to be worth believing.
@@ -227,7 +227,7 @@ the eval anatomy, the injection attack catalog, the quantization calculator).
 
 - **Cost:** most lessons cost a fraction of a cent; the ones that make no API call
   are marked **(offline)**. The token-counting and cost sections teach you to
-  estimate spend *before* you send. See [MODELS.md](MODELS.md).
+  estimate spend *before* you send. See [MODELS.md](docs/MODELS.md).
 - **Safety:** the [Prompt Injection & Guardrails](prompt-injection-deep-dive/) and
   [GenAI Security](genai-security-deep-dive/) dives are strictly *defensive*: every
   attack targets only a deterministic toy system and uses made-up secrets that protect

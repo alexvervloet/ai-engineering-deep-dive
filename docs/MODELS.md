@@ -1,7 +1,7 @@
 # Models & Pricing: a reference for the series
 
 A quick, practical reference: the models these deep dives use, what they cost, and
-how to choose one. Part of the [AI Engineering Deep Dives](README.md).
+how to choose one. Part of the [AI Engineering Deep Dives](../README.md).
 
 > ⚠️ **Prices and models change. This is a snapshot, last verified 2026-08-17.**
 > Always confirm against the provider's own page before relying on a number:

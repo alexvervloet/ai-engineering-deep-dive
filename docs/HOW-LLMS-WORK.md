@@ -1,6 +1,6 @@
 # How LLMs actually work: a plain-English primer
 
-The [deep dives](README.md) start at the API call and stay hands-on. This page fills
+The [deep dives](../README.md) start at the API call and stay hands-on. This page fills
 in the *mental model underneath*: what a large language model (LLM) actually is, how
 it got that way, and why it behaves the way it does. You don't need this to start,
 but the first time the model hallucinates, ignores an instruction, or "thinks" before
@@ -35,7 +35,7 @@ your prompt ──▶ [model] ──▶ P(next token)  ──pick──▶ token
 
 A consequence worth holding onto: the model has **no memory** between requests. Each
 call, it re-reads the whole conversation you send and continues it. "Memory" is just
-you resending the growing transcript, which is why the [Context Engineering](context-engineering-deep-dive/)
+you resending the growing transcript, which is why the [Context Engineering](../context-engineering-deep-dive/)
 dive exists.
 
 ---
@@ -64,10 +64,10 @@ to talk to:
   answers; the model is nudged toward the kind people prefer (helpful, honest,
   harmless). This is where "personality" and refusals largely come from.
 
-The [Fine-tuning dive](fine-tuning-deep-dive/) is this same idea you can do yourself:
+The [Fine-tuning dive](../fine-tuning-deep-dive/) is this same idea you can do yourself:
 teach a model a *behavior* by example. The key split it hammers on, **pretraining
 gives knowledge, post-training shapes behavior**, is exactly why "make it answer in
-our format" is a fine-tuning job but "make it know our docs" is a [RAG](rag-deep-dive/)
+our format" is a fine-tuning job but "make it know our docs" is a [RAG](../rag-deep-dive/)
 job.
 
 ---
@@ -83,13 +83,13 @@ you know it's a next-token predictor, this stops being mysterious:
   as statistical tendencies, not stored records. Ask about something rare or
   post-cutoff and it will *generate* a plausible-shaped answer anyway.
 - It can't tell what it doesn't know. There's no little "confidence meter" gating
-  output (though [logprobs](openai-api-deep-dive/) are a rough proxy).
+  output (though [logprobs](../openai-api-deep-dive/) are a rough proxy).
 
 The engineering response is not "find a model that never lies"; it's **don't rely on
 the model's memory for facts that matter.** Put the facts in the prompt and tell it to
-answer only from them ([RAG](rag-deep-dive/): grounding and citations), and *measure*
-whether the answer stayed grounded ([Evals](evals-deep-dive/): faithfulness). The
-[Context Engineering](context-engineering-deep-dive/) dive is largely about getting the
+answer only from them ([RAG](../rag-deep-dive/): grounding and citations), and *measure*
+whether the answer stayed grounded ([Evals](../evals-deep-dive/): faithfulness). The
+[Context Engineering](../context-engineering-deep-dive/) dive is largely about getting the
 *right* text in front of the model so it doesn't have to guess.
 
 ---
@@ -106,9 +106,9 @@ them. That chooser has a knob: **temperature**.
 
 This is why an LLM isn't a calculator that returns the same thing every time, and why
 a single good (or bad) result is a *sample*, not the truth, a fact the
-[Evals](evals-deep-dive/) dive takes seriously (run it several times; report a range,
+[Evals](../evals-deep-dive/) dive takes seriously (run it several times; report a range,
 not one number). The sampling knobs (temperature, top_p, stop, seed) are covered
-hands-on in the [API](openai-api-deep-dive/) and [Prompt Engineering](prompt-engineering-deep-dive/)
+hands-on in the [API](../openai-api-deep-dive/) and [Prompt Engineering](../prompt-engineering-deep-dive/)
 dives.
 
 ---
@@ -123,7 +123,7 @@ finite, and three things follow:
 1. **It's the only thing the model knows right now.** Not in the window = doesn't
    exist, as far as this request is concerned.
 2. **It fills up.** Long conversations, big documents, and agent tool-results all
-   compete for the same budget, the subject of [Context Engineering](context-engineering-deep-dive/).
+   compete for the same budget, the subject of [Context Engineering](../context-engineering-deep-dive/).
 3. **You pay per token, in and out.** Cost and the context budget are the same
    resource seen two ways ([MODELS.md](MODELS.md)).
 
@@ -137,7 +137,7 @@ thought, working through the problem step by step, before writing the visible
 answer. That extra "thinking" markedly improves math, logic, and coding, at the cost
 of more tokens (you pay for the hidden reasoning) and more latency.
 
-The practical twist, covered in the [Prompt Engineering](prompt-engineering-deep-dive/)
+The practical twist, covered in the [Prompt Engineering](../prompt-engineering-deep-dive/)
 dive: you prompt them *differently*. Don't say "think step by step"; they already do.
 Give the goal and constraints and get out of the way.
 
@@ -149,7 +149,7 @@ Alongside generating text, models can turn a piece of text into an **embedding**
 list of numbers (a vector) that captures its *meaning*, such that texts with similar
 meanings get similar vectors. That's the engine of semantic search: find the stored
 text whose meaning is closest to a question, even if they share no words. It's the
-foundation of [RAG](rag-deep-dive/) and of long-term memory in [Context Engineering](context-engineering-deep-dive/).
+foundation of [RAG](../rag-deep-dive/) and of long-term memory in [Context Engineering](../context-engineering-deep-dive/).
 
 ---
 
@@ -159,13 +159,13 @@ The whole series follows from these mechanics:
 
 | Because the model… | …you should | Dive |
 |--------------------|-------------|------|
-| just continues text from the prompt | shape the prompt deliberately | [Prompt Engineering](prompt-engineering-deep-dive/) |
-| has knowledge only from training, frozen at a cutoff | feed it current/private facts in-context | [RAG](rag-deep-dive/) |
-| behaves as post-training shaped it | retrain the *behavior* by example when prompting can't | [Fine-tuning](fine-tuning-deep-dive/) |
-| only knows what's in the window, which fills up | manage what goes in the window | [Context Engineering](context-engineering-deep-dive/) |
-| is plausible, not reliable, and nondeterministic | measure quality as a number you can rerun | [Evals](evals-deep-dive/) |
-| can't actually *do* anything by itself | give it tools and a loop | [Agents](agents-deep-dive/) |
-| treats all text in its window as equal | never trust untrusted text in the prompt | [Prompt Injection & Guardrails](prompt-injection-deep-dive/) |
+| just continues text from the prompt | shape the prompt deliberately | [Prompt Engineering](../prompt-engineering-deep-dive/) |
+| has knowledge only from training, frozen at a cutoff | feed it current/private facts in-context | [RAG](../rag-deep-dive/) |
+| behaves as post-training shaped it | retrain the *behavior* by example when prompting can't | [Fine-tuning](../fine-tuning-deep-dive/) |
+| only knows what's in the window, which fills up | manage what goes in the window | [Context Engineering](../context-engineering-deep-dive/) |
+| is plausible, not reliable, and nondeterministic | measure quality as a number you can rerun | [Evals](../evals-deep-dive/) |
+| can't actually *do* anything by itself | give it tools and a loop | [Agents](../agents-deep-dive/) |
+| treats all text in its window as equal | never trust untrusted text in the prompt | [Prompt Injection & Guardrails](../prompt-injection-deep-dive/) |
 
 None of these are tricks to make a different kind of model. They're all ways of
 working *with* a next-token predictor that has frozen knowledge, a fixed window, and a
