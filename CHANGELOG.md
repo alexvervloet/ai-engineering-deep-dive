@@ -11,6 +11,42 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-21: agents-deep-dive contract audit follow-ups
+
+An audit of the tool-contract work found two correctness gaps and a set of claims
+the code had outgrown. All are closed.
+
+### Fixed
+
+- **A settled idempotency key now binds to its payload.** Repeating a mutating
+  call ID with different arguments returned the stored result and recorded the
+  *first* call's digest against the second attempt, so the audit trail showed no
+  sign it happened. That case is now denied as `idempotency_key_reuse`, and the
+  honest retry still replays.
+- **Discovered tool schemas can enter the loop again.** Requiring
+  `additionalProperties: false` made every third-party MCP tool unusable:
+  `ToolExecutor` raised before any model call, while the docs still promised such
+  tools drop in unchanged. `seal_schema()` closes a copy at the point of adoption,
+  the MCP client applies it to every descriptor, and the tradeoff (a sealed schema
+  rejects calls an under-declaring server would accept) is stated rather than
+  hidden.
+- `--yes` in the capstone printed a bare tool line, because rich read
+  `[auto-approved]` as markup.
+
+### Changed
+
+- The observability lesson now shows `status`, `replayed`, and argument digests,
+  and explains that `approved` answers only the approval question: a schema
+  rejection also reports `approved=False` without any human having said no.
+- The MCP chapter teaches the contract in both directions: the client seals what
+  it adopts, the server distrusts its clients. Neither end can verify the other
+  checked.
+- Stale claims corrected: the loop's "~20 lines", the toolbox docstring's account
+  of approval and mutation, the offline example list in the setup check, and the
+  going-further pattern count.
+
+---
+
 ## 2026-08-21: agents-deep-dive tool contracts
 
 The Agents dive previously explained that the model only requests a tool, but its
