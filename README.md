@@ -174,52 +174,33 @@ the eval anatomy, the injection attack catalog, the quantization calculator).
 
 ## Reference docs
 
-- [**HOW-LLMS-WORK.md**](docs/HOW-LLMS-WORK.md): the mental model underneath the whole
-  series: next-token prediction, training, why models hallucinate, the context
-  window. No math. Read it first if "what *is* an LLM?" is still fuzzy.
-- [**CHOOSING.md**](docs/CHOOSING.md): a decision guide: prompt → few-shot → RAG →
-  fine-tune → agent, and when to reach for multimodal, local, or MCP.
-- [**MODELS.md**](docs/MODELS.md): the models the series uses, their context windows and
-  prices, and how to pick one. Dated; tells you how to get current numbers.
-- [**GLOSSARY.md**](docs/GLOSSARY.md): every term the series assumes (token, embedding,
-  context window, temperature, RAG, agent, eval, guardrail, quantization, …).
-- [**CAREERS.md**](docs/CAREERS.md): the hirability map: each dive translated into the
-  résumé lines, job-description phrases, and industry tools (Braintrust, Langfuse,
-  pgvector, vLLM, LiveKit, …) it corresponds to, so you can turn the work into
-  interview answers.
-- [**SAFETY.md**](docs/SAFETY.md): the cross-cutting view: injection, moderation, PII,
-  hallucination, and unsafe actions: what each is and which dive covers it.
-- [**RESPONSIBILITY.md**](docs/RESPONSIBILITY.md): the other half of safety: honest
-  capability claims, bias & fairness, sycophancy, disclosure, where your training data
-  came from, what a fluent system does to the person using it, energy footprint,
-  agent autonomy, the 2026 regulatory picture, and the question upstream of all of
-  them: *should* this be an LLM? Ends with the arguments the field hasn't settled,
-  left unsettled.
-- [**GOVERNANCE.md**](docs/GOVERNANCE.md): the operational machinery between "we thought
-  about it" and a record someone can read: named roles, change classification, and
-  copy-pasteable templates for a system register, a pre-deployment assessment, a risk
-  register, a vendor assessment, and an appeal and redress path.
-- [**INCIDENTS.md**](docs/INCIDENTS.md): what to do at 2am. A severity ladder, the first
-  thirty minutes, the containment levers you have to build in advance, and runbooks
-  for injection reaching a tool, PII in output, harmful output, silent quality
-  regression, cost blowout, provider outage, and corpus poisoning. Ends with comms
-  and postmortem templates.
-- [**AI-UX.md**](docs/AI-UX.md): the interface is part of the safety system. Designing for
-  the wrong answer: disclosure, uncertainty that is actionable, citations that
-  resolve, streaming versus guardrails, the four distinct failure states, feedback
-  worth collecting, human handoff, and reversibility for systems that act.
-- [**SECRETS.md**](docs/SECRETS.md): where your API keys actually go (your OS keychain,
-  injected per-command with `secrun`) and why not `.env`. The `.env` → keychain
-  progression is itself a lesson in the AI-agent threat model.
-- [**CAPSTONE.md**](docs/CAPSTONE.md): the whole-series capstone: a codebase Q&A tool
-  (`askrepo`) built step by step, one dive per tag, with its eval set pointed at
-  this very repo. The build itself lives in
-  [**deep-dive-capstone**](deep-dive-capstone/), one tag per step from
-  `v00-scaffold` to `v07-production`.
-- [**AUTHORING-LESSONS.md**](docs/AUTHORING-LESSONS.md): for anyone extending these dives:
-  principles for writing runnable teaching examples that actually prove their own
-  claim, drawn from hardening the RAG examples. The reader believes the output, so
-  the output has to be worth believing.
+The series-level docs live in [**docs/**](docs/), grouped by what you need them
+for. The full annotated index is [docs/README.md](docs/README.md).
+
+**Foundations**, the shared vocabulary and the up-front decisions:
+[HOW-LLMS-WORK.md](docs/HOW-LLMS-WORK.md) (what an LLM actually is) ·
+[GLOSSARY.md](docs/GLOSSARY.md) (every term the series assumes) ·
+[CHOOSING.md](docs/CHOOSING.md) (prompt → RAG → fine-tune → agent, and when) ·
+[MODELS.md](docs/MODELS.md) (context windows, prices, which to default to).
+
+**Practice**, how to run the lessons and what to build:
+[SECRETS.md](docs/SECRETS.md) (where your API keys go, which is not `.env`) ·
+[CAPSTONE.md](docs/CAPSTONE.md) (the whole-series build, one tag per dive) ·
+[CAREERS.md](docs/CAREERS.md) (each dive as a résumé line and an interview answer) ·
+[AUTHORING-LESSONS.md](docs/AUTHORING-LESSONS.md) (for anyone extending the series).
+
+**Operating responsibly**, the concerns no single dive owns:
+[SAFETY.md](docs/SAFETY.md) (injection, moderation, PII, hallucination) ·
+[RESPONSIBILITY.md](docs/RESPONSIBILITY.md) (honest claims, bias, disclosure, and
+whether this should be an LLM at all) ·
+[GOVERNANCE.md](docs/GOVERNANCE.md) (who decides, on what record) ·
+[INCIDENTS.md](docs/INCIDENTS.md) (what to do at 2am) ·
+[AI-UX.md](docs/AI-UX.md) (the interface as part of the safety system).
+
+Four docs stay at the root, because each mirrors a file every dive also has:
+[TEXTBOOK.md](TEXTBOOK.md), the series read as one book ·
+[LESSONS.md](LESSONS.md), what went wrong building it ·
+[CHANGELOG.md](CHANGELOG.md), what changed and when · and this README.
 
 ---
 
