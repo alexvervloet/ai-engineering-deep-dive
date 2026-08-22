@@ -63,9 +63,19 @@ environment = { PROVIDER = "mock", NO_COLOR = "1" }
 path = "evals-deep-dive"
 runtime = "python"
 python = "3.11"
-claim = "Run the dataset-task-scorer-report loop over a local rule-based task."
+claim = "Run the offline eval curriculum, including paired, powered, multiplicity-aware release decisions."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
-commands = [["python", "examples/01_anatomy.py"]]
+commands = [
+  ["python", "-m", "unittest", "discover", "-s", "tests", "-v"],
+  ["python", "examples/01_anatomy.py"],
+  ["python", "examples/02_code_scorers.py"],
+  ["python", "examples/03_dataset.py"],
+  ["python", "examples/04_metrics.py"],
+  ["python", "examples/10_agent_trajectory.py"],
+  ["python", "examples/11_human_annotation.py"],
+  ["python", "examples/12_online_eval.py"],
+  ["python", "examples/14_decision_statistics.py"],
+]
 
 [[repositories]]
 path = "fine-tuning-deep-dive"
