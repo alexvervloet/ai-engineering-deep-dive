@@ -88,6 +88,10 @@ the two apart, so it shows its work: cite sources, surface uncertainty, say "I d
 know," and never let marketing copy promise an accuracy your [evals](../evals-deep-dive/)
 don't back.
 
+That backing is a decision design, not merely a small p-value: declare the useful
+effect, metrics, sample size, and interim looks before seeing outcomes, then report
+uncertainty and practical significance alongside the estimate.
+
 **3. Measure fairness like any other quality: per group, not just on average.** An
 aggregate pass rate can hide that a system works for one group and fails another. The
 fix is the same discipline as the rest of the series: **slice the eval set** and report
@@ -353,8 +357,9 @@ closed, in either direction, is what this page is against.
 
 Before a system reaches real users, you can answer these, and they're concrete:
 
-1. **Claims**: does every public claim about accuracy match an [eval](../evals-deep-dive/)
-   number you can rerun? *(No → soften the copy or raise the bar.)*
+1. **Claims**: does every public claim about accuracy match an
+   [eval](../evals-deep-dive/) estimate you can rerun, with uncertainty and a
+   predeclared threshold for what matters? *(No → soften the copy or raise the bar.)*
 2. **Disclosure**: does the user know they're interacting with AI, which content is
    generated, and does that disclosure repeat in long sessions?
 3. **Grounding**: for factual answers, are sources cited and
