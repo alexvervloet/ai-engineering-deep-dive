@@ -43,8 +43,8 @@ can say "that's the productionized version of the retriever/eval/loop I built."
 ### 5. Evals
 - **Job-description phrases:** "LLM evaluation," "offline & online evals," "LLM-as-judge," "A/B testing," "quality regression gates."
 - **Industry tools:** Braintrust, promptfoo, Langfuse, Ragas, OpenAI Evals, DeepEval, Arize Phoenix.
-- **Résumé line:** *"Stood up an evaluation harness (LLM-as-judge with bias controls, trajectory scoring, statistical significance) and gated releases on it in CI."*
-- **Interview:** this is where most candidates are weakest: you can talk about judge bias, nondeterminism, and why "it seems better" ships regressions. Lead with it.
+- **Résumé line:** *"Stood up an evaluation harness (judge-bias controls, paired intervals, power planning, and multiplicity-aware release thresholds) and gated releases on reproducible evidence in CI."*
+- **Interview:** this is where most candidates are weakest: you can explain why "it seems better" ships regressions, why a statistically detectable gain may not matter, and why repeated looks or many metrics require a predeclared error budget. Lead with it.
 
 ### 6. Agents
 - **Job-description phrases:** "agentic systems," "tool-calling agents," "multi-step/autonomous workflows," "workflow vs agent."
