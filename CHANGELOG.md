@@ -11,6 +11,31 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-22: evals-deep-dive decision statistics
+
+The Evals dive now carries a release decision from paired observations to an
+explicit hold, ship, or harm signal without treating every detectable change as
+useful.
+
+### Added
+
+- Paired bootstrap intervals that preserve shared case difficulty and reject
+  unequal or invalid observations instead of silently truncating them.
+- Prospective power and minimum-detectable-effect planning, practical-effect
+  classification, family-wise error controls, and conservative planned sequential
+  looks.
+- A deterministic offline lesson, 16 regression tests including optimized-Python
+  execution, and CI across the documented minimum and current Python versions.
+
+### Changed
+
+- Earlier fixed-horizon independent-sample comparisons now call themselves
+  screening approximations rather than release evidence.
+- Parent glossary, career guidance, responsibility checklist, and recursive offline
+  verifier now teach and enforce the decision-statistics path.
+
+---
+
 ## 2026-08-21: agents-deep-dive contract audit follow-ups
 
 Successive audits of the tool-contract work found correctness gaps at adoption,
