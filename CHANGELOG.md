@@ -11,6 +11,46 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-23: evals-deep-dive decision-statistics audit follow-ups
+
+An audit of the decision-statistics work found one real coverage defect, one
+docstring that its own tests contradicted, and a set of narration and
+cross-reference gaps. All are closed.
+
+### Fixed
+
+- **A sequential look can no longer be smaller than its own approximation
+  allows.** The guard required two pairs, but a nominal 95% normal interval covers
+  about 70% at two pairs, 88% at five, and 94% at twenty. A module whose subject is
+  spending a declared error budget could therefore overspend it sixfold while still
+  printing the declared number. Looks now start at 30 pairs, and the README and
+  chapter say why.
+- **`classify_effect` documents the classification it performs.** The docstring
+  promised that any interval inside the equivalence band supports equivalence, while
+  the code reported the directional state first, and the test table (written from the
+  code) had frozen the contradiction. The priority order, the reservation of
+  `practically_equivalent` for intervals containing zero, and the deliberate
+  strict-versus-inclusive boundary asymmetry are now stated and pinned by tests.
+- **The lesson derives its release verdict instead of narrating it.** Example 14
+  printed a fixed "HOLD" and a literal "+3.00 pp" beside a separately computed
+  evidence state; the CI determinism check compares two runs to each other and so
+  could never detect the two disagreeing.
+
+### Changed
+
+- Evidence states are named after their values (`STATISTICAL_IMPROVEMENT_ONLY`,
+  `STATISTICAL_REGRESSION_ONLY`), so `EffectEvidence(value)` round-trips.
+- Example 14 explains why its fixed-horizon section spends alpha/4 while the
+  sequential campaign spends alpha/16, and notes that the paired interval is the
+  narrower one despite being held to a stricter confidence level.
+- Parent glossary entries for the decision vocabulary point at sections that exist;
+  they had cited a chapter subsection number using the notation every neighbouring
+  entry uses for README sections.
+- Em-dashes and typographic quotes are out of the new files, matching the rest of
+  the series.
+
+---
+
 ## 2026-08-22: evals-deep-dive decision statistics
 
 The Evals dive now carries a release decision from paired observations to an
