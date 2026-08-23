@@ -150,9 +150,12 @@ environment = { PROVIDER = "mock", NO_COLOR = "1" }
 path = "observability-deep-dive"
 runtime = "python"
 python = "3.11"
-claim = "Validate synthetic traffic, drift, alerting, and dashboard paths on mocks."
+claim = "Validate synthetic traffic, drift, alerting, dashboard, and OTel paths on mocks."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
-commands = [["python", "check_setup.py"]]
+commands = [
+  ["python", "check_setup.py"],
+  ["python", "examples/09_otel_export.py"],
+]
 environment = { PROVIDER = "mock", NO_COLOR = "1" }
 
 [[repositories]]
