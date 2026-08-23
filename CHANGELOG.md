@@ -11,6 +11,40 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-23: rag-deep-dive gains a real Postgres/pgvector path
+
+The RAG dive taught retrieval with an in-memory store cached to a JSON file, which
+is the right shape for learning the search and the wrong shape for everything
+around it. A cache file has one verb, rebuild everything, so the dive never showed
+what an index costs to keep, which is where the money and most of the bugs are.
+
+### Added
+
+- **A real vector store with a real lifecycle.** `rag/pgstore.py` runs the same
+  pipeline against Postgres with pgvector: incremental sync by content hash,
+  deletes that cascade to their vectors, one transaction per change, an HNSW index,
+  and a recorded embedding-model id so a model switch is caught rather than obeyed.
+  Retrieval is unchanged, since `1 - (embedding <=> query)` is the cosine
+  similarity the from-scratch store computes by hand.
+- **`examples/16_pgvector_lifecycle.py`**, which walks six lifecycle events and
+  prints what each one costs. The second sync of an unchanged corpus embeds 0
+  chunks; editing one document of four embeds 3 of 12.
+- **`compose.yaml`** pinning pgvector 0.8.6 on Postgres 18, and
+  `requirements-postgres.txt` for the optional driver. Everything else in the dive
+  still runs with no Docker and no database.
+- **`--store pg` on the capstone**, so `ask_docs.py` answers from the database with
+  the same code that answers from the cache.
+- Section 12 of the README, its exercises, a chapter section in `TEXTBOOK.md`, and
+  the dive's first `LESSONS.md`.
+
+### Changed
+
+- The pipeline is typed against a `SupportsSearch` protocol rather than the
+  concrete `VectorStore`, which is the repo's central claim stated in the type
+  system: retrieval does not care where the vectors live.
+
+---
+
 ## 2026-08-23: evals-deep-dive decision-statistics audit follow-ups
 
 An audit of the decision-statistics work found one real coverage defect, one
