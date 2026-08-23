@@ -433,6 +433,24 @@ the release gate passes. Evidence preservation begins before destructive repair.
 **Observability**: structured traces of what each request did (inputs, tokens, cost,
 tools, latency). *(Production §3; Observability)*
 
+**Span / trace**: a **trace** is one request's complete story, carrying a unique id;
+a **span** is one timed step inside it (the model call, the retrieval, the guardrail).
+*(Production §3; Observability §11)*
+
+**OpenTelemetry (OTel) / OTLP**: the vendor-neutral standard for emitting spans,
+metrics, and logs, and **OTLP** is its wire protocol. Emit it once and the backend
+(Jaeger, Tempo, Honeycomb, Datadog, Langfuse) becomes a URL you can change. It moves
+telemetry; it does not decide what the numbers mean. *(Observability §11)*
+
+**Semantic conventions**: the agreed attribute names (`gen_ai.request.model`,
+`gen_ai.usage.input_tokens`) that let any backend understand telemetry it has never
+seen. The GenAI ones are still experimental, and there is deliberately no standard
+attribute for cost. *(Observability §11)*
+
+**Cardinality**: how many distinct values an attribute takes. Each distinct
+combination is its own metric time series, so a request id is free on a span and
+ruinous on a metric. *(Observability §11)*
+
 **Data / input drift**: the distribution of what users send shifts over time (new
 topics, new wording), so a model quietly answers things it was never good at: no
 error, just worse answers. *(Observability §5)*
