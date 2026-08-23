@@ -1,13 +1,12 @@
 # Authoring Lessons: writing teaching examples that don't lie
 
-A runnable teaching example makes a promise: *"run this and you'll see X."* When the
-output doesn't actually show X (or worse, shows the opposite) the reader either
-gets quietly misled or loses trust. These are the principles we've learned for
-keeping that promise, each one paid for by a real example that broke it.
+A runnable teaching example makes a promise. Run this and you'll see X. When the output
+doesn't actually show X, or worse shows the opposite, the reader is either misled
+without knowing it or stops trusting the material. These are the principles we've
+learned for keeping that promise, each one paid for by a real example that broke it.
 
-The through-line: **the example is the argument.** Prose can claim anything; the
-output is what the reader believes. So the output has to carry the lesson on its
-own, honestly, every run.
+The example is the argument. Prose can claim anything. The output is what the reader
+believes, so the output has to carry the lesson on its own, honestly, on every run.
 
 ---
 
@@ -41,11 +40,11 @@ run to run. Build the lesson on what's *stable*.
   every run, but its *rank* moved (3→2 one run, 3→1 the next). The takeaway was
   rewritten around the score lift, with an explicit note that ranks wobble.
 
-### 4. Show the tradeoff, not "X is strictly better"
-Real techniques have failure modes. Teaching the nuance ("a tool to tune, not a free
-lunch") beats a tidy heuristic that falls apart the first time a learner hits the
-exception. And when the concept *is* a tradeoff, don't just describe it: make the
-dial runnable, so the reader moves it and watches each failure mode happen.
+### 4. Show the tradeoff instead of claiming "X is strictly better"
+Real techniques have failure modes. Teaching the awkward version, a tool to tune rather
+than a free lunch, beats a tidy heuristic that falls apart the first time a learner hits
+the exception. And when the concept is itself a tradeoff, don't only describe it. Make
+the dial runnable, so the reader moves it and watches each failure mode happen.
 
 - **ex07** became an honest mini-tour of fusion: a 50/50 blend that *demotes* the
   answer, RRF that helps but can't fully undo a bad keyword rank, and a
@@ -53,9 +52,9 @@ dial runnable, so the reader moves it and watches each failure mode happen.
   illustrate, not universal.
 - **Alerting (observability ex05):** the false-alarm↔detection-lag tradeoff is a
   knob the reader turns: `persistence=1` catches a one-day spike, `persistence=3`
-  rides over it; EXERCISES has them drop `z_threshold` to 1.5 and watch alerts
-  appear on a *healthy* history. Reading "there's a tradeoff" convinces no one;
-  getting paged on noise because you tightened the dial does.
+  rides over it. EXERCISES has them drop `z_threshold` to 1.5 and watch alerts appear
+  on a healthy history. Reading "there's a tradeoff" convinces no one. Getting paged on
+  noise because you tightened the dial does.
 
 ### 5. Build a corpus that isolates the phenomenon
 If a technique's benefit won't reproduce on your general corpus, don't force it or
@@ -71,7 +70,7 @@ difference on well-written docs.
   main corpus, plain retrieval already nailed everything and the lesson vanished.
 
 ### 6. Presentation can lie too
-A misleading *display* fails the reader as surely as a wrong result. Two we hit:
+A misleading display fails the reader as surely as a wrong result. Two we hit.
 
 - **Relative vs absolute scores.** Min-max normalizing to make scores comparable
   forces the top result to `1.000` *by construction*. Printed bare, `1.000` reads as
@@ -95,7 +94,7 @@ to cite, no accidental topic-mixing.
   off-topic and whose keyword profile was muddied.
   `rag.chunk_markdown_sections` splits on headings instead.
 
-### 8. When the wobble *is* the lesson, keep it and name it: don't engineer it away
+### 8. When the wobble is the lesson, keep it and name it rather than engineering it away
 Principle 3 says anchor away from the wobbly signal. But sometimes the unreliable
 result is a genuine property of the technique the example is teaching; hiding it
 would itself be a lie. When an apparent "the output didn't prove the claim" is
@@ -111,8 +110,8 @@ output, turning the surprise into a second lesson.
   The other three cases ask for a specific fact, so a loose answer either invents a
   concrete detail (clearly ungrounded) or hedges (clearly grounded): unambiguous.
   Only the yes/no question produces the hard negation-from-omission call. We kept the
-  row and added a printed callout tying it to the judge-unreliability theme (ex08):
-  the judge applies its own read of the rubric, so calibrate against human labels
+  row and added a printed callout tying it to the judge-unreliability theme from ex08.
+  The judge applies its own read of the rubric, so calibrate against human labels
   before trusting its numbers.
 
 ### 9. When you compare two systems with a judge, hold the judge constant
@@ -140,7 +139,7 @@ the system.
   compliance*, not grounding. The honest writeup says so; the raw number alone would
   have lied about the model.
 
-### 11. A generality claim needs more than one confirming run: vary the instance
+### 11. A generality claim needs more than one confirming run, so vary the instance
 "Works with *any* X" is a far stronger promise than "works with the X I tried." One
 passing example verifies the specific case, not the generality; a reader will plug in
 an X different enough to break it. Before you claim breadth, run the cases most likely
@@ -169,12 +168,12 @@ confirming run you never did is just a guess in a table.
   qwen3.6-35b (vs the 8b), same constant judge. It **didn't**: judged correctness only
   *tied* cloud (0.786, within judge noise), not the win its size implied. And retrieval
   hit@k was the *only* metric that fell (0.886 -> 0.829): the one thing changed on the
-  retrieval side was the 0.6B embedder. So the weak link was the **embedder, not the
-  bigger answerer**: on a local RAG stack, spend the upgrade on the embedding model
-  before the generator. The size prediction was published as refuted, not quietly
-  dropped: the surprise *is* the lesson.
+  retrieval side was the 0.6B embedder. So the weak link was the embedder rather than
+  the bigger answerer. On a local RAG stack, spend the upgrade on the embedding model
+  before the generator. The size prediction went out as refuted rather than
+  disappearing without mention, because the surprise is the lesson.
 
-### 13. When the lesson is *detection*, keep the ground truth out of the data
+### 13. When the lesson is detection, keep the ground truth out of the data
 Principles 1–12 assume the example computes one thing you then check. But when the
 skill is *inferring* something from indirect signals (drift, a quality regression,
 an anomaly) the synthetic data you generate must contain only what a real system
@@ -205,7 +204,7 @@ nothing, and it breaks the moment the reader swaps the mock for the real thing.
   in a hidden flag. Same for cost creep (real extra prompt tokens) and the cohort
   outage (real added latency), so every alert fires off a real cause.
 
-### 15. If the honest demonstration won't reproduce, change the instance: don't rig the detector
+### 15. If the honest demonstration won't reproduce, change the instance rather than rigging the detector
 A concept can be real while the specific instance you picked to show it doesn't
 actually exhibit it. The fix is to find the instance that genuinely does, verified by
 measurement, across seeds, not to tune thresholds until the wrong instance appears to
@@ -241,7 +240,7 @@ example remove what genuinely doesn't belong, and keep what does.
   *wanted* `support@acme.example` too (same over-redaction as a blunt regex), so any
   redactor, LLM or rules, needs an allowlist / keep-rules, never "just ask the model."
 
-### 17. A rounded metric ties, and the tie-break will quietly name a winner
+### 17. A rounded metric ties, and the tie-break names a winner nobody chose
 When a decision takes a max or a top-1 over values that have been rounded, bucketed, or
 truncated, ties are the common case, not the edge case. Something still has to return
 one answer, so the sort order picks one, and the example reports it as *the* result. The
@@ -261,8 +260,9 @@ want one name, rank it by the *unrounded* value.
 
 ### 18. Check that the capstone obeys the rule its own chapters teach
 An integrated capstone reimplements, in glue code, decisions the chapters made carefully
-in isolation. That glue is where a rule quietly gets dropped: a value restated instead of
-passed through, a stage handed a number that skips a term the previous stage computed.
+in isolation. That glue is where a rule gets dropped without anyone noticing. A value
+restated instead of passed through, or a stage handed a number that skips a term the
+previous stage computed.
 Nothing fails, because the fixture has slack, and the flagship artifact ends up
 demonstrating the mistake the course exists to prevent. Derive every downstream input
 from the upstream decision object, and add a counterfactual sized to sit *between* the
@@ -288,14 +288,14 @@ Each is a symptom the reader would notice, its real diagnosis, and the fix.
 |---------|---------|-----------|-----|
 | **07: hybrid** | 50/50 hybrid ranked the answer worse than vector-only | Keyword search was *confidently wrong* on a paraphrase (answer says "export," query doesn't); naive blending inherited the mistake | Rewrote as an honest fusion tour (50/50 → RRF → vector-weighted); reframed "strictly better" as a tradeoff |
 | **10: query transformation** | No visible difference; nonsense preview | Default query already ranked the answer #1; answer buried mid-chunk so the preview showed the wrong sentence | Heading-aware chunks + an oblique query where direct genuinely fails; narrative anchored on the reliable score lift |
-| **11: contextual retrieval** | Plain and contextual returned identical results | Main corpus is too self-contained to be under-specified; strong embeddings already nail it | Inline three-plan mini-corpus isolating the disambiguation case |
+| **11: contextual retrieval** | Plain and contextual returned identical results | Main corpus is too self-contained to be under-specified, and strong embeddings already nail it | Inline three-plan mini-corpus isolating the disambiguation case |
 | **13: chunking** | (new lesson) fixed-size merges two topics | A word-window ignores document structure | `chunk_markdown_sections`; shown as the fix for the ex07 merge |
 | **all previews** | preview text unrelated to the question | Showed the chunk's first N chars, not the match | `rag.snippet`: keyword-in-context, shared across examples |
-| **evals 13: faithfulness** | loose prompt scores 5/5 on the SSO question despite no context support | Not a bug: the cheap judge deterministically treats negation-from-omission ("no SSO" inferred from silence) as faithful, against the rubric's intent | Kept the row; added a printed callout framing it as live judge unreliability (ties to ex08); calibrate against human labels |
+| **evals 13: faithfulness** | loose prompt scores 5/5 on the SSO question despite no context support | Not a bug. The cheap judge deterministically treats negation-from-omission ("no SSO" inferred from silence) as faithful, against the rubric's intent | Kept the row; added a printed callout framing it as live judge unreliability (ties to ex08); calibrate against human labels |
 | **capstone: local vs cloud** | local citation metrics dropped sharply | 11 of 14 "failures" cited real sources in a grouped format the strict parser rejects (only 3 ungrounded); and a swapped judge would have confounded the correctness delta | Pinned the judge constant across runs; reported the gap as format-compliance + latency, not accuracy |
 | **capstone: ext-local generality** | "works with any OpenAI-compatible runner" held on Ollama/qwen3:8b | a thinking model (qwen3.6 on LM Studio, another machine) returned blank: reasoning consumed the whole token budget; invisible on the first setup | Tested a deliberately different second runner+model; added the `LOCAL_MAX_TOKENS` fix and bounded the claim with the caveat |
 | **capstone: 35B remote eval** | a bigger local model was predicted to beat the 8b / close the gap | it only *tied* cloud on correctness; hit@k was the sole metric that fell (0.886→0.829), isolating the 0.6B embedder (not the strong answerer) as the weak link | Published the refuted prediction; lesson: on a local RAG stack, upgrade the embedder before the generator |
-| **observability: simulator** | how do you teach *detecting* drift when logs have no "was this good?" label? | that's the real problem: a synthetic env that leaks the label makes the detector read the answer, not infer it | Emit realistic logs only; keep the incident schedule as a private answer key used to grade the detector (lag, catch/miss) |
+| **observability: simulator** | how do you teach detecting drift when logs have no "was this good?" label? | that is the real problem, because a synthetic environment that leaks the label makes the detector read the answer instead of inferring it | Emit realistic logs only; keep the incident schedule as a private answer key used to grade the detector (lag, catch/miss) |
 | **observability: segmentation** | the intended "a cohort problem hides in the global average" didn't hide | error rate has ~zero baseline variance, so even a small global bump is many sigma, so the global detector fired | Measured, then switched the incident from cohort error rate to cohort *latency*, which genuinely vanishes into the noisy global p95; didn't loosen the threshold to fake it |
 | **ai-in-production 08: output PII guard** | example "redacts PII" but the guard fired on nothing, then, once "fixed," on the app's own support email | the claimed layer never triggered (no PII on the path); the first fix redacted a *wanted* value, inverting what the guard is for | Leak a *third-party* email so redaction removes what doesn't belong; verified LLM redactors over-redact too (strip the wanted address); pair any redactor with an allowlist |
 
@@ -311,7 +311,7 @@ Each is a symptom the reader would notice, its real diagnosis, and the fix.
 6. **Is the display honest?** Relative scores labeled as such; previews centered on the match.
 7. **If the effect won't reproduce,** isolate it in a tiny purpose-built corpus, or, if you measured that this instance genuinely doesn't show the effect, switch to one that does; don't rig a threshold to fake it.
 8. **If you're teaching detection/inference,** is the ground-truth label *out* of the observable data, and does the signal come from a real simulated change rather than a stamped-in value?
-9. **If you're demoing a guardrail/filter,** does it remove what genuinely doesn't belong, not a value that should stay? A filter firing on screen isn't proof it's doing its job.
+9. **If you're demoing a guardrail or filter,** does it remove what genuinely doesn't belong rather than a value that should stay? A filter firing on screen is no proof it is doing its job.
 10. **If a decision takes a max or top-1 over rounded values,** does the output show everything that tied, and is the named winner ranked by the unrounded number?
 11. **If it's an integrated capstone,** does each stage take its inputs from the previous stage's output rather than restating them, and is there a counterfactual sized between the right number and the plausible wrong one?
 
@@ -323,5 +323,5 @@ synthetic-log environment (which added the detection-specific principles 13–15
 hardening the ai-in-production dive's guardrail examples (principle 16), and auditing
 the inference platform dive after it was finished, which is where the two
 arithmetic-and-glue principles (17–18) came from. They generalize to any runnable
-teaching material: the reader believes the output, so the output has to be worth
+teaching material. The reader believes the output, so the output has to be worth
 believing.*
