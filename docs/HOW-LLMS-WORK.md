@@ -1,31 +1,31 @@
 # How LLMs actually work: a plain-English primer
 
 The [deep dives](../README.md) start at the API call and stay hands-on. This page fills
-in the *mental model underneath*: what a large language model (LLM) actually is, how
-it got that way, and why it behaves the way it does. You don't need this to start,
-but the first time the model hallucinates, ignores an instruction, or "thinks" before
-answering, it helps to know what's going on. No math; just the ideas.
+in the mental model underneath. What a large language model (LLM) actually is, how it
+got that way, and why it behaves the way it does. You don't need any of it to start.
+But the first time the model hallucinates, ignores an instruction, or "thinks" before
+answering, it helps to know what is going on. No math, just the ideas.
 
 See also: [GLOSSARY.md](GLOSSARY.md) for one-line definitions · [MODELS.md](MODELS.md)
 for which model to pick · [CHOOSING.md](CHOOSING.md) for which technique.
 
 ---
 
-## 1. The one thing an LLM does: predict the next token
+## 1. An LLM predicts the next token
 
-Strip away everything else and a language model does exactly one thing:
+Strip away everything else and a language model does exactly one thing.
 
 > **Given some text, it predicts what comes next, one token at a time.**
 
-A **token** is a chunk of text, usually a word-fragment (~4 characters of English; see
-the API dives). The model reads your text as a sequence of tokens and outputs a
-*probability for every possible next token*. It picks one, appends it, and repeats,
-feeding its own output back in, until it decides to stop. The fluent paragraph you
-get back is that loop run a few hundred times.
+A **token** is a chunk of text, usually a word fragment of about four characters of
+English. The API dives go into it. The model reads your text as a sequence of tokens
+and outputs a probability for every possible next token. It picks one, appends it, and
+repeats, feeding its own output back in, until it decides to stop. The fluent paragraph
+you get back is that loop run a few hundred times.
 
-That's the whole engine. "Write me an email," "is there a bug in this code," "what's
-the capital of France": to the model these are all the same task, *continue this text
-plausibly.* Everything else in these dives is about steering that continuation.
+That is the whole engine. "Write me an email", "is there a bug in this code", "what's
+the capital of France" are all one task to the model, which is to continue this text
+plausibly. Everything else in these dives is about steering that continuation.
 
 ```
 your prompt ──▶ [model] ──▶ P(next token)  ──pick──▶ token ──┐
@@ -33,123 +33,126 @@ your prompt ──▶ [model] ──▶ P(next token)  ──pick──▶ token
                    └──────────── append, repeat ◀────────────┘
 ```
 
-A consequence worth holding onto: the model has **no memory** between requests. Each
-call, it re-reads the whole conversation you send and continues it. "Memory" is just
-you resending the growing transcript, which is why the [Context Engineering](../context-engineering-deep-dive/)
-dive exists.
+One consequence is worth holding onto. The model has no memory between requests. On
+every call it re-reads the whole conversation you send and continues it. "Memory" is
+you resending the growing transcript, which is why the
+[Context Engineering](../context-engineering-deep-dive/) dive exists.
 
 ---
 
-## 2. Where the ability comes from: two stages of training
+## 2. Two stages of training
 
-A model isn't programmed with facts and rules; it's **trained**: its billions of
-internal numbers (**parameters** or "weights") are tuned by showing it text. This
-happens in two very different stages.
+Nobody programs a model with facts and rules. Training tunes its billions of internal
+numbers, called **parameters** or weights, by showing it text. That happens in two very
+different stages.
 
-**Stage 1, Pretraining: learn to predict, from the whole internet.**
-The base model is shown an enormous amount of text (books, code, web pages) and made
-to play "guess the next token" trillions of times. To get good at *that*, it has to
-absorb grammar, facts, styles, reasoning patterns, code, because all of those help
-predict the next word. This stage is where the model's **knowledge** comes from, and
-it's frozen at the moment training stopped (the **knowledge cutoff**). Pretraining
-costs millions of dollars and produces a model that can continue text but isn't yet a
-helpful *assistant*; it'll happily continue your question with *more questions*.
+**Stage 1, pretraining.** The base model reads an enormous amount of text (books, code,
+web pages) and plays "guess the next token" trillions of times. Getting good at that
+forces it to absorb grammar, facts, styles, reasoning patterns, and code, because all
+of those help predict the next word. This stage is where the model's knowledge comes
+from, and it freezes at the moment training stopped, which is the **knowledge cutoff**.
+Pretraining costs millions of dollars and produces a model that can continue text
+without being a helpful assistant yet. It will happily continue your question with more
+questions.
 
-**Stage 2, Post-training: learn to be a helpful, safe assistant.**
-A much smaller, more careful stage turns the raw predictor into something you'd want
-to talk to:
-- **Instruction tuning**: fine-tune on examples of *instruction -> good response*, so
-  the model learns to *answer* rather than just continue.
-- **RLHF (reinforcement learning from human feedback)**: humans rank competing
-  answers; the model is nudged toward the kind people prefer (helpful, honest,
-  harmless). This is where "personality" and refusals largely come from.
+**Stage 2, post-training.** A much smaller and more careful stage turns the raw
+predictor into something you would want to talk to.
 
-The [Fine-tuning dive](../fine-tuning-deep-dive/) is this same idea you can do yourself:
-teach a model a *behavior* by example. The key split it hammers on, **pretraining
-gives knowledge, post-training shapes behavior**, is exactly why "make it answer in
-our format" is a fine-tuning job but "make it know our docs" is a [RAG](../rag-deep-dive/)
-job.
+- **Instruction tuning** fine-tunes on examples of an instruction paired with a good
+  response, so the model learns to answer instead of continuing.
+- **RLHF (reinforcement learning from human feedback)** has humans rank competing
+  answers, then nudges the model toward the kind people prefer: helpful, honest,
+  harmless. Most of what you think of as "personality", and most refusals, come from
+  here.
+
+The [Fine-tuning dive](../fine-tuning-deep-dive/) is this same idea at a scale you can
+run yourself, teaching a model a behavior by example. Pretraining gives knowledge and
+post-training shapes behavior. That split is why "make it answer in our format" is a
+fine-tuning job while "make it know our docs" is a [RAG](../rag-deep-dive/) job.
 
 ---
 
 ## 3. Why it hallucinates
 
 A **hallucination** is the model stating something false with total confidence. Once
-you know it's a next-token predictor, this stops being mysterious:
+you know it is a next-token predictor, this stops being mysterious.
 
-- The model optimizes for *plausible*, not *true*. A confident, well-formed wrong
+- The model optimizes for plausible rather than true. A confident, well-formed wrong
   answer is often a better next-token continuation than "I'm not sure."
-- It has **no database to look things up in**: facts are smeared across its weights
-  as statistical tendencies, not stored records. Ask about something rare or
-  post-cutoff and it will *generate* a plausible-shaped answer anyway.
-- It can't tell what it doesn't know. There's no little "confidence meter" gating
-  output (though [logprobs](../openai-api-deep-dive/) are a rough proxy).
+- It has no database to look things up in. Facts are smeared across its weights as
+  statistical tendencies rather than stored as records. Ask about something rare or
+  post-cutoff and it will generate a plausible-shaped answer anyway.
+- It cannot tell what it does not know. No confidence meter gates the output, although
+  [logprobs](../openai-api-deep-dive/) are a rough proxy.
 
-The engineering response is not "find a model that never lies"; it's **don't rely on
-the model's memory for facts that matter.** Put the facts in the prompt and tell it to
-answer only from them ([RAG](../rag-deep-dive/): grounding and citations), and *measure*
-whether the answer stayed grounded ([Evals](../evals-deep-dive/): faithfulness). The
-[Context Engineering](../context-engineering-deep-dive/) dive is largely about getting the
-*right* text in front of the model so it doesn't have to guess.
-
----
-
-## 4. Sampling: why the same prompt gives different answers
-
-The model outputs *probabilities*, and something has to choose an actual token from
-them. That chooser has a knob: **temperature**.
-
-- **temperature 0**: always take the most likely token. Nearly deterministic; best
-  for facts, extraction, classification, code.
-- **higher temperature**: sometimes pick a less-likely token. More varied and
-  "creative," and more error-prone.
-
-This is why an LLM isn't a calculator that returns the same thing every time, and why
-a single good (or bad) result is a *sample*, not the truth, a fact the
-[Evals](../evals-deep-dive/) dive takes seriously (run it several times; report a range,
-not one number). The sampling knobs (temperature, top_p, stop, seed) are covered
-hands-on in the [API](../openai-api-deep-dive/) and [Prompt Engineering](../prompt-engineering-deep-dive/)
-dives.
+The engineering response is to stop relying on the model's memory for facts that
+matter. Put the facts in the prompt and tell it to answer only from them, which is what
+[RAG](../rag-deep-dive/) does with grounding and citations. Then measure whether the
+answer stayed grounded, which is what [Evals](../evals-deep-dive/) calls faithfulness.
+The [Context Engineering](../context-engineering-deep-dive/) dive is largely about
+getting the right text in front of the model so it does not have to guess.
 
 ---
 
-## 5. The context window: the model's whole world, per request
+## 4. Why the same prompt gives different answers
 
-Everything the model can "see" for one request (your system prompt, the conversation
-so far, any documents you pasted, and the answer it's generating) has to fit in its
-**context window**, measured in tokens. Modern windows are large (128K–1M tokens) but
-finite, and three things follow:
+The model outputs probabilities, and something has to choose an actual token from them.
+That chooser has one main knob, **temperature**.
 
-1. **It's the only thing the model knows right now.** Not in the window = doesn't
-   exist, as far as this request is concerned.
-2. **It fills up.** Long conversations, big documents, and agent tool-results all
-   compete for the same budget, the subject of [Context Engineering](../context-engineering-deep-dive/).
-3. **You pay per token, in and out.** Cost and the context budget are the same
-   resource seen two ways ([MODELS.md](MODELS.md)).
+- At temperature 0 it always takes the most likely token. Nearly deterministic, and
+  best for facts, extraction, classification, and code.
+- At higher temperatures it sometimes picks a less likely token. More varied, more
+  "creative", and more error-prone.
+
+So an LLM is not a calculator that returns the same thing every time, and a single good
+or bad result is one sample rather than the truth. The [Evals](../evals-deep-dive/) dive
+takes that seriously: run it several times and report a range instead of one number.
+The [API](../openai-api-deep-dive/) and
+[Prompt Engineering](../prompt-engineering-deep-dive/) dives cover the sampling knobs
+(temperature, top_p, stop, seed) hands-on.
+
+---
+
+## 5. The context window is the model's whole world for one request
+
+Everything the model can see for one request has to fit in its **context window**,
+measured in tokens. That means your system prompt, the conversation so far, any
+documents you pasted, and the answer it is generating. Today's windows are large,
+128K to 1M tokens, and still finite. Three things follow.
+
+1. **It is the only thing the model knows right now.** Anything not in the window does
+   not exist as far as this request is concerned.
+2. **It fills up.** Long conversations, big documents, and agent tool results all
+   compete for the same budget, which is the subject of
+   [Context Engineering](../context-engineering-deep-dive/).
+3. **You pay per token, in and out.** Cost and the context budget are one resource seen
+   two ways. See [MODELS.md](MODELS.md).
 
 ---
 
 ## 6. "Reasoning" models, briefly
 
 Newer **reasoning models** (OpenAI's o-series, Claude's extended thinking) do the same
-next-token prediction, but they're trained to first generate a long *hidden* chain of
-thought, working through the problem step by step, before writing the visible
-answer. That extra "thinking" markedly improves math, logic, and coding, at the cost
-of more tokens (you pay for the hidden reasoning) and more latency.
+next-token prediction. They are trained to first generate a long hidden chain of
+thought, working through the problem step by step, before writing the visible answer.
+That extra thinking buys a lot on math, logic, and coding. You pay for it in tokens,
+since the hidden reasoning is billed, and in latency.
 
-The practical twist, covered in the [Prompt Engineering](../prompt-engineering-deep-dive/)
-dive: you prompt them *differently*. Don't say "think step by step"; they already do.
-Give the goal and constraints and get out of the way.
+You also prompt them differently, which the
+[Prompt Engineering](../prompt-engineering-deep-dive/) dive covers. Don't say "think
+step by step". They already do. Give the goal and the constraints and get out of the
+way.
 
 ---
 
-## 7. Embeddings: the other thing models give you
+## 7. Embeddings, the other thing models give you
 
-Alongside generating text, models can turn a piece of text into an **embedding**: a
-list of numbers (a vector) that captures its *meaning*, such that texts with similar
-meanings get similar vectors. That's the engine of semantic search: find the stored
-text whose meaning is closest to a question, even if they share no words. It's the
-foundation of [RAG](../rag-deep-dive/) and of long-term memory in [Context Engineering](../context-engineering-deep-dive/).
+Models can also turn a piece of text into an **embedding**, a list of numbers that
+captures its meaning closely enough that texts with similar meanings get similar
+numbers. That is the engine of semantic search. Find the stored text whose meaning is
+closest to a question, even when the two share no words at all. It is what
+[RAG](../rag-deep-dive/) is built on, and what long-term memory in
+[Context Engineering](../context-engineering-deep-dive/) is built on.
 
 ---
 
@@ -167,7 +170,7 @@ The whole series follows from these mechanics:
 | can't actually *do* anything by itself | give it tools and a loop | [Agents](../agents-deep-dive/) |
 | treats all text in its window as equal | never trust untrusted text in the prompt | [Prompt Injection & Guardrails](../prompt-injection-deep-dive/) |
 
-None of these are tricks to make a different kind of model. They're all ways of
-working *with* a next-token predictor that has frozen knowledge, a fixed window, and a
-talent for sounding sure. Hold that picture and the rest of the series is just the
-practical details.
+None of these are tricks for turning the model into something else. They are all ways
+of working with a next-token predictor that has frozen knowledge, a fixed window, and a
+talent for sounding sure. Hold that picture and the rest of the series is practical
+detail.
