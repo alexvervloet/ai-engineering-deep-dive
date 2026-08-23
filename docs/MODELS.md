@@ -1,10 +1,10 @@
-# Models & Pricing: a reference for the series
+# Models and pricing
 
-A quick, practical reference: the models these deep dives use, what they cost, and
-how to choose one. Part of the [AI Engineering Deep Dives](../README.md).
+Which models these deep dives use, what they cost, and how to choose one. Part of the
+[AI Engineering Deep Dives](../README.md).
 
-> ⚠️ **Prices and models change. This is a snapshot, last verified 2026-08-17.**
-> Always confirm against the provider's own page before relying on a number:
+> **Prices and models change. This is a snapshot, last verified 2026-08-17.**
+> Always confirm against the provider's own page before relying on a number.
 > [OpenAI pricing](https://platform.openai.com/docs/pricing) ·
 > [Anthropic pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 > For Claude you can also query live capability/price data with the **Models API**
@@ -16,18 +16,18 @@ how to choose one. Part of the [AI Engineering Deep Dives](../README.md).
 
 ## The one mental model
 
-You pay **per token**, and **input** (tokens you send) and **output** (tokens the
-model generates) are priced **separately**; output is several times more expensive.
-A "token" is roughly ¾ of a word (~4 characters) of English. Prices below are in
-**US dollars per 1,000,000 tokens**.
+You pay per token. Input tokens (the ones you send) and output tokens (the ones the
+model generates) are priced separately, and output costs several times more. A token is
+roughly three quarters of an English word, about four characters. Prices below are US
+dollars per 1,000,000 tokens.
 
 ```
 cost ≈ (input_tokens × input_price + output_tokens × output_price) / 1,000,000
 ```
 
-Two levers shrink the bill without changing the model: **prompt caching** (a long,
-repeated prefix bills at ~0.1× on cache reads) and the **Batch API** (non-urgent
-work at 50% off). Both are covered in the API dives.
+Two levers shrink the bill without changing the model. Prompt caching bills a long,
+repeated prefix at about 0.1× on cache reads, and the Batch API takes 50% off
+non-urgent work. The API dives cover both.
 
 ---
 
@@ -35,8 +35,8 @@ work at 50% off). Both are covered in the API dives.
 
 ### OpenAI
 
-Prices and limits verified 2026-08-17. Everything current is on the GPT-5 line; the GPT-4
-models below still serve but are a generation behind.
+Prices and limits verified 2026-08-17. Everything current sits on the GPT-5 line. The
+GPT-4 models below still work, one generation behind.
 
 | Model | Input $/1M | Output $/1M | Context | Notes |
 |-------|-----------:|------------:|--------:|-------|
@@ -54,17 +54,16 @@ models below still serve but are a generation behind.
 > The 5.6 tiers reject `temperature`, `top_p`, and function calling on
 > `/v1/chat/completions` unless you set `reasoning_effort: "none"` or move to the
 > Responses API. `gpt-5.4-nano` defaults `reasoning.effort` to `none`, so tools
-> and sampling knobs work the way the lessons describe, at the same price. This
-> is a real tradeoff, not an oversight: the newest model is not automatically
-> the right teaching default.
+> and sampling knobs work the way the lessons describe, at the same price. That is
+> a real tradeoff rather than an oversight. The newest model is not automatically the
+> right teaching default.
 
-> **Long-context pricing:** for all three GPT-5.6 tiers, requests with more than
-> 272K input tokens are billed at **2× input and 1.5× output for the full
-> request**. Cache writes cost 1.25× the uncached input rate. A 1.05M context
-> window is a capacity limit, not a promise that every token costs the base rate.
+> **Long-context pricing.** On all three GPT-5.6 tiers, a request with more than 272K
+> input tokens bills at 2× input and 1.5× output for the whole request. Cache writes
+> cost 1.25× the uncached input rate. A 1.05M context window is a capacity limit, not
+> a promise that every token costs the base rate.
 
-**Three parameter changes on the GPT-5 line** that will bite code written for
-GPT-4:
+Three parameter changes on the GPT-5 line will bite code written for GPT-4.
 
 | Parameter | What happened |
 |-----------|---------------|
@@ -83,9 +82,9 @@ GPT-4:
 | Claude Opus 5 | `claude-opus-5` | 5.00 | 25.00 | 1M |
 | Claude Fable 5 | `claude-fable-5` | 10.00 | 50.00 | 1M |
 
-The Claude dives default to **`claude-haiku-4-5`** for cheap iteration. Use exact
-model IDs as written; don't append date suffixes. (Older Opus 4.6/4.7 are also
-active at the same $5/$25 as 4.8.)
+The Claude dives default to `claude-haiku-4-5` for cheap iteration. Use the exact model
+IDs as written and don't append date suffixes. Older Opus 4.6 and 4.7 are also active,
+at the same $5/$25 as 4.8.
 
 Two things to know if you move the Claude dives off Haiku 4.5:
 
@@ -98,16 +97,16 @@ Two things to know if you move the Claude dives off Haiku 4.5:
   and a couple of dives use it to force JSON. Use structured outputs instead if
   you upgrade.
 
-> Anthropic has no first-party embeddings model; it recommends **Voyage AI**
-> (separate SDK + key). Voyage embedding prices: `voyage-3.5-lite` $0.02,
-> `voyage-3.5` $0.06, `voyage-3-large` / `voyage-code-3` $0.18 per 1M input tokens.
+> Anthropic has no first-party embeddings model and recommends Voyage AI, which needs
+> its own SDK and key. Voyage embedding prices per 1M input tokens: `voyage-3.5-lite`
+> $0.02, `voyage-3.5` $0.06, `voyage-3-large` and `voyage-code-3` $0.18.
 
 ---
 
 ## Embedding models
 
-Embeddings turn text into a vector for search/RAG. There's no "output," so you pay
-only for **input** tokens, and they're cheap.
+Embeddings turn text into a vector for search and RAG. There is no output, so you pay
+for input tokens only, and they are cheap.
 
 | Model | Provider | $/1M input |
 |-------|----------|-----------:|
@@ -132,10 +131,10 @@ only for **input** tokens, and they're cheap.
 | Privacy-sensitive or very high volume | a **local** open-weight model (zero per-token cost; see the Local Models dive) |
 | A repeated, fixed-format task you can cheapen | **fine-tune** a small model (see the Fine-tuning dive) |
 
-Rules of thumb: **start cheap and only move up when an eval says you need to**
-(that's what the Evals dive is for); **don't pay top-tier prices for bottom-tier
-questions** (route by difficulty; see the Production dive's model-routing lesson);
-and **measure cost before you ship**, not after.
+Three rules of thumb. Start cheap and move up only when an eval says you need to, which
+is what the Evals dive is for. Don't pay top-tier prices for bottom-tier questions, so
+route by difficulty, as the Production dive's model-routing lesson shows. And measure
+cost before you ship rather than after.
 
 ---
 
