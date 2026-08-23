@@ -43,6 +43,32 @@ what an index costs to keep, which is where the money and most of the bugs are.
   concrete `VectorStore`, which is the repo's central claim stated in the type
   system: retrieval does not care where the vectors live.
 
+### Fixed
+
+A review of the above found four defects in one family: a sync that reported
+success while leaving the index wrong, and stored hashes that then agreed there
+was nothing left to do. All are closed, and `tests/test_pgstore.py` (14 tests,
+no API calls, skipped without a database) now asserts each one; nine of them
+fail against the code as first written.
+
+- **A document emptied upstream keeps nothing.** The write loop skipped any
+  document that produced no chunks, so emptying a page left its old chunks
+  retrievable and its hash unadvanced, which made every later sync re-report the
+  same edit and do nothing about it.
+- **The table rebuild is inside the transaction it belongs to.** Its DDL was
+  committed first, so a crash in between left an empty chunk table beside a full
+  document table whose hashes all read "unchanged": a permanently empty index
+  that no later sync would repair. Postgres does DDL transactionally.
+- **A model narrowed under the same name is caught.** The dimension comparison
+  was unreachable, because the caller built the object it compared against with
+  the stored width copied in. OpenAI's `dimensions=` is exactly this case. A
+  rebuild discovered after embedding now re-embeds the whole corpus rather than
+  writing only the documents that happened to change, which had been dropping
+  the rest of the index while reporting a successful rebuild.
+- **`RAG_DATABASE_URL` in `.env` reaches the capstone.** It was read as an
+  argparse default, which is evaluated before `load_dotenv()`, so the flag fell
+  back to the compose service and a run against the wrong database looked fine.
+
 ---
 
 ## 2026-08-23: evals-deep-dive decision-statistics audit follow-ups
