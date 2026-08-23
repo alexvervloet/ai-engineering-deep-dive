@@ -154,6 +154,7 @@ claim = "Validate synthetic traffic, drift, alerting, dashboard, and OTel paths 
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
 commands = [
   ["python", "check_setup.py"],
+  ["python", "-m", "unittest", "discover", "-s", "tests"],
   ["python", "examples/09_otel_export.py"],
 ]
 environment = { PROVIDER = "mock", NO_COLOR = "1" }
