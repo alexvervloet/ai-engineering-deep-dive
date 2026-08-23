@@ -304,7 +304,7 @@ python examples\02_offline.py          # offline examples need no wrapper
 ## Any OS: 1Password, Doppler, Vault
 
 Team-grade secrets managers inject secrets on demand and work identically on every
-OS, often the most robust option here, with central rotation and audit on top. No
+OS, often the strongest option here, with central rotation and audit on top. No
 `secrun` needed: the tool *is* the wrapper.
 
 **1Password** ([`op` CLI](https://developer.1password.com/docs/cli/)). Store the
