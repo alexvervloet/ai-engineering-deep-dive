@@ -233,30 +233,30 @@ scores into one decision number. *(Evals §5)*
 
 **Confidence interval**: a range produced by a stated procedure for an unknown
 effect. It shows uncertainty; it does not decide what size of change matters.
-*(Evals §5.9)*
+*(Evals §10, Example 14)*
 
 **Paired comparison / paired bootstrap**: compare control and candidate on the same
 cases, then resample whole case-level differences. Pairing preserves shared case
 difficulty; list position is trustworthy only when a case ID established the match.
-*(Evals §5.9, Example 14)*
+*(Evals, Example 14)*
 
 **Statistical significance / practical significance**: statistical significance asks
 whether an interval clears zero; practical significance asks whether it clears a
 predeclared minimum useful effect. A precise tiny gain can satisfy the first and fail
-the second. *(Evals §5.9)*
+the second. *(Evals, Example 14)*
 
 **Power / minimum detectable effect (MDE)**: power is the planned probability of
 detecting a specified real effect; the MDE is the smallest effect a design can
 reliably detect at its chosen sample size and error rates. Both belong in the plan,
-before outcomes are observed. *(Evals §5.9)*
+before outcomes are observed. *(Evals, Example 14)*
 
 **Multiple-comparison risk / family-wise error**: testing many metrics creates more
 opportunities for at least one false positive. Bonferroni is a conservative way to
-divide a family error budget across declared comparisons. *(Evals §5.9)*
+divide a family error budget across declared comparisons. *(Evals, Example 14)*
 
 **Sequential test / alpha spending**: a design that permits predeclared interim
 looks while accounting for the repeated chances to stop. Repeatedly checking an
-ordinary fixed-horizon interval is not a valid sequential design. *(Evals §5.9)*
+ordinary fixed-horizon interval is not a valid sequential design. *(Evals, Example 14)*
 
 **Inter-annotator agreement / Cohen's kappa**: how much human labelers agree
 (corrected for chance); low agreement means noisy "ground truth." *(Evals)*
