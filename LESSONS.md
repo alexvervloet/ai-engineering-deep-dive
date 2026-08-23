@@ -37,14 +37,16 @@ Git environment when `.git` is mounted read-only inside the workspace sandbox.
 
 ## Root-level unittest discovery is not universal across legacy dives
 
-- **Expected:** the capstone README command `python -m unittest discover -v`
-  would execute its tracked `tests/test_*.py` files from the submodule root.
-- **Actual:** Python 3.13 reported zero tests and exited nonzero because that legacy
-  `tests/` directory is not importable. Explicit `discover -s tests -v` ran 71
-  tests successfully without modifying the user's dirty submodule.
-- **Next time:** validate every declared root command instead of inferring it from
-  prose. For legacy layouts without `tests/__init__.py`, give unittest an explicit
-  start directory and retain a nonempty-suite assertion where the repo owns CI.
+Expected: the capstone README command `python -m unittest discover -v` would run its
+tracked `tests/test_*.py` files from the submodule root.
+
+Actual: Python 3.13 reported zero tests and exited nonzero, because that legacy
+`tests/` directory is not importable. An explicit `discover -s tests -v` ran all 71
+tests without touching the user's dirty submodule.
+
+Next time: validate every declared root command instead of inferring it from prose.
+For legacy layouts with no `tests/__init__.py`, give unittest an explicit start
+directory, and keep a nonempty-suite assertion wherever the repo owns CI.
 
 ## 2026-08-20: Inspect tracked history before adding an apparently absent file
 
@@ -99,17 +101,17 @@ every `../SECRETS.md` to `../docs/SECRETS.md`, confirm the link checker goes gre
 done.
 
 Actual: the link checker went green while two classes of reference stayed broken,
-because neither is a Markdown link. The capstone documents its eval fixtures as
+because neither one is a Markdown link. The capstone documents its eval fixtures as
 shell commands (`askrepo ask ... --context ../MODELS.md`) inside backticks, and a
-dozen dive READMEs point at `../SECRETS.md` from within `#` comment blocks in setup
-snippets. A reader follows both; no link checker sees either. The eval fixture is
-the worse of the two: it is a path the reader is told to type, so a stale one makes
-the documented command fail rather than merely 404.
+dozen dive READMEs point at `../SECRETS.md` from inside `#` comment blocks in setup
+snippets. A reader follows both. No link checker sees either. The eval fixture is the
+worse of the two, because it is a path the reader is told to type, so a stale one
+makes the documented command fail instead of merely 404ing.
 
-The move was safe in one respect that could easily have gone the other way:
-`askrepo`'s indexer selects its corpus by file extension rather than by an explicit
-file list, so `docs/` was picked up with no change. A hardcoded manifest would have
-silently shrunk the corpus and quietly changed every eval score.
+The move was safe in one respect that could easily have gone the other way.
+`askrepo`'s indexer picks its corpus by file extension rather than from an explicit
+file list, so `docs/` came along with no change at all. A hardcoded manifest would
+have shrunk the corpus without saying so and changed every eval score with it.
 
 Next time: after moving a file, grep for the bare filename across every extension,
 not just `*.md`, and not just inside link syntax. The link checker is a floor, not a
