@@ -17,8 +17,8 @@ of the [AI Engineering Deep Dives](../README.md).
 > **Most AI incidents are not outages. They are the system working, confidently, and
 > being wrong.**
 
-A crashed service pages you. A retrieval index that quietly went stale three weeks
-ago does not. This changes the job in two ways. Detection has to be something you
+A crashed service pages you. A retrieval index that went stale three weeks ago and told
+nobody does not. This changes the job in two ways. Detection has to be something you
 built on purpose, because failure is not self-announcing. And containment is usually
 about narrowing what the system is allowed to do, not about restarting it, because
 restarting a confidently wrong system gives you a confidently wrong system.
