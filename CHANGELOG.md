@@ -40,8 +40,8 @@ what an index costs to keep, which is where the money and most of the bugs are.
 ### Changed
 
 - The pipeline is typed against a `SupportsSearch` protocol rather than the
-  concrete `VectorStore`, which is the repo's central claim stated in the type
-  system: retrieval does not care where the vectors live.
+  concrete `VectorStore`. That puts the repo's central claim into the type system.
+  Retrieval does not care where the vectors live.
 
 ### Fixed
 
@@ -261,8 +261,8 @@ a page makes a claim, it names the dive that proves it rather than asserting it.
 
 Evals answer whether the application is good enough. Production answers what the
 runtime around a model call must do. This chapter answers the question that sits
-between them and is usually settled by vibes: has this exact build earned promotion,
-and can it be taken back if it has not?
+between them and is usually settled by vibes. Does this exact build qualify for
+promotion, and can you take it back if it does not?
 
 ### Added
 
@@ -338,7 +338,7 @@ bare Python 3.13 virtual environment without its declared build backend.
 ## 2026-08-18: genai-security-deep-dive, chapter 20
 
 The [Prompt Injection](prompt-injection-deep-dive/) dive covers one attack on one
-surface: the text the model reads. Everything else a production system is made of,
+place, the text the model reads. Everything else a production system is made of,
 identities, tools, build artifacts, retrieval indexes, interpreters, networks, and
 budgets, can fail without a single crafted prompt. This dive is that larger system.
 
@@ -379,7 +379,7 @@ worth carrying into any release gate:
 - The benign-utility probe returned a hardcoded `ALLOW`, so the measurement that
   catches an over-blocking regression was a constant.
 
-The common thread: each was a check whose expectation came from its own input.
+Every one of them was a check that took its expected answer from its own input.
 Probe outcomes now carry the control that decided them into
 `security-report.json`, which is what makes that class of defect visible.
 
@@ -498,10 +498,9 @@ operationalizes it) rather than becoming an essay.
 - **Where your data came from.** Provenance notes per source, consent, the
   difference between deleting a row from a RAG index and retraining a fine-tune,
   output copyright, and annotation labor.
-- **The footprint.** Framed honestly: published per-query numbers disagree by
-  orders of magnitude because they measure different things, and the lever you
-  actually have (smaller model, caching, shorter contexts, fewer agent steps) is
-  the same lever as cost.
+- **The footprint.** Published per-query numbers disagree by orders of magnitude
+  because they measure different things. The lever you actually have (smaller
+  model, caching, shorter contexts, fewer agent steps) is the same lever as cost.
 - **Autonomy changes the calculus.** Sort actions by reversibility, not
   difficulty.
 - **The rules stopped being hypothetical.** Dated August 2026 and sourced.
@@ -529,8 +528,8 @@ before relying on it, in the same spirit as MODELS.md and prices:
 | US state companion-chatbot laws | 12 states enacted in the first half of 2026 |
 | Colorado | HB 26-1263 signed 1 Jul 2026, effective 1 Jan 2027; SB 26-189 repealed and re-enacted the Colorado AI Act, duties from 1 Jan 2027 |
 
-The pattern worth noting: the disclosure and crisis-handling behavior this page
-argued for on its own merits is the behavior the statutes are converging on.
+The disclosure and crisis-handling behavior this page argued for on its own merits
+turns out to be the behavior the statutes are converging on.
 
 ---
 
