@@ -1,5 +1,25 @@
 # Lessons
 
+## 2026-08-24: CodeQL's quality suite drowned the security findings
+
+**Expected.** Turning on CodeQL with `security-and-quality` would give readers a
+public Security tab worth looking at.
+
+**What happened.** The first run produced 112 open alerts. Eleven were security
+findings. The other 101 were quality notes: unused imports, and `py/unsafe-cyclic-import`
+fired repeatedly on the `architecture-deep-dive` provider-seam variants, which are
+near-identical `app.py` files by design because the whole chapter is the same app
+rewritten five ways. A tab with 112 alerts on it argues against the repo instead of
+for it, which is the opposite of why it was published.
+
+**Next time.** Use `security-extended` on a teaching repo. The quality suite is aimed
+at a codebase you are maintaining, not one where the duplication and the deliberate
+mistakes are the lesson. Switching suites auto-closed all 101 quality alerts on the
+next run.
+
+**Also.** The dismissal API wants `used in tests` and `false positive` with spaces.
+The underscore forms that appear in most examples return HTTP 422.
+
 ## 2026-08-17: Check the global agent instructions explicitly
 
 Expected: repository-local instruction discovery would find the applicable
