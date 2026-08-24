@@ -1,5 +1,7 @@
 # AI Engineering: Deep Dives
 
+[![Verify offline paths](https://github.com/alexvervloet/ai-engineering-deep-dive/actions/workflows/verify-offline.yml/badge.svg)](https://github.com/alexvervloet/ai-engineering-deep-dive/actions/workflows/verify-offline.yml)
+
 A series of hands-on, build-it-from-scratch courses for learning to build with LLMs.
 Each one is a standalone repository you walk through. Every concept is a small
 runnable Python script, every section ends with something to run, and in most repos
@@ -24,6 +26,29 @@ description · [SAFETY.md](docs/SAFETY.md), the cross-cutting safety view ·
 [INCIDENTS.md](docs/INCIDENTS.md), playbooks for when it goes wrong ·
 [AI-UX.md](docs/AI-UX.md), the interface as part of the safety system ·
 [SECRETS.md](docs/SECRETS.md), where your API keys go (not `.env`).
+
+---
+
+## Is this safe to run?
+
+A fair thing to ask of a stranger's repo, so here is the short version. The details,
+including what to do if you find something, are in [SECURITY.md](SECURITY.md).
+
+- No install script, and nothing here asks you to pipe a URL into a shell.
+- No binaries. The parent repo is markdown, two Python scripts, one workflow file,
+  and the social cards.
+- No telemetry. The only network calls go to the model provider you configure, and
+  lessons marked **(offline)** make none at all.
+- All 24 submodules point at repos under this same account. Check for yourself with
+  `git config -f .gitmodules --get-regexp url`.
+- Every commit is signed, and CI installs and runs the offline path of all 24 dives
+  on a clean GitHub runner on every push. Those logs are public and I do not control
+  the machine.
+
+What you are actually trusting is PyPI, because dependencies are version ranges
+rather than hash pins, and whichever model provider you point at. If you would rather
+not trust me at all, everything runs in a container, and the offline paths run with
+the network switched off.
 
 ---
 
@@ -194,7 +219,8 @@ Operating responsibly, the concerns no single dive owns:
 whether this should be an LLM at all) ·
 [GOVERNANCE.md](docs/GOVERNANCE.md) (who decides, on what record) ·
 [INCIDENTS.md](docs/INCIDENTS.md) (what to do at 2am) ·
-[AI-UX.md](docs/AI-UX.md) (the interface as part of the safety system).
+[AI-UX.md](docs/AI-UX.md) (the interface as part of the safety system) ·
+[SECURITY.md](SECURITY.md) (what this code does on your machine, and how to check).
 
 Four docs stay at the root, because each one mirrors a file every dive also has:
 [TEXTBOOK.md](TEXTBOOK.md), the series read as one book ·
