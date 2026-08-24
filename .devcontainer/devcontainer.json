@@ -1,0 +1,16 @@
+{
+  // Opens the series in a throwaway container, so you can run the lessons without
+  // deciding whether to trust the author. Each dive still makes its own venv:
+  //   cd openai-api-deep-dive && python3 -m venv .venv && source .venv/bin/activate
+  "name": "AI Engineering Deep Dives",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python", "charliermarsh.ruff"]
+    }
+  },
+  "postCreateCommand": "python3 --version && node --version"
+}
