@@ -117,3 +117,22 @@ Next time: after moving a file, grep for the bare filename across every extensio
 not just `*.md`, and not just inside link syntax. The link checker is a floor, not a
 verification. Check whether anything selects files by an explicit list before
 assuming a move is inert.
+
+## 2026-08-24: A numbering convention can be a tested invariant
+
+Expected: the Testing & Delivery textbook numbering its sections `## 1.` to `## 13.`
+was an inconsistency, since every other chapter numbers them `chapter.section`, and
+`docs/GLOSSARY.md` already cited that chapter as §23.x. Renumbering looked like a
+tidy-up with no consumer.
+
+Actual: `tests/test_manifest.py` asserts `^## <n>\. ` in TEXTBOOK.md for every lesson,
+because the bare numbers are what tie a lesson together across README, TEXTBOOK, and
+EXERCISES. The renumber turned that three-way correspondence into a failing test, and
+the parent's CI matrix caught it on push rather than anything local. The glossary's
+apparent off-by-one was not a defect either: it counts the chapter intro as §23.1, so
+its citations were already coherent.
+
+Next time: before renumbering or renaming anything a document uses as an identifier,
+grep the sibling test suite for the pattern, not just the prose. A heading that looks
+like formatting may be an interface. And when two files disagree about a numbering
+scheme, find out which one is enforced before deciding which one is wrong.
