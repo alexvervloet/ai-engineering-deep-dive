@@ -20,7 +20,7 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
 
@@ -49,7 +49,7 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         if: matrix.runtime == 'python'
         with:
           python-version: ${{ matrix.version }}
