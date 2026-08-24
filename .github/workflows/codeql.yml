@@ -1,0 +1,50 @@
+name: CodeQL
+
+# The parent repo holds almost no code of its own, so this checks out the
+# submodules and scans the dives themselves. That way a reader has one Security
+# tab to look at instead of twenty-four.
+#
+# Expect findings in prompt-injection-deep-dive and genai-security-deep-dive.
+# Those dives contain deliberately vulnerable toy systems and made-up secrets,
+# which is the point of them. Triage those alerts as used-in-tests rather than
+# fixing them.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    name: Analyze ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      security-events: write
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [python, javascript-typescript]
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-and-quality
+
+      - uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
