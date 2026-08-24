@@ -4,6 +4,10 @@ name: CodeQL
 # submodules and scans the dives themselves. That way a reader has one Security
 # tab to look at instead of twenty-four.
 #
+# security-extended, not security-and-quality. The quality suite buries eleven
+# real findings under a hundred unused-import and cyclic-import notes, and the
+# point of publishing this tab is that a reader can scan it.
+#
 # Expect findings in prompt-injection-deep-dive and genai-security-deep-dive.
 # Those dives contain deliberately vulnerable toy systems and made-up secrets,
 # which is the point of them. Triage those alerts as used-in-tests rather than
@@ -43,7 +47,7 @@ jobs:
       - uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
-          queries: security-and-quality
+          queries: security-extended
 
       - uses: github/codeql-action/analyze@v3
         with:
