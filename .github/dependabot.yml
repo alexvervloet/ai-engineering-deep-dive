@@ -1,0 +1,10 @@
+# Dependabot watches the workflow actions used by this repo. It does not follow
+# submodules, so each dive's requirements.txt is updated in its own repo.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "ci"
