@@ -45,6 +45,43 @@ re-sending the growing message list each turn. *(API dives; Agents §9)*
 
 ---
 
+## Model mechanics
+
+**Tensor**: an array whose axes have declared meanings, such as batch, sequence,
+head, or model width. Equal lengths do not make two axes interchangeable.
+*(ML Foundations §1)*
+
+**Affine layer**: a matrix multiplication followed by a bias, usually written
+`Y = XW + b`. Its input width must match the weight's first axis.
+*(ML Foundations §1)*
+
+**Logit**: an unnormalized relative score for one class or token. Logits become a
+probability distribution through softmax, but a large logit is not by itself a
+calibrated confidence claim. *(ML Foundations §2)*
+
+**Softmax**: exponentiate relative scores and normalize them to sum to one. Stable
+implementations subtract the row maximum first to avoid overflow.
+*(ML Foundations §2)*
+
+**Cross-entropy**: the negative log probability assigned to the supervised target.
+Framework implementations consume logits directly for numeric stability.
+*(ML Foundations §3)*
+
+**Gradient**: the local derivative of loss with respect to a parameter. Gradient
+descent subtracts a learning-rate-scaled gradient from the current parameter.
+*(ML Foundations §4–5)*
+
+**Scaled dot-product attention**: score queries against keys, mask forbidden
+relationships, normalize the allowed scores, and use the weights to mix values.
+The square-root scale keeps width alone from inflating score magnitude.
+*(ML Foundations §6)*
+
+**Calibration**: agreement between stated confidence and observed correctness over
+labelled outcomes. Temperature scaling fits one logit scale on calibration data and
+must be judged on separate test data. *(ML Foundations §9)*
+
+---
+
 ## Sampling & decoding
 
 **Temperature**: how random the word choice is. 0 = deterministic/most-likely
@@ -56,8 +93,9 @@ both. *(API dives, §4)*
 
 **Stop sequence**: a string that, when generated, halts the response. *(API dives)*
 
-**Logits / log-probabilities (logprobs)**: the model's confidence per token. Turn a
-logprob into a probability to score how sure the model was. *(OpenAI dive, logprobs)*
+**Log-probabilities (logprobs)**: logarithms of token probabilities exposed by some
+model APIs. They describe the model distribution for that input, not measured
+correctness across outcomes. *(OpenAI dive, logprobs; ML Foundations §2)*
 
 **Seed / determinism**: `temperature=0` plus a fixed `seed` makes output (mostly)
 reproducible, for tests and caching. Best-effort, not guaranteed. *(OpenAI dive)*
@@ -106,7 +144,8 @@ context window so the model answers from *your* documents. *(RAG dive)*
 meanings sit close together. The engine of semantic search. *(API dives; RAG §2)*
 
 **Cosine similarity**: the standard measure of how close two vectors (meanings) are;
-1 = identical direction, 0 = unrelated. *(RAG)*
+1 = identical direction, 0 = orthogonal. A zero vector has no cosine direction.
+*(RAG; ML Foundations §1)*
 
 **Vector store**: a collection of (text, embedding) pairs with nearest-neighbor
 search to find the closest chunks to a query. *(RAG §4)*
@@ -578,10 +617,10 @@ machine; speaks the OpenAI-compatible API. *(Local Models dive)*
 **Quantization**: representing weights (and sometimes activations or KV state) at lower
 precision to reduce memory and potentially change performance. Quality loss, kernel
 support, and speed depend on format, model, workload, runtime, and hardware; bit width
-alone is not a throughput result. *(Local Models; Inference Platform §22.6)*
+alone is not a throughput result. *(ML Foundations §10; Local Models; Inference Platform §22.6)*
 
 **KV cache**: memory holding the keys/values for tokens in context; grows with
-context length and can rival the weights in size. *(Local Models)*
+context length and can rival the weights in size. *(ML Foundations §11; Local Models)*
 
 **Serving engine**: the program that loads and runs a local model (Ollama,
 llama.cpp, vLLM). *(Local Models)*
