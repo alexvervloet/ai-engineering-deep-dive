@@ -70,3 +70,6 @@
 [submodule "testing-and-delivery-deep-dive"]
 	path = testing-and-delivery-deep-dive
 	url = https://github.com/alexvervloet/testing-and-delivery-deep-dive.git
+[submodule "ml-foundations-for-ai-engineers"]
+	path = ml-foundations-for-ai-engineers
+	url = https://github.com/alexvervloet/ml-foundations-for-ai-engineers.git
