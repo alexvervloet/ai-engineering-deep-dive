@@ -111,6 +111,7 @@ These are not higher rungs. They are side doors for particular requirements.
 | A long conversation (or agent) to remember without blowing the context window | [Context Engineering](../context-engineering-deep-dive/) |
 | Images or audio in/out (batch) | [Multimodal](../multimodal-deep-dive/) |
 | Real-time, spoken conversation (low latency, interruption) | [Realtime Voice](../realtime-voice-deep-dive/) |
+| To understand tensor shapes, loss, gradients, attention, sampling, calibration, quantization, or model memory | [ML Foundations for AI Engineers](../ml-foundations-for-ai-engineers/) |
 | Privacy, offline, or zero per-token cost | [Local Models](../local-models-deep-dive/) |
 | To serve open weights as a fleet, with KV memory, batching, parallelism, admission, GPU placement, scaling, rollouts, and capacity | [Inference Platform Engineering](../inference-platform-deep-dive/) |
 | To share tools/data with an LLM across apps | [MCP](../mcp-deep-dive/) |
