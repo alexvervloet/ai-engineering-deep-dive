@@ -168,6 +168,7 @@ install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
 commands = [
   ["python", "check_setup.py"],
   ["python", "-m", "unittest", "discover", "-s", "tests", "-v"],
+  ["python", "-m", "askrepo", "watch"],
 ]
 environment = { PROVIDER = "mock", NO_COLOR = "1" }
 
