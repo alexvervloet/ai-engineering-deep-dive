@@ -220,7 +220,12 @@ install = [
   ["python", "-m", "pip", "install", "torch==2.13.0", "--index-url", "https://download.pytorch.org/whl/cpu"],
   ["python", "-m", "pip", "install", "-e", ".", "--no-deps"],
 ]
-commands = [["python", "check_setup.py"]]
+# tests/ is not a package, so discovery needs an explicit start directory. A bare
+# `unittest discover` finds zero tests here and still exits zero.
+commands = [
+  ["python", "check_setup.py"],
+  ["python", "-m", "unittest", "discover", "-s", "tests", "-v"],
+]
 
 [[repositories]]
 path = "genai-security-deep-dive"
