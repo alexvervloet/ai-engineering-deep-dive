@@ -39,9 +39,9 @@ including what to do if you find something, are in [SECURITY.md](SECURITY.md).
   and the social cards.
 - No telemetry. The only network calls go to the model provider you configure, and
   lessons marked **(offline)** make none at all.
-- All 24 submodules point at repos under this same account. Check for yourself with
+- All 25 submodules point at repos under this same account. Check for yourself with
   `git config -f .gitmodules --get-regexp url`.
-- Every commit is signed, and CI installs and runs the offline path of all 24 dives
+- Every commit is signed, and CI installs and runs the offline path of all 25 dives
   on a clean GitHub runner on every push. Those logs are public and I do not control
   the machine.
 
@@ -80,6 +80,7 @@ Standalone deep dives that extend the core path. Each one notes where it slots i
 | [GenAI Security](genai-security-deep-dive/) | The model is an untrusted principal, not a security boundary. Authorize effects in code, verify the supply chain, isolate data and execution, bound resources, and make attacks block releases. | Prompt Injection (7); before Production (8) |
 | [Multimodal](multimodal-deep-dive/) | A multimodal model takes more than text. Put the right images and audio in the right slot, and mind the token cost. | the API dives (1–2); pairs with RAG (4) |
 | [Realtime Voice](realtime-voice-deep-dive/) | Conversational voice is a low-latency, full-duplex loop. Stream audio both ways, handle interruption (barge-in), and choose between a pipeline and a speech-to-speech model. | Multimodal; the API dives (1–2) |
+| [ML Foundations for AI Engineers](ml-foundations-for-ai-engineers/) | A model is a chain of numeric contracts. Trace shapes, logits, loss, gradients, masked attention, sampling, calibration, quantization, and retained memory through runnable NumPy and PyTorch code. | the API dives (1–2); before Fine-tuning, Local Models, and Inference Platforms |
 | [Fine-tuning](fine-tuning-deep-dive/) | Fine-tuning changes how a model behaves, not what it knows. Teach behavior by example, then prove it beat your baseline. | RAG (4) + Evals (5) |
 | [MCP](mcp-deep-dive/) | The Model Context Protocol hands an LLM tools, data, and prompts from a separate process. Write the server once and any client can use it. | Agents (6) |
 | [Local Models](local-models-deep-dive/) | An open-weight model on your machine speaks the same OpenAI API, so running local is mostly an ops choice about privacy, cost, and control. | the API dives (1–2); pairs with Fine-tuning |
@@ -145,6 +146,9 @@ to know which of the differences are real and which are folklore.
  ┌──────────────────────────────┐
  │         Production (8)        │ ──────▶ Observability · Architecture  (bonus)
  └──────────────────────────────┘ ──────▶ Testing & Delivery             (bonus)
+
+ OpenAI API · Claude API ───────────────▶ ML Foundations ─▶ Local Models
+                                                        └─▶ Inference Platforms
 ```
 
 The thread runs: build the call (1–2), ask well (3), ground it (4), measure it (5),
@@ -153,6 +157,8 @@ are most useful. Observability extends Production from one request to six weeks 
 them, and Architecture asks where all these parts belong once there is more than one
 of everything. Testing & Delivery turns those quality, security, and operational
 signals into promotion and rollback evidence you can reproduce.
+ML Foundations takes the numeric path beneath the API call. It belongs before the
+dives where you tune weights, compress them, or schedule their memory.
 
 ---
 
@@ -164,7 +170,7 @@ Every repo is self-contained and sets up identically. Inside any one:
 python3 -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-cp .env.example .env               # config only (PROVIDER, MODEL); no keys go here
+cp .env.example .env               # when the repo has one; config only, no keys
 python check_setup.py              # verifies your environment; makes no API call
 ```
 
@@ -190,6 +196,7 @@ the eval anatomy, the injection attack catalog, the quantization calculator).
 | The complete AI security control plane, no key | [GenAI Security](genai-security-deep-dive/) (deterministic attacks and release gate) |
 | A complete inference fleet control plane, no GPU | [Inference Platform Engineering](inference-platform-deep-dive/) (deterministic memory, scheduling, scaling, and rollout decisions) |
 | A complete release-evidence pipeline, no services | [Testing & Delivery](testing-and-delivery-deep-dive/) (deterministic tests, gates, rollout, and rollback) |
+| Model mechanics, no API key or GPU | [ML Foundations for AI Engineers](ml-foundations-for-ai-engineers/) (NumPy math and a tiny CPU transformer) |
 | Six weeks of monitoring, no key | [Observability](observability-deep-dive/) (synthetic traffic) |
 | Real models, no per-token bill | [Local Models](local-models-deep-dive/) (Ollama on your machine) |
 | Offline sections | the first lesson in most repos (look for "offline, no key") |
