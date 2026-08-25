@@ -11,6 +11,40 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-25: ML foundations becomes the 25th deep dive
+
+The API courses showed what to send a model. Fine-tuning, local models, and inference
+platforms assumed the reader could reason about what happened underneath. The new
+course fills that gap without turning the series into an ML degree.
+
+### Added
+
+- **[ML Foundations for AI Engineers](ml-foundations-for-ai-engineers/).** Eleven
+  offline NumPy and PyTorch lessons cover tensor shapes, stable softmax,
+  cross-entropy, gradient checks and descent, causal attention, a transformer block,
+  sampling, held-out calibration, quantization error, and named training and
+  inference memory components.
+- **A deterministic tiny-transformer capstone.** It trains on one cyclic rule, keeps
+  train, calibration, and test identities separate, reconstructs weights through
+  logical int8, measures held-out logit drift, and derives its verdict from four
+  requirements declared apart from the observations.
+- **Forty-five tests and a two-runtime CI matrix.** The suite runs on Python 3.12 and
+  3.14 with NumPy 2.5.2 and CPU-only PyTorch 2.13.0. It also runs under optimized
+  Python locally, executes every lesson with warnings as errors, compares two
+  capstone reports, and runs CodeQL.
+- **Chapter 24 and the parent routes.** The series map, textbook, decision guide,
+  glossary, career map, responsibility guide, offline manifest, and social cards now
+  point to the course.
+
+### Fixed during review
+
+- An alternating-pair capstone corpus made its first target unknowable and its quality
+  requirements impossible. Held-out rotations of one deterministic cycle replaced it.
+- A KV-memory mutation survived a pure doubling check because zero also doubles to
+  zero. The test now anchors 40 fp16 elements to an independent 80-byte expectation.
+- The original package floor claimed Python 3.11 while NumPy 2.5 had dropped it. The
+  course and its minimum CI cell now start at Python 3.12.
+
 ## 2026-08-23: rag-deep-dive gains a real Postgres/pgvector path
 
 The RAG dive taught retrieval with an in-memory store cached to a JSON file, which
