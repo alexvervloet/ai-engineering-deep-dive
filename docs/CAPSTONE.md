@@ -238,6 +238,7 @@ These run genuinely parallel to the main line, so they get feature branches, mer
 | `feat/context` | Context Engineering | `askrepo chat`: multi-turn sessions with token budgeting and compaction (`context/memory.py`, `assemble.py`, `tokens.py`); decide which retrieved chunks survive across turns. |
 | `feat/local` | Local Models | Ollama backend for embeddings *and* answers: "index a private codebase without sending a byte to a provider." Rerun the v04 evals against it and publish the quality gap honestly. |
 | `feat/harness` | Agent Harnesses | Permission policy and sandbox around agent mode's file tools (`harness/policy.py`, `sandbox.py`). v06 showed the file tools are where the attack lands, and this is the structural fix. |
+| `feat/observability` | Observability | `askrepo watch` (`watch.py`): trend the capstone's own eval runs and the corpus drifting under the frozen baseline. Not the dive's subject, which is a service's request traffic; a CLI has none, and what it accumulates instead is runs and a corpus. The deliverable is the noise floor between two runs of an unchanged config, which decides which of v05's and ext-local's published comparisons were ever real. |
 
 ## Explicit non-goals (and honest stretch goals)
 
