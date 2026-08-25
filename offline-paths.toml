@@ -211,6 +211,18 @@ commands = [
 ]
 
 [[repositories]]
+path = "ml-foundations-for-ai-engineers"
+runtime = "python"
+python = "3.12"
+claim = "Run all model mechanics and the tiny transformer lab on CPU without an API key."
+install = [
+  ["python", "-m", "pip", "install", "numpy==2.5.2"],
+  ["python", "-m", "pip", "install", "torch==2.13.0", "--index-url", "https://download.pytorch.org/whl/cpu"],
+  ["python", "-m", "pip", "install", "-e", ".", "--no-deps"],
+]
+commands = [["python", "check_setup.py"]]
+
+[[repositories]]
 path = "genai-security-deep-dive"
 runtime = "python"
 python = "3.11"
