@@ -34,7 +34,7 @@ it when it goes wrong.
 
 | Concern | What it is | Operationalized in |
 |---------|-----------|--------------------|
-| **Honest capability claims** | Not selling "it understands" / "it's accurate" when it's a fluent next-token predictor that's right *most* of the time | [HOW-LLMS-WORK.md](HOW-LLMS-WORK.md), [Evals](../evals-deep-dive/) (put a number on "how often right") |
+| **Honest capability claims** | Not selling "it understands" / "it's accurate" when it's a fluent next-token predictor that's right *most* of the time | [HOW-LLMS-WORK.md](HOW-LLMS-WORK.md), [ML Foundations](../ml-foundations-for-ai-engineers/) (separate logits, probability, and calibrated confidence), [Evals](../evals-deep-dive/) (put a number on "how often right") |
 | **Hallucination & grounding** | Confident claims that aren't true or aren't supported, and whether users can tell | [RAG](../rag-deep-dive/) (cite sources), [Evals](../evals-deep-dive/) (faithfulness) |
 | **Bias & fairness** | The model treats groups differently, or your eval set only represents some users | [Evals](../evals-deep-dive/) (slice your dataset; measure per-group) |
 | **Sycophancy** | The model agrees with the user instead of being right, and agreement reads as competence | [Evals](../evals-deep-dive/) (score answers where the user is confidently wrong), [Prompt Engineering](../prompt-engineering-deep-dive/) |
@@ -59,7 +59,7 @@ it when it goes wrong.
 | **Copyright & attribution** | Outputs that reproduce training data, and generated code whose license you can't name | [RAG](../rag-deep-dive/) (cite what you retrieved), review policy for generated code |
 | **Data governance** | What you may send upstream, retain, log, or train on | [Production](../ai-in-production-deep-dive/) (PII touchpoints, retention), [GenAI Security](../genai-security-deep-dive/) (classification ceiling, declared purpose, keyed audit fingerprints), [SAFETY.md](SAFETY.md) |
 | **Labor** | The annotation work behind the model, and the jobs the product is aimed at | not a code decision; a disclosure and staffing decision you make in the open |
-| **Footprint** | Energy and water for training and for every inference you serve | [MODELS.md](MODELS.md) + [CHOOSING.md](CHOOSING.md) (smaller model, fewer calls), [Local Models](../local-models-deep-dive/), caching in [Production](../ai-in-production-deep-dive/), measured utilization/headroom/capacity in [Inference Platform Engineering](../inference-platform-deep-dive/) |
+| **Footprint** | Energy and water for training and for every inference you serve | [MODELS.md](MODELS.md) + [CHOOSING.md](CHOOSING.md) (smaller model, fewer calls), component-level training and inference memory in [ML Foundations](../ml-foundations-for-ai-engineers/), [Local Models](../local-models-deep-dive/), caching in [Production](../ai-in-production-deep-dive/), measured utilization/headroom/capacity in [Inference Platform Engineering](../inference-platform-deep-dive/) |
 
 ### 4. Who owns it
 
