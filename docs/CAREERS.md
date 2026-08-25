@@ -99,6 +99,12 @@ version of the retriever, eval, or loop I built."
 - **Résumé line:** *"Built realtime voice agents: turn detection, barge-in/interruption handling, latency budgeting, and the STT->LLM->TTS vs speech-to-speech architecture tradeoff."*
 - **Interview:** you can talk about the sub-second latency budget, why barge-in needs full-duplex audio and fast cancellation, and when to pick a pipeline over speech-to-speech.
 
+### ML Foundations for AI Engineers (bonus)
+- **Job-description phrases:** "ML fundamentals," "PyTorch," "model internals," "transformers and attention," "training and inference," "calibration," "quantization."
+- **Industry tools:** NumPy, PyTorch autograd and scaled-dot-product attention, reliability diagrams, hardware-specific quantizers, and runtime memory profilers.
+- **Résumé line:** *"Built and tested the numeric path beneath an LLM call: tensor shape contracts, stable softmax and cross-entropy, gradient checks, masked multi-head attention, a tiny causal transformer, sampling controls, held-out calibration, measured quantization drift, and component-level training and inference memory accounts."*
+- **Interview:** you can trace a token from embedding to logits, explain why causal masking needs a counterfactual test, keep softmax probability separate from calibrated confidence, and refuse to turn a bit width or weights-only byte count into an unsupported speed or capacity claim.
+
 ### Fine-tuning (bonus)
 - **Job-description phrases:** "model fine-tuning," "SFT / preference tuning (DPO) / RFT," "LoRA / PEFT," "distillation," "dataset curation."
 - **Industry tools:** Hugging Face `trl`/`peft`/`transformers`, Axolotl, Unsloth, Together / Fireworks fine-tuning, MLX on Apple silicon. (OpenAI is winding self-serve fine-tuning down through 2026 into January 2027, so hosted SFT on the big closed providers is a shrinking skill; the open-weight LoRA path is where this work is moving.)
