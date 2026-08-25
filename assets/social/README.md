@@ -7,7 +7,7 @@ preview all accept without cropping.
 ## Regenerating
 
 ```console
-$ python3 assets/social/generate_cards.py            # all 25
+$ python3 assets/social/generate_cards.py            # all 26
 $ python3 assets/social/generate_cards.py 04-rag     # just one, by slug fragment
 ```
 
@@ -36,6 +36,7 @@ but the capstone is still the conceptual finale.
 | `21-architecture` | `architecture-deep-dive` |
 | `22-inference-platform` | `inference-platform-deep-dive` |
 | `23-testing-delivery` | `testing-and-delivery-deep-dive` |
+| `24-ml-foundations` | `ml-foundations-for-ai-engineers` |
 
 ## Notes
 
