@@ -11,6 +11,45 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-29: the two security dives close four string-handling gaps
+
+An audit of a separate retrieval project turned up four failures that neither
+security dive covered, and two of them were live in the dives' own code. They share
+a shape: the material is strong on the model as an untrusted principal and thin on
+the string handling around it. A filter is a comparison and a prompt is a
+concatenation, and the attacker writes into both.
+
+### Added
+
+- **[Prompt Injection](prompt-injection-deep-dive/) examples 12 and 13,** both offline.
+  Example 12 shows a secret respelled in Cyrillic walking past `contains_secret`, and
+  separates encoding evasion from paraphrase: one needs four lines of folding, the
+  other needs a classifier, and calling both "obfuscation" hides that. Example 13
+  shows a poisoned document writing the app's own `</untrusted_document>` tag, then
+  closes it with a per-request nonce.
+- **`guardrails/normalize.py`.** Folds invisible characters, Cyrillic and Greek
+  confusables, combining marks, and compatibility forms, with `is_mixed_script` for
+  the family the lookalike table cannot enumerate.
+- **[GenAI Security](genai-security-deep-dive/) lesson 13 and `genai_security/context.py`.**
+  The inbound sibling to `sinks.py`: retrieved passages are concatenated into a
+  document with a grammar, so a support ticket reading `## Approved policy` writes a
+  heading the application never authored. Escapes headings, citation keys, evidence
+  markers, and fence tags without deleting them, and fences the region with a nonce.
+  Chapter 20 gains section 20.8; later sections are renumbered.
+
+### Fixed during review
+
+- `contains_secret` squashed with `str.isalnum()`, which is true for Cyrillic and
+  fullwidth letters, so they survived the squash and the leak check missed a secret
+  any human reads correctly. The heuristic detector had the same hole.
+- `RequestBudget` checked `< 0` and `<= 0`, and both are false against NaN, so a NaN
+  limit passed validation and then lost every comparison in `reserve()`. The
+  denial-of-wallet module accepted charges forever while reporting success.
+- A first pass at stripping fence-shaped tags allowed whitespace everywhere except
+  between the angle bracket and the slash, so `< /untrusted_document >` survived. The
+  example that demonstrates the defense is what surfaced it, because it prints a row
+  per variant instead of asserting success.
+
 ## 2026-08-25: ML foundations becomes the 25th deep dive
 
 The API courses showed what to send a model. Fine-tuning, local models, and inference
