@@ -60,6 +60,15 @@ least-privilege tools, allow-listed actions, human approval for anything with a 
 effect, and the dual-LLM pattern that quarantines untrusted text from the model that
 holds authority. Capability limits beat detection.
 
+Least privilege bounds what a tool can do and says nothing about what it may be aimed
+at, which is the gap that stays open when the rest of this is in place. A tool that
+answers questions about a person needs the record the request is about, not only the
+role of whoever is asking, or an argument the model chose decides whose data comes back
+([GenAI Security](../genai-security-deep-dive/), lesson 6). The same applies to what an
+agent hands out. Ceilings tend to cover what a request costs you and to leave what it
+gives away on a dashboard, so for each resource an agent can move, ask who owns it
+(lesson 10).
+
 **3. Defense in depth, because every single layer is necessary and none is sufficient.**
 A delimiter, an input filter, an output check, a moderation pass, capability limits.
 Each one leaks. Stack them. The [Production](../ai-in-production-deep-dive/) dive is
