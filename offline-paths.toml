@@ -241,6 +241,7 @@ commands = [
   ["python", "check_setup.py"],
   ["python", "-m", "unittest", "discover", "-v"],
   ["python", "examples/13_context_assembly.py"],
+  ["python", "examples/14_session_correlation.py"],
 ]
 
 [[repositories]]
