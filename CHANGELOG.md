@@ -11,6 +11,41 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-29: nonce coverage, from prompt templates to session handles
+
+A follow-up audit asked whether the dives covered every use of a nonce, not just the
+delimiter one added earlier. They did not. Replay was bound but never made fresh, and
+neither web interfaces nor stateful conversation handles appeared at all.
+
+### Added
+
+- **[GenAI Security](genai-security-deep-dive/) lesson 14 and `genai_security/sessions.py`.**
+  A conversation handle is a bearer reference to accumulated context. Handles come from
+  the CSPRNG, resume checks the owner in constant time, and a refused resume reads
+  identically to a missing one so the store is not a membership oracle. The harder half
+  is that a correctly owned conversation still drifts: turns record the subject they
+  were about, so one client's amount stays out of another client's answer while every
+  permission check passes. Chapter 20 gains section 20.10; later sections are renumbered.
+- **Approval freshness in `genai_security/capabilities.py`.** Approvals now carry a
+  server-issued, single-use, expiring challenge, and the chapter tabulates the two
+  tokens that kept getting the same name: an idempotency key guarantees a repeat is
+  recognised and may be predictable, a challenge guarantees a repeat is refused and
+  may not.
+- **CSP as the browser half of exfiltration, in [Prompt Injection](prompt-injection-deep-dive/).**
+  The exfiltration lesson was built entirely on a browser fetching a URL and never
+  named the control that stops the fetch being issued. No example, because the repo has
+  no browser and a simulated one would teach less than the paragraph.
+
+### Fixed during review
+
+- An `Approval` bound to subject, tenant, tool, and key authorized the same operation
+  without limit; fifty attempts all succeeded. The docstring's claim that it "cannot be
+  replayed against a different tenant, tool, or object" was accurate and silent about
+  replay at the same target. `RequestBudget` in the same repository already burned a
+  reservation id exactly once.
+- Two lessons landed in the wrong dive's `LESSONS.md` and were moved to the repository
+  the surprises happened in.
+
 ## 2026-08-29: the two security dives close four string-handling gaps
 
 An audit of a separate retrieval project turned up four failures that neither
