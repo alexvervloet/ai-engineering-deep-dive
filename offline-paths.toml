@@ -122,12 +122,13 @@ commands = [["python", "-m", "compileall", "-q", "common", "fundamentals", "exam
 path = "prompt-injection-deep-dive"
 runtime = "python"
 python = "3.11"
-claim = "Run the local attack catalog, the heuristic detector, and the two string-handling labs without a model."
+claim = "Run the local attack catalog, the heuristic detector, and the three string-handling labs without a model."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
 commands = [
   ["python", "examples/01_attack_catalog.py"],
   ["python", "examples/12_unicode_evasion.py"],
   ["python", "examples/13_delimiter_forgery.py"],
+  ["python", "examples/14_unfenceable_region.py"],
 ]
 
 [[repositories]]
