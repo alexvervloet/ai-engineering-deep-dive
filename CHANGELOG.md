@@ -70,6 +70,20 @@ completeness, and the audit found more than the writing did.
   `deep-dive-capstone/evals/golden.jsonl`, where `SECRETS.md` is an expected filename
   for retrieval scoring rather than a path to follow.
 
+- **`scripts/verify_paths.py`, so the next one is caught by CI.** The link checker
+  validates 859 Markdown links and passed throughout, because none of the broken
+  references were links. The new check resolves paths named in prose, and only where
+  the text tells the reader to go look: a path introduced by "see". Anything looser
+  reports about fifty descriptive filenames for every real break. It runs in the
+  inventory job next to `verify_links.py`, and `verify-paths: ignore` in a line comment
+  skips a mention that is not meant to resolve.
+
+  It found five more on its first run, every one the same shape as the bug it was
+  written for: `see AUTHORING-LESSONS.md` in the RAG textbook and three `../MODELS.md`
+  in the capstone, both of which live under `docs/`, plus two cross-repo shorthands
+  (`see rag/keyword.py`, `see rag/providers.py`) that named a sibling dive's file
+  without naming the sibling dive.
+
 ### Corrected during review
 
 Two claims were written confidently and were wrong. Both were caught by running the
