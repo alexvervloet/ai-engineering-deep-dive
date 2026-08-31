@@ -30,6 +30,9 @@ jobs:
       - name: Check every relative markdown link resolves
         run: python scripts/verify_links.py
 
+      - name: Check every path named in prose resolves
+        run: python scripts/verify_paths.py
+
       - name: Build isolated job matrix
         id: matrix
         shell: bash
