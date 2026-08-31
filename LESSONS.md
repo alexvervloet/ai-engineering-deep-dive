@@ -1,5 +1,30 @@
 # Lessons
 
+## 2026-08-31: the lockfile that turned out to be a lesson
+
+**Expected.** A sweep to standardize dependency declarations, starting from the
+reading that four dives had a `pyproject.toml` and Testing & Delivery had a Python
+lockfile the others were missing. The obvious job was to propagate both.
+
+**What happened.** Both halves were wrong. Five dives have a `pyproject.toml`, not
+four, and they are exactly the five with an importable package the lessons import as
+a library, so the split tracks a real difference rather than drift. And no dive has a
+lockfile at all. Testing & Delivery's `pylock.toml` is an empty PEP 751 document with
+`packages = []`, written as course material for its chapter on locking: `check_setup.py`
+parses it, `tests/test_locking.py` asserts on it, and `examples/08_dependency_locking.py`
+audits it. Copying it into 23 siblings would have spread a teaching prop that locks
+nothing, and in the dives with real dependencies an empty lock would have been a lie.
+
+The drift that did exist was in version bounds, and nobody had gone looking for it.
+`architecture-deep-dive` asked for `openai>=1.40.0` and `anthropic>=0.34.0`, unbounded,
+a different major than every sibling. Seven more libraries across 18 dives had a floor
+and no ceiling.
+
+**Next time.** Before propagating a file across the series, check what reads it. A
+config file that appears in exactly one repo is as likely to be that repo's subject as
+it is to be a gap, and this series is full of files that exist to be examined rather
+than obeyed. Grepping for the filename found the answer in one command.
+
 ## 2026-08-31: two API assumptions the audit only caught by running them
 
 **Expected.** Auditing the new `responses/` track, two claims looked wrong on sight.
