@@ -59,9 +59,16 @@ completeness, and the audit found more than the writing did.
 - **Two exercises had no answers.** Both now do, and both were derived from runs rather
   than reasoning: only one of nine stream event types carries `delta`, and
   `tool_choice="auto"` on a timeless question searched zero times out of three.
-- **`(see SECRETS.md)` did not resolve.** Thirty-five scripts and `.env.example` in this
-  dive now point at `../docs/SECRETS.md`. The same wording appears in about 95 scripts
-  across the other dives and is left alone pending a series-wide sweep.
+- **`(see SECRETS.md)` did not resolve, anywhere.** The file is at `docs/SECRETS.md` in
+  this repo, but 129 files across twenty dives told the reader to see `SECRETS.md` or
+  `../SECRETS.md`, neither of which is a real path from a dive root. Mostly scripts
+  and `.env.example` files, plus the capstone's `secrun.sh`. The markdown links were
+  all correct, which is why `verify_links.py` never caught it: the broken references
+  were prose inside error
+  messages, where a reader who has just failed to run something is most likely to look.
+  All twenty dives now say `../docs/SECRETS.md`. Left alone deliberately:
+  `deep-dive-capstone/evals/golden.jsonl`, where `SECRETS.md` is an expected filename
+  for retrieval scoring rather than a path to follow.
 
 ### Corrected during review
 
