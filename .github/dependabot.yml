@@ -8,3 +8,9 @@ updates:
       interval: monthly
     commit-message:
       prefix: "ci"
+    # One PR per month for every action, instead of one PR per action. The
+    # August 2026 run opened four separate PRs for four version bumps.
+    groups:
+      github-actions:
+        patterns:
+          - "*"
