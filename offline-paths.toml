@@ -191,7 +191,7 @@ commands = [["python", "-m", "compileall", "-q", "ch01-litellm", "ch02-instructo
 path = "architecture-deep-dive"
 runtime = "python"
 python = "3.11"
-claim = "Validate the offline reference system, stress harness, and architecture capstone."
+claim = "Check the offline reference system imports and its determinism primitive holds."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
 commands = [["python", "check_setup.py"]]
 environment = { PROVIDER = "mock", NO_COLOR = "1" }
