@@ -196,6 +196,7 @@ the eval anatomy, the injection attack catalog, the quantization calculator).
 | The complete AI security control plane, no key | [GenAI Security](genai-security-deep-dive/) (deterministic attacks and release gate) |
 | A complete inference fleet control plane, no GPU | [Inference Platform Engineering](inference-platform-deep-dive/) (deterministic memory, scheduling, scaling, and rollout decisions) |
 | A complete release-evidence pipeline, no services | [Testing & Delivery](testing-and-delivery-deep-dive/) (deterministic tests, gates, rollout, and rollback) |
+| Ten architecture decisions measured, no key | [Architecture](architecture-deep-dive/) (every chapter's stressor runs offline in under a minute) |
 | Model mechanics, no API key or GPU | [ML Foundations for AI Engineers](ml-foundations-for-ai-engineers/) (NumPy math and a tiny CPU transformer) |
 | Six weeks of monitoring, no key | [Observability](observability-deep-dive/) (synthetic traffic) |
 | Real models, no per-token bill | [Local Models](local-models-deep-dive/) (Ollama on your machine) |
