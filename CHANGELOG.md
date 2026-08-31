@@ -11,6 +11,34 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-31: every dependency gets a ceiling
+
+A survey of how the dives declare dependencies turned up one real inconsistency,
+though not the one it went looking for. Five dives carry a `pyproject.toml`, and
+that tracks a genuine difference: they are the five with an importable package
+the lessons import as a library. No dive has a Python lockfile. The `pylock.toml`
+in Testing & Delivery is course material for its chapter on locking, an empty
+PEP 751 document its own tests audit, so it stays where it is.
+
+### Fixed
+
+- **[Architecture](architecture-deep-dive/) targeted the wrong provider majors.**
+  `openai>=1.40.0` and `anthropic>=0.34.0`, no upper bound on either, while every
+  sibling dive was on `openai>=2.0,<3` and `anthropic>=0.111.0,<1`. Both call
+  sites in `app/providers.py` use `chat.completions.create` and `messages.create`,
+  unchanged across those majors, so the floors moved and the code did not.
+
+### Changed
+
+- **Upper bounds on the remaining dependencies in 18 dives.** `python-dotenv`,
+  `rich`, `pydantic`, `fastapi`, `uvicorn`, `tiktoken` and `voyageai` all had a
+  floor and no ceiling, so the next major release would land on a fresh install
+  with nothing to stop it. The provider SDKs and `mcp` were already bounded for
+  that reason; the rest now match. Bounds were set from the versions the repo
+  venvs actually run, and every spec still admits its installed version.
+  Professional Tools and ML Foundations were already pinned exactly and are
+  untouched.
+
 ## 2026-08-31: the Responses API becomes a mini-track, then gets audited
 
 Example 26 was one file demonstrating six unrelated things, which is the shape a
