@@ -1,5 +1,31 @@
 # Lessons
 
+## 2026-08-31: two API assumptions the audit only caught by running them
+
+**Expected.** Auditing the new `responses/` track, two claims looked wrong on sight.
+Background mode with `store=False` should be rejected, because a job you poll by ID
+has to be stored somewhere. And `response_format` on the Responses endpoint should be
+silently ignored, because unknown JSON keys usually are, which would make the
+`text.format` rename a nasty silent migration bug worth teaching.
+
+**What happened.** Both were wrong, in opposite directions. `background=True` with
+`store=False` is accepted and the response stays retrievable through polling, so the
+docstring under audit was right and the reviewer was not. And `response_format` returns
+a 400 whose message names `text.format` and links the docs, so the rename is the part
+of that migration the endpoint handles best. The second one had already been written
+into TEXTBOOK.md as fact before the probe ran, and had to be rewritten.
+
+**Next time.** In this series, an assertion about provider behaviour is a probe, not a
+recollection, and that applies to the reviewer exactly as much as to the author. Write
+the six-line script against the live API before the paragraph, not after. The tell is
+the word "because": every one of these was a plausible mechanism reasoned forward into
+a fact.
+
+**Also.** Two of the best teaching moments in the track came out of being wrong.
+`responses.parse` raising `pydantic.ValidationError` on a truncated object, rather than
+returning a `None` to check, is a better lesson than the one originally planned, and it
+was only found by capping `max_output_tokens` to see what would happen.
+
 ## 2026-08-24: CodeQL's quality suite drowned the security findings
 
 **Expected.** Turning on CodeQL with `security-and-quality` would give readers a
