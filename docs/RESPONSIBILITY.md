@@ -35,11 +35,11 @@ it when it goes wrong.
 | Concern | What it is | Operationalized in |
 |---------|-----------|--------------------|
 | **Honest capability claims** | Not selling "it understands" / "it's accurate" when it's a fluent next-token predictor that's right *most* of the time | [HOW-LLMS-WORK.md](HOW-LLMS-WORK.md), [ML Foundations](../ml-foundations-for-ai-engineers/) (separate logits, probability, and calibrated confidence), [Evals](../evals-deep-dive/) (put a number on "how often right") |
-| **Hallucination & grounding** | Confident claims that aren't true or aren't supported, and whether users can tell | [RAG](../rag-deep-dive/) (cite sources), [Evals](../evals-deep-dive/) (faithfulness) |
+| **Hallucination & grounding** | Confident claims that aren't true or aren't supported, and whether users can tell | [RAG](../rag-deep-dive/) (cite sources), [Evals](../evals-deep-dive/) (faithfulness), [Architecture](../architecture-deep-dive/) (a fallback that keeps answering during an outage scored 100% available and 17% correct, with nothing in the response saying which the user got) |
 | **Bias & fairness** | The model treats groups differently, or your eval set only represents some users | [Evals](../evals-deep-dive/) (slice your dataset; measure per-group) |
 | **Sycophancy** | The model agrees with the user instead of being right, and agreement reads as competence | [Evals](../evals-deep-dive/) (score answers where the user is confidently wrong), [Prompt Engineering](../prompt-engineering-deep-dive/) |
 | **Disclosure** | Users have a right to know they're talking to an AI, and which answers are machine-generated | a product decision, and increasingly a legal duty ([below](#the-rules-stopped-being-hypothetical)); nothing hidden in a system prompt should contradict it |
-| **Silent behavior change** | A model or prompt swap changes how the system treats users who depended on the old behavior, with nothing announcing it | [Evals](../evals-deep-dive/) (gates), [Observability](../observability-deep-dive/) (drift as a trend) |
+| **Silent behavior change** | A model or prompt swap changes how the system treats users who depended on the old behavior, with nothing announcing it | [Evals](../evals-deep-dive/) (gates), [Observability](../observability-deep-dive/) (drift as a trend), [Architecture](../architecture-deep-dive/) (what a gate, a canary, and a shadow each catch, and the regression all but one of them shipped) |
 
 ### 2. The person on the other side
 
@@ -57,7 +57,7 @@ it when it goes wrong.
 |---------|-----------|--------------------|
 | **Data provenance & consent** | Whether you had the right to train, fine-tune, or index on the data you used, and whether the people in it agreed | [Fine-tuning](../fine-tuning-deep-dive/) (you own your training set), [RAG](../rag-deep-dive/) (you own your corpus) |
 | **Copyright & attribution** | Outputs that reproduce training data, and generated code whose license you can't name | [RAG](../rag-deep-dive/) (cite what you retrieved), review policy for generated code |
-| **Data governance** | What you may send upstream, retain, log, or train on | [Production](../ai-in-production-deep-dive/) (PII touchpoints, retention), [GenAI Security](../genai-security-deep-dive/) (classification ceiling, declared purpose, keyed audit fingerprints), [SAFETY.md](SAFETY.md) |
+| **Data governance** | What you may send upstream, retain, log, or train on | [Production](../ai-in-production-deep-dive/) (PII touchpoints, retention), [GenAI Security](../genai-security-deep-dive/) (classification ceiling, declared purpose, keyed audit fingerprints), [Architecture](../architecture-deep-dive/) (where the tenant predicate goes: filtering after the model leaks one customer's contract terms into another's answer while the citation list stays clean), [SAFETY.md](SAFETY.md) |
 | **Labor** | The annotation work behind the model, and the jobs the product is aimed at | not a code decision; a disclosure and staffing decision you make in the open |
 | **Footprint** | Energy and water for training and for every inference you serve | [MODELS.md](MODELS.md) + [CHOOSING.md](CHOOSING.md) (smaller model, fewer calls), component-level training and inference memory in [ML Foundations](../ml-foundations-for-ai-engineers/), [Local Models](../local-models-deep-dive/), caching in [Production](../ai-in-production-deep-dive/), measured utilization/headroom/capacity in [Inference Platform Engineering](../inference-platform-deep-dive/) |
 
