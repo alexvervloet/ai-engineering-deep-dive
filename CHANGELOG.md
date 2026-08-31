@@ -11,6 +11,73 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-08-31: the Responses API becomes a mini-track, then gets audited
+
+Example 26 was one file demonstrating six unrelated things, which is the shape a
+topic takes right before it needs its own directory. It became `responses/`, eight
+scripts run in order. Then the track was audited for correctness, teaching, and
+completeness, and the audit found more than the writing did.
+
+### Added
+
+- **[OpenAI API](openai-api-deep-dive/) `responses/`, an eight-script mini-track.**
+  Request and output items, response chains, typed stream events, a guarded custom
+  tool loop, a required hosted web search, background lifecycle, structured outputs,
+  and the Conversation object. Chat Completions stays the main path, because it is
+  the dialect Ollama, LM Studio, vLLM and LiteLLM all speak and example 17 depends
+  on that. The track is where the OpenAI-only endpoint earns that loss of portability.
+- **`responses/07_structured_outputs.py`.** `response_format` becomes `text.format`.
+  Sends one schema three ways and ends on the failure that matters: cap the output
+  and `create` returns `status="incomplete"` with a truncated string that still looks
+  like a result, while `parse` raises `pydantic.ValidationError` from inside the SDK.
+  A schema constrains what the model may emit, not whether it finishes emitting it.
+- **`responses/08_conversation_object.py`.** The README described Conversations for
+  three passes without an example. Builds one, reads its items back, provokes the 400
+  for sending `conversation` and `previous_response_id` together, and deletes it,
+  since a Conversation is user data you now own. Billed input was 60 tokens against
+  example 02's 66 for the same exchange, which is the point: neither mechanism is a
+  discount.
+- **Compile coverage in `offline-paths.toml`.** The dive verified one token-counting
+  script and nothing else, so six new files landed with no automated check at all.
+  CI now compiles `examples`, `responses`, `hands_on`, `utils` and `snippets`.
+
+### Fixed during review
+
+- **`max_tool_calls=1` in the custom tool loop did nothing.** It caps built-in tools
+  such as web search, so on a custom function it is silently inert. In a lesson whose
+  subject is guarding a tool loop it read as the guard. Removed, and the docstring now
+  names what actually bounds that loop: `tool_choice`, `parallel_tool_calls`, the
+  dispatch allowlist, and the argument check.
+- **92 pyright errors in the streaming example.** `event.type in {...}` does not narrow
+  a discriminated union, so every `event.response` access failed against 46 sibling
+  event classes. Matching on class narrows and reads better in a lesson about typed
+  events. The dive is now pyright-clean.
+- **Lesson 01 warned about a bug it never showed.** It said code reading `output[0]`
+  would break, then returned `['message']` every run. It now prints the naive read
+  beside the filtered one, says plainly that the naive read works today, and points at
+  example 05, where `output[0]` is a `web_search_call`.
+- **Two exercises had no answers.** Both now do, and both were derived from runs rather
+  than reasoning: only one of nine stream event types carries `delta`, and
+  `tool_choice="auto"` on a timeless question searched zero times out of three.
+- **`(see SECRETS.md)` did not resolve.** Thirty-five scripts and `.env.example` in this
+  dive now point at `../docs/SECRETS.md`. The same wording appears in about 95 scripts
+  across the other dives and is left alone pending a series-wide sweep.
+
+### Corrected during review
+
+Two claims were written confidently and were wrong. Both were caught by running the
+thing rather than by rereading the prose, which is the argument for the repo's habit of
+verifying against the live API.
+
+- The background-mode docstring says OpenAI still stores response data temporarily even
+  with `store=False`. Expected that pairing to be rejected outright. It is accepted, and
+  the response stays retrievable through polling. The docstring was right.
+- The textbook drafted `response_format` as a silent failure that leaves you with prose
+  where a schema used to be. The endpoint returns a 400 naming `text.format` and linking
+  the docs, so the rename is the considerate part and the truncation behaviour is not.
+
+---
+
 ## 2026-08-29: nonce coverage, from prompt templates to session handles
 
 A follow-up audit asked whether the dives covered every use of a nonce, not just the
@@ -748,6 +815,9 @@ Every one was verified against the live API before being written up.
   and hosted tools, and is explicit that the cost is portability, since
   `/v1/chat/completions` is the dialect Ollama, LM Studio, vLLM and LiteLLM all
   speak and example 17 depends on that.
+  *(Superseded on 2026-08-31: `examples/26_responses_api.py` was one file trying
+  to show six things, and was split into the `responses/` mini-track. See that
+  entry at the top of this file.)*
 
 - **context-engineering-deep-dive, section 11: server-side compaction and
   context editing.** The dive built compaction by hand and never said the API
