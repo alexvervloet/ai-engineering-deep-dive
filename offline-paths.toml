@@ -107,9 +107,12 @@ environment = { PROVIDER = "openai", NO_COLOR = "1" }
 path = "openai-api-deep-dive"
 runtime = "python"
 python = "3.11"
-claim = "Count local tokens and estimate request cost without an API call."
+claim = "Count local tokens and estimate request cost without an API call, and compile every lesson including the Responses mini-track."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
-commands = [["python", "examples/07_token_counting.py"]]
+commands = [
+  ["python", "examples/07_token_counting.py"],
+  ["python", "-m", "compileall", "-q", "examples", "responses", "hands_on", "utils", "snippets", "check_setup.py"],
+]
 
 [[repositories]]
 path = "prompt-engineering-deep-dive"
