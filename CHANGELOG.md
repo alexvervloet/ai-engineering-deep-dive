@@ -11,6 +11,36 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-09-02: the labs now point at the projects that took them further
+
+Searching this repository for the names of the applied projects built alongside
+it returned one hit, inside an unpublished plan. Eight repositories extend a dive
+into production conditions and none of them was reachable from the course. A
+reader finishing the Evals dive had no way to find out what those statistics do
+against a real bill.
+
+### Added
+
+- **An "Applied companions" table in the [README](README.md).** Eight projects,
+  each mapped to the dive it extends and one line on what it took further. They
+  are not part of the course and nothing depends on them.
+- **[Evals](evals-deep-dive/) links model-swap** at the end of "From teaching
+  code to production", with the finding that motivates it: on a real corpus, 120
+  paired cases resolve a difference of about 11.5%, against a declared margin of
+  5%. A suite that cannot answer its own question is worth recognising.
+- **[Observability](observability-deep-dive/) notes the case its simulator
+  cannot show.** Mining production failures assumes a production. A pre-launch
+  system has no traffic, and authoring a stratified corpus is what you do until
+  there is traffic worth mining.
+- **[Production](ai-in-production-deep-dive/) notes the limit of its eval
+  gate.** One score against one threshold cannot separate a regression from a
+  run that landed differently.
+- **[Testing & Delivery](testing-and-delivery-deep-dive/) gains a real
+  compatibility failure** for its release-tuple chapter: an app exposing
+  `answer_model` as configuration while hardcoding a request parameter one of
+  those models rejects. Found by another project driving it as a library, which
+  is the cheapest compatibility test available.
+
 ## 2026-08-31: every dependency gets a ceiling
 
 A survey of how the dives declare dependencies turned up one real inconsistency,
