@@ -11,6 +11,56 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-09-03: inference-platform-deep-dive pre-release audit
+
+An audit before pointing readers at [chapter 22](inference-platform-deep-dive/)
+found two control defects and a pattern of claims the README made that no lesson
+actually showed. The suite was green throughout, which is the interesting part:
+every defect sat in a branch the fixtures never took.
+
+### Fixed
+
+- **A fully accepted speculative round no longer invents its bonus token.** The
+  verification pass covers one position past the last draft, so a round of `k`
+  proposals emits `k + 1`. The contract accepted a target sequence of exactly
+  `k`, so in the one case the lesson exists to teach, the extra token came from
+  the formula rather than from any supplied position. Every printed number is
+  unchanged; the evidence is now in the input.
+- **The autoscaler clamps the target it returns, not only the one it
+  computes.** `state.desired_replicas` arrives from the cluster and can sit
+  outside the policy after an ordinary ceiling change. A controller that
+  declined to move returned the old count while reporting only that its
+  stabilization window was incomplete. Chapter 22.11 says to clamp to fleet
+  limits, and the clamp now names itself when it changes the answer.
+- **A shed admission decision cannot be released back into contention.** The
+  docstring called shedding permanent while `release()` would drop the record,
+  letting the next retry be judged against whatever capacity happened to exist.
+- **An observation window with no duration is rejected.** Traces sharing one
+  instant returned infinite throughput, which cleared any minimum a caller
+  declared.
+- **The capstone asks for placement only when a layout covers it.** An
+  infeasible or mismatched parallel layout fell back to a one-GPU request at a
+  hardcoded 40 GiB, so the report could record `gpu-placement` as earned for a
+  replica that had no layout at all. The release gate still failed on the
+  missing layout evidence, which is why nothing surfaced it.
+
+### Changed
+
+- **Four lessons now show what the README says they show.** The memory lesson
+  advertised separating runtime overhead and usable VRAM and printed neither.
+  The autoscaling fixture carried no warming replica. The capacity fixture
+  produced no rounding tie, so the tie handling that
+  [LESSONS.md](inference-platform-deep-dive/LESSONS.md) records as a real bug
+  was visible only in `tests/`. The speculation lesson printed no token counts.
+  Longer retrieval prompts now put prefill and decode both on four replicas, so
+  a reader sees prefill named at 3.23 against decode's 3.02 while request
+  concurrency, the dimension with the most slack, is credited with nothing.
+- The suite is 71 tests, up from 64, each new one pinning a boundary the audit
+  found unguarded. [LESSONS.md](inference-platform-deep-dive/LESSONS.md) records
+  four more authoring failures, including the one that produced two of the
+  defects above: a fix applied to a calculation without a matching fix to the
+  fixture that feeds it.
+
 ## 2026-09-02: the labs now point at the projects that took them further
 
 Searching this repository for the names of the applied projects built alongside
