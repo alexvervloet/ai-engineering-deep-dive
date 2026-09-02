@@ -160,6 +160,34 @@ signals into promotion and rollback evidence you can reproduce.
 ML Foundations takes the numeric path beneath the API call. It belongs before the
 dives where you tune weights, compress them, or schedule their memory.
 
+
+---
+
+## Applied companions
+
+Each dive stops where a lab should stop. The technique works, on a corpus small
+enough to read, with a mock provider so the first run is free. What a lab cannot
+show you is the same technique under the conditions that make it hard. These are
+separate repositories that took one dive further and wrote down what changed.
+
+They are not part of the course and nothing here depends on them. Read one when
+a dive leaves you wondering what happens once the corpus is large, the bill is
+real, or someone else is using it.
+
+| Dive | Companion | What it took further |
+|---|---|---|
+| RAG (4) | [rag-at-scale](https://github.com/alexvervloet/rag-at-scale) | Brute force, IVFFlat and HNSW at 1 to 5 million chunks. Recall, latency, build time and memory, measured as the corpus grows. |
+| Evals (5) | [model-swap](https://github.com/alexvervloet/model-swap) | The statistics applied to a deployed app instead of a fixture: a calibrated judge, a predeclared margin, and what a 120-case suite can and cannot detect. |
+| Agents (6), Prompt Injection (7) | [deskhand](https://github.com/alexvervloet/deskhand) | An agent allowed to move money. Durable runs across a worker crash, an approval gate bound to an argument hash, and 25 trajectory evals as a merge gate. |
+| Production (8) | [knowledge-desk](https://github.com/alexvervloet/knowledge-desk) | The operational layer around a live multi-tenant assistant: tenancy, ACL-aware retrieval, background ingestion, quotas, cost attribution and audit. |
+| Context Engineering (10) | [client-context-compiler](https://github.com/alexvervloet/client-context-compiler) | Packing one window under a token budget when two clients share an advisor, and the attribution failure that every permission check passes. |
+| Fine-tuning (13) | [local-lora](https://github.com/alexvervloet/local-lora) | The dive's mock trainer replaced with real weights: a LoRA fine-tune on Apple Silicon, held out and measured against its own baseline. |
+| Capstone (17) | [askrepo-live](https://github.com/alexvervloet/askrepo-live) | The capstone deployed and left running in public, with rate limits, a budget cap and uptime monitoring. |
+| Professional Tools (18) | [askrepo-langchain](https://github.com/alexvervloet/askrepo-langchain) | The same app rebuilt on LangChain and LangGraph, with both implementations scored on the same gold questions. |
+
+The interesting reading in most of them is `LESSONS.md`, which records what the
+lab did not predict.
+
 ---
 
 ## Setup (the same everywhere)
