@@ -207,3 +207,18 @@ Next time: before renumbering or renaming anything a document uses as an identif
 grep the sibling test suite for the pattern, not just the prose. A heading that looks
 like formatting may be an interface. And when two files disagree about a numbering
 scheme, find out which one is enforced before deciding which one is wrong.
+
+## 2026-09-06: Audit the applied companions before proposing another dive
+
+Expected: gaps in the 25 submodules would identify subjects that needed new
+repositories, particularly real fine-tuning, deployment, and durable execution.
+
+Actual: the linked `local-lora`, `askrepo-live`, and `deskhand` READMEs describe
+real training, deployment, and database-backed recovery work outside the formal
+course. Deskhand also names the remaining external-payment boundary: its atomic
+ledger works because the effect shares the database transaction. The gap is often
+curriculum integration or one missing failure case, rather than a missing project.
+
+Next time: read the linked companions before classifying a topic as absent. Separate
+formal-course coverage, companion coverage, and unverified implementation claims.
+Recommend a required exercise or a bounded extension before another repository.
