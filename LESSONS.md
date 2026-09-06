@@ -1,31 +1,163 @@
 # Lessons
 
-## 2026-08-31: the lockfile that turned out to be a lesson
+## Check the global agent instructions explicitly
 
-**Expected.** A sweep to standardize dependency declarations, starting from the
-reading that four dives had a `pyproject.toml` and Testing & Delivery had a Python
-lockfile the others were missing. The obvious job was to propagate both.
+Expected: repository-local instruction discovery would find the applicable
+`AGENTS.md` before committing.
 
-**What happened.** Both halves were wrong. Five dives have a `pyproject.toml`, not
-four, and they are exactly the five with an importable package the lessons import as
-a library, so the split tracks a real difference rather than drift. And no dive has a
-lockfile at all. Testing & Delivery's `pylock.toml` is an empty PEP 751 document with
-`packages = []`, written as course material for its chapter on locking: `check_setup.py`
-parses it, `tests/test_locking.py` asserts on it, and `examples/08_dependency_locking.py`
-audits it. Copying it into 23 siblings would have spread a teaching prop that locks
-nothing, and in the dives with real dependencies an empty lock would have been a lie.
+Actual: this workspace has no repository-local `AGENTS.md`; the applicable file
+was the global `~/.codex/AGENTS.md`, clarified by the user after the first search.
 
-The drift that did exist was in version bounds, and nobody had gone looking for it.
-`architecture-deep-dive` asked for `openai>=1.40.0` and `anthropic>=0.34.0`, unbounded,
-a different major than every sibling. Seven more libraries across 18 dives had a floor
-and no ceiling.
+Next time: when a user refers to global agent instructions, read
+`~/.codex/AGENTS.md` directly before planning, staging, or committing.
 
-**Next time.** Before propagating a file across the series, check what reads it. A
-config file that appears in exactly one repo is as likely to be that repo's subject as
-it is to be a gap, and this series is full of files that exist to be examined rather
-than obeyed. Grepping for the filename found the answer in one command.
+## Validate hand-written MCP envelopes against the SDK
 
-## 2026-08-31: two API assumptions the audit only caught by running them
+Expected: the abbreviated MCP 2026 announcement request body would be sufficient
+for the raw Streamable HTTP example.
+
+Actual: the Python SDK correctly returned HTTP 400 until `_meta` included both
+`io.modelcontextprotocol/protocolVersion` and
+`io.modelcontextprotocol/clientCapabilities` in addition to client information.
+
+Next time: test protocol examples end to end against the current Tier 1 SDK and
+inspect its validation types when a prose announcement abbreviates the wire shape.
+
+## Parent submodule registration needs Git metadata access
+
+Expected: `git submodule add` could register an already-built child repository
+from the writable workspace.
+
+Actual: ordinary workspace access could edit project files but could not lock the
+parent repository's `.git/config` or index, so registration stopped before making
+any tracked change.
+
+Next time: run parent-repository submodule and index operations in the approved
+Git environment when `.git` is mounted read-only inside the workspace sandbox.
+
+## Root-level unittest discovery is not universal across legacy dives
+
+Expected: the capstone README command `python -m unittest discover -v` would run its
+tracked `tests/test_*.py` files from the submodule root.
+
+Actual: Python 3.13 reported zero tests and exited nonzero, because that legacy
+`tests/` directory is not importable. An explicit `discover -s tests -v` ran all 71
+tests without touching the user's dirty submodule.
+
+Next time: validate every declared root command instead of inferring it from prose.
+For legacy layouts with no `tests/__init__.py`, give unittest an explicit start
+directory, and keep a nonempty-suite assertion wherever the repo owns CI.
+
+## Inspect tracked history before adding an apparently absent file
+
+Expected: adding a missing parent `LESSONS.md` would create a new file.
+
+Actual: the path already existed in Git history but was absent from the visible
+working tree, so the first commit replaced three earlier lessons. The loss was
+detected immediately by comparing the commit diff with the intended new entry.
+
+Next time: before adding a repository-root convention file, check both the working
+tree and `git cat-file -e HEAD:<path>`. If the path is tracked but not materialized,
+read its committed contents and preserve them before editing.
+
+## Offline execution can still require installed SDK interfaces
+
+Expected: the capstone test suite and local-model sizing lesson would run from a
+fresh Python because their behavior is offline and the capstone mock needs no
+dependencies.
+
+Actual: capstone local-provider tests patch `openai.OpenAI`, which requires the
+module to be installed, and importing the local-model package loads `dotenv` before
+the sizing-only example runs. Both failed in isolated CI while passing on the
+dependency-rich development machine.
+
+Next time: distinguish "no network or service at execution time" from "standard
+library only." Verify in isolated environments and install declared dependencies
+even when the selected runtime path makes no external call.
+
+## Push a submodule before the parent commit that points at it
+
+Expected: pushing the parent's updated submodule pointer and the submodule's own
+commits in whichever order they were finished would be equivalent, since both ended
+up on their remotes within a minute of each other.
+
+Actual: the parent pointer was pushed first, referencing a submodule commit that was
+still local. The parent workflow checks out submodules recursively, so
+`actions/checkout` failed with exit code 128 and the message "Fetched in submodule
+path 'testing-and-delivery-deep-dive', but it did not contain b160d96. Direct
+fetching of that commit failed." The whole matrix was skipped. Pushing the submodule
+afterwards did not retrigger the parent, so the red run stayed red until it was
+explicitly rerun.
+
+Next time: push child repositories first, then the parent commit that advances their
+pointers. Before pushing a parent pointer, confirm the target commit is on the child
+remote with `git -C <sub> branch -r --contains <sha>`. Treat a green child run as no
+evidence at all about the parent.
+
+## A doc path can be a test input, not just a link
+
+Expected: moving the twelve reference docs into `docs/` was a link problem. Rewrite
+every `../SECRETS.md` to `../docs/SECRETS.md`, confirm the link checker goes green,
+done.
+
+Actual: the link checker went green while two classes of reference stayed broken,
+because neither one is a Markdown link. The capstone documents its eval fixtures as
+shell commands (`askrepo ask ... --context ../MODELS.md`) inside backticks, and a
+dozen dive READMEs point at `../SECRETS.md` from inside `#` comment blocks in setup
+snippets. A reader follows both. No link checker sees either. The eval fixture is the
+worse of the two, because it is a path the reader is told to type, so a stale one
+makes the documented command fail instead of merely 404ing.
+
+The move was safe in one respect that could easily have gone the other way.
+`askrepo`'s indexer picks its corpus by file extension rather than from an explicit
+file list, so `docs/` came along with no change at all. A hardcoded manifest would
+have shrunk the corpus without saying so and changed every eval score with it.
+
+Next time: after moving a file, grep for the bare filename across every extension,
+not just `*.md`, and not just inside link syntax. The link checker is a floor, not a
+verification. Check whether anything selects files by an explicit list before
+assuming a move is inert.
+
+## A numbering convention can be a tested invariant
+
+Expected: the Testing & Delivery textbook numbering its sections `## 1.` to `## 13.`
+was an inconsistency, since every other chapter numbers them `chapter.section`, and
+`docs/GLOSSARY.md` already cited that chapter as §23.x. Renumbering looked like a
+tidy-up with no consumer.
+
+Actual: `tests/test_manifest.py` asserts `^## <n>\. ` in TEXTBOOK.md for every lesson,
+because the bare numbers are what tie a lesson together across README, TEXTBOOK, and
+EXERCISES. The renumber turned that three-way correspondence into a failing test, and
+the parent's CI matrix caught it on push rather than anything local. The glossary's
+apparent off-by-one was not a defect either: it counts the chapter intro as §23.1, so
+its citations were already coherent.
+
+Next time: before renumbering or renaming anything a document uses as an identifier,
+grep the sibling test suite for the pattern, not just the prose. A heading that looks
+like formatting may be an interface. And when two files disagree about a numbering
+scheme, find out which one is enforced before deciding which one is wrong.
+
+## CodeQL's quality suite drowned the security findings
+
+**Expected.** Turning on CodeQL with `security-and-quality` would give readers a
+public Security tab worth looking at.
+
+**What happened.** The first run produced 112 open alerts. Eleven were security
+findings. The other 101 were quality notes: unused imports, and `py/unsafe-cyclic-import`
+fired repeatedly on the `architecture-deep-dive` provider-seam variants, which are
+near-identical `app.py` files by design because the whole chapter is the same app
+rewritten five ways. A tab with 112 alerts on it argues against the repo instead of
+for it, which is the opposite of why it was published.
+
+**Next time.** Use `security-extended` on a teaching repo. The quality suite is aimed
+at a codebase you are maintaining, not one where the duplication and the deliberate
+mistakes are the lesson. Switching suites auto-closed all 101 quality alerts on the
+next run.
+
+**Also.** The dismissal API wants `used in tests` and `false positive` with spaces.
+The underscore forms that appear in most examples return HTTP 422.
+
+## Two API assumptions the audit only caught by running them
 
 **Expected.** Auditing the new `responses/` track, two claims looked wrong on sight.
 Background mode with `store=False` should be rejected, because a job you poll by ID
@@ -51,159 +183,27 @@ a fact.
 returning a `None` to check, is a better lesson than the one originally planned, and it
 was only found by capping `max_output_tokens` to see what would happen.
 
-## 2026-08-24: CodeQL's quality suite drowned the security findings
+## The lockfile that turned out to be a lesson
 
-**Expected.** Turning on CodeQL with `security-and-quality` would give readers a
-public Security tab worth looking at.
+**Expected.** A sweep to standardize dependency declarations, starting from the
+reading that four dives had a `pyproject.toml` and Testing & Delivery had a Python
+lockfile the others were missing. The obvious job was to propagate both.
 
-**What happened.** The first run produced 112 open alerts. Eleven were security
-findings. The other 101 were quality notes: unused imports, and `py/unsafe-cyclic-import`
-fired repeatedly on the `architecture-deep-dive` provider-seam variants, which are
-near-identical `app.py` files by design because the whole chapter is the same app
-rewritten five ways. A tab with 112 alerts on it argues against the repo instead of
-for it, which is the opposite of why it was published.
+**What happened.** Both halves were wrong. Five dives have a `pyproject.toml`, not
+four, and they are exactly the five with an importable package the lessons import as
+a library, so the split tracks a real difference rather than drift. And no dive has a
+lockfile at all. Testing & Delivery's `pylock.toml` is an empty PEP 751 document with
+`packages = []`, written as course material for its chapter on locking: `check_setup.py`
+parses it, `tests/test_locking.py` asserts on it, and `examples/08_dependency_locking.py`
+audits it. Copying it into 23 siblings would have spread a teaching prop that locks
+nothing, and in the dives with real dependencies an empty lock would have been a lie.
 
-**Next time.** Use `security-extended` on a teaching repo. The quality suite is aimed
-at a codebase you are maintaining, not one where the duplication and the deliberate
-mistakes are the lesson. Switching suites auto-closed all 101 quality alerts on the
-next run.
+The drift that did exist was in version bounds, and nobody had gone looking for it.
+`architecture-deep-dive` asked for `openai>=1.40.0` and `anthropic>=0.34.0`, unbounded,
+a different major than every sibling. Seven more libraries across 18 dives had a floor
+and no ceiling.
 
-**Also.** The dismissal API wants `used in tests` and `false positive` with spaces.
-The underscore forms that appear in most examples return HTTP 422.
-
-## 2026-08-17: Check the global agent instructions explicitly
-
-Expected: repository-local instruction discovery would find the applicable
-`AGENTS.md` before committing.
-
-Actual: this workspace has no repository-local `AGENTS.md`; the applicable file
-was the global `~/.codex/AGENTS.md`, clarified by the user after the first search.
-
-Next time: when a user refers to global agent instructions, read
-`~/.codex/AGENTS.md` directly before planning, staging, or committing.
-
-## 2026-08-17: Validate hand-written MCP envelopes against the SDK
-
-Expected: the abbreviated MCP 2026 announcement request body would be sufficient
-for the raw Streamable HTTP example.
-
-Actual: the Python SDK correctly returned HTTP 400 until `_meta` included both
-`io.modelcontextprotocol/protocolVersion` and
-`io.modelcontextprotocol/clientCapabilities` in addition to client information.
-
-Next time: test protocol examples end to end against the current Tier 1 SDK and
-inspect its validation types when a prose announcement abbreviates the wire shape.
-
-## 2026-08-17: Parent submodule registration needs Git metadata access
-
-Expected: `git submodule add` could register an already-built child repository
-from the writable workspace.
-
-Actual: ordinary workspace access could edit project files but could not lock the
-parent repository's `.git/config` or index, so registration stopped before making
-any tracked change.
-
-Next time: run parent-repository submodule and index operations in the approved
-Git environment when `.git` is mounted read-only inside the workspace sandbox.
-
-## Root-level unittest discovery is not universal across legacy dives
-
-Expected: the capstone README command `python -m unittest discover -v` would run its
-tracked `tests/test_*.py` files from the submodule root.
-
-Actual: Python 3.13 reported zero tests and exited nonzero, because that legacy
-`tests/` directory is not importable. An explicit `discover -s tests -v` ran all 71
-tests without touching the user's dirty submodule.
-
-Next time: validate every declared root command instead of inferring it from prose.
-For legacy layouts with no `tests/__init__.py`, give unittest an explicit start
-directory, and keep a nonempty-suite assertion wherever the repo owns CI.
-
-## 2026-08-20: Inspect tracked history before adding an apparently absent file
-
-Expected: adding a missing parent `LESSONS.md` would create a new file.
-
-Actual: the path already existed in Git history but was absent from the visible
-working tree, so the first commit replaced three earlier lessons. The loss was
-detected immediately by comparing the commit diff with the intended new entry.
-
-Next time: before adding a repository-root convention file, check both the working
-tree and `git cat-file -e HEAD:<path>`. If the path is tracked but not materialized,
-read its committed contents and preserve them before editing.
-
-## 2026-08-20: Offline execution can still require installed SDK interfaces
-
-Expected: the capstone test suite and local-model sizing lesson would run from a
-fresh Python because their behavior is offline and the capstone mock needs no
-dependencies.
-
-Actual: capstone local-provider tests patch `openai.OpenAI`, which requires the
-module to be installed, and importing the local-model package loads `dotenv` before
-the sizing-only example runs. Both failed in isolated CI while passing on the
-dependency-rich development machine.
-
-Next time: distinguish "no network or service at execution time" from "standard
-library only." Verify in isolated environments and install declared dependencies
-even when the selected runtime path makes no external call.
-
-## 2026-08-20: Push a submodule before the parent commit that points at it
-
-Expected: pushing the parent's updated submodule pointer and the submodule's own
-commits in whichever order they were finished would be equivalent, since both ended
-up on their remotes within a minute of each other.
-
-Actual: the parent pointer was pushed first, referencing a submodule commit that was
-still local. The parent workflow checks out submodules recursively, so
-`actions/checkout` failed with exit code 128 and the message "Fetched in submodule
-path 'testing-and-delivery-deep-dive', but it did not contain b160d96. Direct
-fetching of that commit failed." The whole matrix was skipped. Pushing the submodule
-afterwards did not retrigger the parent, so the red run stayed red until it was
-explicitly rerun.
-
-Next time: push child repositories first, then the parent commit that advances their
-pointers. Before pushing a parent pointer, confirm the target commit is on the child
-remote with `git -C <sub> branch -r --contains <sha>`. Treat a green child run as no
-evidence at all about the parent.
-
-## 2026-08-21: A doc path can be a test input, not just a link
-
-Expected: moving the twelve reference docs into `docs/` was a link problem. Rewrite
-every `../SECRETS.md` to `../docs/SECRETS.md`, confirm the link checker goes green,
-done.
-
-Actual: the link checker went green while two classes of reference stayed broken,
-because neither one is a Markdown link. The capstone documents its eval fixtures as
-shell commands (`askrepo ask ... --context ../MODELS.md`) inside backticks, and a
-dozen dive READMEs point at `../SECRETS.md` from inside `#` comment blocks in setup
-snippets. A reader follows both. No link checker sees either. The eval fixture is the
-worse of the two, because it is a path the reader is told to type, so a stale one
-makes the documented command fail instead of merely 404ing.
-
-The move was safe in one respect that could easily have gone the other way.
-`askrepo`'s indexer picks its corpus by file extension rather than from an explicit
-file list, so `docs/` came along with no change at all. A hardcoded manifest would
-have shrunk the corpus without saying so and changed every eval score with it.
-
-Next time: after moving a file, grep for the bare filename across every extension,
-not just `*.md`, and not just inside link syntax. The link checker is a floor, not a
-verification. Check whether anything selects files by an explicit list before
-assuming a move is inert.
-
-## 2026-08-24: A numbering convention can be a tested invariant
-
-Expected: the Testing & Delivery textbook numbering its sections `## 1.` to `## 13.`
-was an inconsistency, since every other chapter numbers them `chapter.section`, and
-`docs/GLOSSARY.md` already cited that chapter as §23.x. Renumbering looked like a
-tidy-up with no consumer.
-
-Actual: `tests/test_manifest.py` asserts `^## <n>\. ` in TEXTBOOK.md for every lesson,
-because the bare numbers are what tie a lesson together across README, TEXTBOOK, and
-EXERCISES. The renumber turned that three-way correspondence into a failing test, and
-the parent's CI matrix caught it on push rather than anything local. The glossary's
-apparent off-by-one was not a defect either: it counts the chapter intro as §23.1, so
-its citations were already coherent.
-
-Next time: before renumbering or renaming anything a document uses as an identifier,
-grep the sibling test suite for the pattern, not just the prose. A heading that looks
-like formatting may be an interface. And when two files disagree about a numbering
-scheme, find out which one is enforced before deciding which one is wrong.
+**Next time.** Before propagating a file across the series, check what reads it. A
+config file that appears in exactly one repo is as likely to be that repo's subject as
+it is to be a gap, and this series is full of files that exist to be examined rather
+than obeyed. Grepping for the filename found the answer in one command.
