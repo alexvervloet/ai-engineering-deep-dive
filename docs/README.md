@@ -46,6 +46,9 @@ worth once you can do it.
   Principles for writing runnable teaching examples that actually prove their own
   claim, drawn from hardening the RAG examples. The reader believes the output, so
   the output has to be worth believing.
+- [CURRICULUM-AUDIT.md](CURRICULUM-AUDIT.md) reviews senior AI engineering coverage
+  as of 2026-09-06. It identifies teaching errors, missing depth, and concrete
+  additions, with priorities and evidence from the dives and applied companions.
 
 ## Operating responsibly
 
