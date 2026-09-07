@@ -89,6 +89,14 @@ them, and the capstone reports both.
 That has a design consequence. If you cannot cite, say so, rather than presenting an
 uncited answer in the same visual style as a cited one.
 
+The same rule with a different artifact: when the answer is a number computed by
+generated SQL, show the query beside it. The reader is the last defense against a query
+that is confident, well-formed, and about the wrong thing, and a number with no query
+under it cannot be checked by anyone. [Structured Data + AI](../structured-data-ai-deep-dive/)
+is what those queries get wrong, and why the failures are so quiet: a join that
+multiplies a total inflates rather than errors, and an undefined metric produces a
+defensible number that answers a question nobody agreed on.
+
 ---
 
 ## 4. Streaming, latency, and the feeling of speed
