@@ -73,3 +73,6 @@
 [submodule "ml-foundations-for-ai-engineers"]
 	path = ml-foundations-for-ai-engineers
 	url = https://github.com/alexvervloet/ml-foundations-for-ai-engineers.git
+[submodule "structured-data-ai-deep-dive"]
+	path = structured-data-ai-deep-dive
+	url = https://github.com/alexvervloet/structured-data-ai-deep-dive.git
