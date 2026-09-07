@@ -181,8 +181,8 @@ CARDS = [
         "BONUS DIVE",
         45,
         "Fine-tuning",
-        "Fine-tuning changes how a model behaves, not what it knows. Teach by "
-        "example, then prove it beat your baseline.",
+        "Fine-tuning teaches behavior well and facts badly. Teach by example, "
+        "then prove it beat your baseline.",
         ["10 examples", "exercises", "after: RAG + Evals"],
     ),
     (
