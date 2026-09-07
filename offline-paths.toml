@@ -272,3 +272,15 @@ commands = [
   ["python", "check_setup.py"],
   ["python", "-m", "unittest", "discover", "-v"],
 ]
+
+[[repositories]]
+path = "structured-data-ai-deep-dive"
+runtime = "python"
+python = "3.11"
+claim = "Execute generated SQL against a seeded warehouse and gate on the result-set comparison."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [
+  ["python", "check_setup.py"],
+  ["python", "-m", "unittest", "discover", "-s", "tests", "-v"],
+  ["python", "hands_on/benchmark.py"],
+]
