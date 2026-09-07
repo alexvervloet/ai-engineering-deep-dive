@@ -116,6 +116,7 @@ These are not higher rungs. They are side doors for particular requirements.
 | To serve open weights as a fleet, with KV memory, batching, parallelism, admission, GPU placement, scaling, rollouts, and capacity | [Inference Platform Engineering](../inference-platform-deep-dive/) |
 | To share tools/data with an LLM across apps | [MCP](../mcp-deep-dive/) |
 | To own the corpus behind the index, with versions, lineage, ACLs, and deletes | [AI Data Engineering](../ai-data-engineering-deep-dive/) |
+| To answer questions about a database in English, and to know whether the SQL it wrote is right | [Structured Data + AI](../structured-data-ai-deep-dive/) |
 | To know if any change actually helped | [Evals](../evals-deep-dive/), the skill every rung needs |
 | To stop it being jailbroken or leaking | [Prompt Injection & Guardrails](../prompt-injection-deep-dive/) |
 | To secure the system around the model, meaning identity, supply chain, tenant isolation, egress, budgets, and release gates | [GenAI Security](../genai-security-deep-dive/) |

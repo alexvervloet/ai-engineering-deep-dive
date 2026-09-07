@@ -727,3 +727,42 @@ duration, and pass thresholds chosen before anyone looks at the results.
 via a subject digest, source revision, timestamp, and digest of the actual decision
 payload, so a green result cannot be transferred to a different build.
 *(Testing & Delivery §23.13)*
+
+## Asking a database questions
+
+*The vocabulary of natural-language querying over a warehouse, where the answer is a
+number someone will act on and the model is the least interesting part of the system.
+(Structured Data + AI dive)*
+
+**Execution-based evaluation**: scoring a generated query by running it and comparing
+its result set against a reference query's, rather than comparing the SQL as text.
+Necessary because text similarity fails in both directions: two queries sharing almost
+no words can mean the same thing, and one clause carries most of the meaning.
+*(Structured Data + AI §25.2)*
+
+**Result-set equivalence**: the comparison itself. Row order ignored unless the question
+asked for a ranking, column names ignored because an alias is not a difference,
+multiplicity preserved so duplicate rows cannot pass, and a tolerance on floats.
+*(Structured Data + AI §25.2)*
+
+**Fan-out join**: joining a parent table to its children, which repeats the parent's row
+once per child. Any `SUM` or `AVG` over a parent column across that join then counts it
+once per child. The error inflates rather than breaks, is invisible in review, and its
+size depends on which rows happen to have many children, so it moves with the data.
+*(Structured Data + AI §25.3)*
+
+**Semantic layer** (metric store): a metric defined once, in one owned place, with every
+query derived from that definition instead of re-deriving it. dbt metrics, Cube, LookML,
+and Malloy are implementations. Its relevance to AI is that a text-to-SQL system on a
+warehouse without one inherits every undefined metric silently.
+*(Structured Data + AI §25.4)*
+
+**Abstention**: producing no query, explicitly, for a question the schema cannot answer.
+Scored as a first-class outcome in both directions, since refusing what you could have
+answered is a real cost and not a safe default.
+*(Structured Data + AI §25.6)*
+
+**Column-level authorization**: refusing a read of a named column at the database, during
+statement preparation, rather than by inspecting the query text. Survives aliases,
+subqueries, functions, and `SELECT *`, all of which defeat a regex.
+*(Structured Data + AI §25.5)*
