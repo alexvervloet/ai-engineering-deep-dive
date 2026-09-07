@@ -40,7 +40,10 @@ runtime = "python"
 python = "3.11"
 claim = "Validate the complete production stack on its deterministic mock provider."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
-commands = [["python", "check_setup.py"]]
+commands = [
+  ["python", "check_setup.py"],
+  ["python", "examples/12_cost_per_successful_task.py"],
+]
 environment = { PROVIDER = "mock", NO_COLOR = "1" }
 
 [[repositories]]
