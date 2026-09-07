@@ -88,6 +88,7 @@ Standalone deep dives that extend the core path. Each one notes where it slots i
 | [Observability](observability-deep-dive/) | A prototype gets judged once. A production system gets judged continuously, so watch quality as a trend: drift, silent regressions, and alerting that does not cry wolf. It ends by emitting the same telemetry as real OpenTelemetry over OTLP, so you can see which half of the problem the standard actually solves. | Production (8); pairs with Evals (5) |
 | [Architecture](architecture-deep-dive/) | The seams between the components. Where conversation state lives, what a queue buys, what streaming costs your guardrails, and where the tenant boundary goes. Every decision measured rather than asserted. | Production (8); pairs with Observability |
 | [Testing & Delivery](testing-and-delivery-deep-dive/) | A release is an evidence pipeline. Requirements defined independently decide whether the reproducibility, compatibility, security, rollout, and recovery evidence is good enough to promote. | Evals (5) + Production (8); pairs with GenAI Security |
+| [Structured Data + AI](structured-data-ai-deep-dive/) | Most of what a company knows is in a database. Ask it questions in English, then do the work that makes the answers trustworthy: score by executing the SQL, catch the join that silently multiplies revenue, discover the metric nobody defined, and put the read-only boundary somewhere a prompt cannot reach. | Evals (5); pairs with GenAI Security |
 | [Professional Tools](professional-tools-deep-dive/) | Volume 2. Rebuild each from-scratch piece with the tool professionals actually reach for (LiteLLM, Instructor, LlamaIndex, DeepEval, LangGraph, Llama Guard, Langfuse) and measure both on the same eval, so "should we adopt this framework?" becomes an experiment instead of a taste. | Everything (you need the pieces first) |
 
 ---
@@ -226,6 +227,7 @@ the eval anatomy, the injection attack catalog, the quantization calculator).
 | A complete release-evidence pipeline, no services | [Testing & Delivery](testing-and-delivery-deep-dive/) (deterministic tests, gates, rollout, and rollback) |
 | Ten architecture decisions measured, no key | [Architecture](architecture-deep-dive/) (every chapter's stressor runs offline in under a minute) |
 | Model mechanics, no API key or GPU | [ML Foundations for AI Engineers](ml-foundations-for-ai-engineers/) (NumPy math and a tiny CPU transformer) |
+| A text-to-SQL benchmark that executes, no key or database server | [Structured Data + AI](structured-data-ai-deep-dive/) (SQLite fixture, canned model, real enforcement) |
 | Six weeks of monitoring, no key | [Observability](observability-deep-dive/) (synthetic traffic) |
 | Real models, no per-token bill | [Local Models](local-models-deep-dive/) (Ollama on your machine) |
 | Offline sections | the first lesson in most repos (look for "offline, no key") |

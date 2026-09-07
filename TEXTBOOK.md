@@ -57,6 +57,7 @@ Standalone chapters that extend the core path. Each notes where it slots in.
 | 22 | [The Memory-and-Queue Scheduler](inference-platform-deep-dive/TEXTBOOK.md) | An inference platform turns finite accelerator memory and compute into latency, throughput, reliability, and cost outcomes by scheduling KV state and queued token work. | Local Models (15); Production (8); Architecture (21) |
 | 23 | [The Evidence a Release Owes](testing-and-delivery-deep-dive/TEXTBOOK.md) | A release is a claim, only as good as the independent evidence behind it. No check may take its expected answer from the input it judges, and no passing result counts unless it names the candidate it tested. | Evals (5) + Production (8); pairs with GenAI Security (20) |
 | 24 | [The Numeric Contracts Beneath the Model](ml-foundations-for-ai-engineers/TEXTBOOK.md) | Shapes decide what can interact, loss decides what training rewards, attention decides what each token can read, and calibration, quantization, and retained state decide what an inference result means and costs. | The API chapters (1, 2); before Fine-tuning (13), Local Models (15), and Inference Platforms (22) |
+| 25 | [The Database Settles It](structured-data-ai-deep-dive/TEXTBOOK.md) | A generated query is a hypothesis, and only the database settles it. Score by executing, expect the join that multiplies a total, recognize an undefined metric as a specification gap wearing a model-shaped costume, and put the boundary in a role rather than a prompt. | Evals (5); pairs with GenAI Security (20) |
 
 ---
 
