@@ -37,6 +37,7 @@ but the capstone is still the conceptual finale.
 | `22-inference-platform` | `inference-platform-deep-dive` |
 | `23-testing-delivery` | `testing-and-delivery-deep-dive` |
 | `24-ml-foundations` | `ml-foundations-for-ai-engineers` |
+| `25-structured-data` | `structured-data-ai-deep-dive` |
 
 ## Notes
 

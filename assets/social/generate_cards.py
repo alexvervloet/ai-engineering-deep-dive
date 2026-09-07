@@ -36,7 +36,7 @@ CARDS = [
         "series",
         # Bump when a dive is added: 8 core + the bonus dives, capstone counted
         # separately, and the TypeScript companion excluded as an aside.
-        "23 DIVES + CAPSTONE",
+        "24 DIVES + CAPSTONE",
         265,
         "AI Engineering,<br>from scratch",
         "Hands-on courses you walk through. Every concept is a small runnable "
@@ -302,6 +302,16 @@ CARDS = [
         "gradients, masked attention, calibration, quantization, and memory.",
         ["11 lessons", "NumPy · PyTorch", "CPU only"],
     ),
+    (
+        "25-structured-data",
+        "bonus",
+        "BONUS DIVE",
+        200,
+        "Structured Data<br>+ AI",
+        "Ask a database questions in English, then prove the SQL is right: "
+        "execute it, compare the rows, and put the boundary in the role.",
+        ["6 lessons", "stdlib only", "no key"],
+    ),
 ]
 
 # slug -> the GitHub repo it links to
@@ -333,6 +343,7 @@ REPOS = {
     "22-inference-platform": "inference-platform-deep-dive",
     "23-testing-delivery": "testing-and-delivery-deep-dive",
     "24-ml-foundations": "ml-foundations-for-ai-engineers",
+    "25-structured-data": "structured-data-ai-deep-dive",
 }
 
 TEMPLATE = """
