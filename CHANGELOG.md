@@ -11,6 +11,67 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-09-07: acting on a curriculum audit
+
+An external audit of the series flagged five concrete defects and recommended
+three new repositories. The defects were all real and are fixed below. Of the
+three recommendations, one was built, one landed as a chapter in an existing
+dive, and one was declined as already covered.
+
+### Added
+
+- **[structured-data-ai-deep-dive](structured-data-ai-deep-dive/)**, chapter 25.
+  Text-to-SQL judged the only way it can be judged: by executing the query and
+  comparing the rows. Six lessons on schema grounding, execution-based
+  evaluation, the fan-out join that inflates revenue by 1.72x, metric
+  definitions as the ceiling on prompting, a permission boundary the prompt
+  cannot provide, and abstention. Runs on the standard library with no key.
+- **Cost per successful task** in
+  [ai-in-production-deep-dive](ai-in-production-deep-dive/). The dive priced
+  calls; nobody buys calls. Puts the denominator on tasks that landed and human
+  correction time in the numerator at a loaded rate. On a workflow with a person
+  in the loop, a model ten times cheaper moves the total by 3% and halving
+  review time moves it by 48%.
+
+### Fixed
+
+- **The prompt capstone's scorer could be passed without classifying anything.**
+  `score()` asked only whether the expected label appeared in the reply, so
+  "Positive Negative Mixed" matched every case in the set and rated both prompts
+  identical. It now requires the expected label to be the only one named.
+- **`accuracy()` and `precision_recall_f1()` silently dropped missing
+  predictions.** Both zipped their inputs, so a shorter prediction list truncated
+  the expected labels and a run that lost rows scored higher than one that kept
+  them: four correct predictions against eight labels reported 100%. They now
+  refuse mismatched lengths.
+- **The text-to-SQL example called a prompt rule a safety guardrail.** It claimed
+  the schema meant the model "can't invent" names and that READ-ONLY in a system
+  prompt was a critical safety guardrail. The security dives in this series exist
+  to teach the opposite.
+- **A preference-tuning pair rewarded a fabricated refund.** The chosen response
+  said "I've refunded it", so the pair varied both the tone it meant to teach and
+  whether the assistant claims a completed action it never took.
+- **Two teaching claims overstated.** "Fine-tuning changes how the model behaves,
+  not what it knows" is quotable and false; it is now stated as a difference of
+  degree, which is the stronger argument because it survives the counterexample.
+  And "exactly-once replay even across a mid-tool crash (Temporal-style)"
+  overstated what a workflow engine gives you: activities still run at-least-once,
+  and the agent-harness dive now names the crash-inside-the-call case it does not
+  cover.
+
+### Declined
+
+- **A separate product-engineering repository.** Trustworthy experiments are
+  already covered in `evals-deep-dive/examples/12_online_eval.py`, which does
+  fixed-horizon screening, predeclared thresholds, guardrail metrics, and
+  multiplicity. Only the unit economics were missing, and that is a chapter.
+- **A document-intelligence repository.** Parsing and OCR live in
+  [AI Data Engineering](ai-data-engineering-deep-dive/), ingestion in
+  [RAG](rag-deep-dive/), native PDF in [Multimodal](multimodal-deep-dive/).
+- **SENIOR-PATH.md, SENIOR-ASSESSMENT.md, and OPERATIONS-PRACTICUM.md.** Three
+  more meta-documents on top of fourteen in `docs/`. The production material's
+  problem is not that it lacks a label saying it is required.
+
 ## 2026-09-03: inference-platform-deep-dive pre-release audit
 
 An audit before pointing readers at [chapter 22](inference-platform-deep-dive/)
