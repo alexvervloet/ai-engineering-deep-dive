@@ -153,8 +153,8 @@ to know which of the differences are real and which are folklore.
 ```
 
 The thread runs: build the call (1–2), ask well (3), ground it (4), measure it (5),
-let it act (6), harden it (7), operate it (8). The bonus dives branch off where they
-are most useful. Observability extends Production from one request to six weeks of
+let it act (6), harden it (7), operate it (8). The bonus dives branch off where they're
+most useful. Observability extends Production from one request to six weeks of
 them, and Architecture asks where all these parts belong once there's more than one
 of everything. Testing & Delivery turns those quality, security, and operational
 signals into promotion and rollback evidence you can reproduce.
