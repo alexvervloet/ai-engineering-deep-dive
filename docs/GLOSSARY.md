@@ -36,7 +36,7 @@ with a finish reason of "length". *(API dives)*
 
 **stop sequence**: a string that, if the model is about to generate it, ends the
 reply there. A text-completion era idea, and a retreating one: OpenAI's GPT-5
-line dropped `stop` entirely (Anthropic keeps `stop_sequences`). Where you would
+line dropped `stop` entirely (Anthropic keeps `stop_sequences`). Where you'd
 once chop output at a marker, you now ask for a shape with structured outputs.
 *(OpenAI dive §06)*
 
@@ -48,7 +48,7 @@ re-sending the growing message list each turn. *(API dives; Agents §9)*
 ## Model mechanics
 
 **Tensor**: an array whose axes have declared meanings, such as batch, sequence,
-head, or model width. Equal lengths do not make two axes interchangeable.
+head, or model width. Equal lengths don't make two axes interchangeable.
 *(ML Foundations §1)*
 
 **Affine layer**: a matrix multiplication followed by a bias, usually written
@@ -56,7 +56,7 @@ head, or model width. Equal lengths do not make two axes interchangeable.
 *(ML Foundations §1)*
 
 **Logit**: an unnormalized relative score for one class or token. Logits become a
-probability distribution through softmax, but a large logit is not by itself a
+probability distribution through softmax, but a large logit isn't by itself a
 calibrated confidence claim. *(ML Foundations §2)*
 
 **Softmax**: exponentiate relative scores and normalize them to sum to one. Stable
@@ -206,7 +206,7 @@ are the workable substitute for exactly-once processing. *(§6)*
 
 **Source version**: the monotonic number the source assigns a document, and the only
 trustworthy way to decide whether an arriving event is news or an echo. Arrival order
-is not, because retries and partitions reorder it. *(§6)*
+isn't, because retries and partitions reorder it. *(§6)*
 
 **Tombstone**: a durable record that a document was deleted, at the version it was
 deleted at. Without one, a late retry of an older event finds nothing in the index,
@@ -271,7 +271,7 @@ scores into one decision number. *(Evals §5)*
 **pass@k**: fraction of tasks solved within *k* attempts. *(Evals §5)*
 
 **Confidence interval**: a range produced by a stated procedure for an unknown
-effect. It shows uncertainty; it does not decide what size of change matters.
+effect. It shows uncertainty; it doesn't decide what size of change matters.
 *(Evals §10, Example 14)*
 
 **Paired comparison / paired bootstrap**: compare control and candidate on the same
@@ -295,7 +295,7 @@ divide a family error budget across declared comparisons. *(Evals, Example 14)*
 
 **Sequential test / alpha spending**: a design that permits predeclared interim
 looks while accounting for the repeated chances to stop. Repeatedly checking an
-ordinary fixed-horizon interval is not a valid sequential design. *(Evals, Example 14)*
+ordinary fixed-horizon interval isn't a valid sequential design. *(Evals, Example 14)*
 
 **Inter-annotator agreement / Cohen's kappa**: how much human labelers agree
 (corrected for chance); low agreement means noisy "ground truth." *(Evals)*
@@ -414,13 +414,13 @@ Engineering §10; Claude API)*
 ## GenAI security
 
 **Untrusted principal**: the security model for an LLM: it may *propose* data and
-actions, but trusted code derives identity and decides what is authorized. A model's
+actions, but trusted code derives identity and decides what's authorized. A model's
 intent is never authority. *(GenAI Security)*
 
 **Threat model / trust boundary**: the system-specific map of assets, owners, entry
 points, data flows, attacker capabilities, and consequences; a trust boundary is where
 data or authority moves between differently trusted components. A top-ten list helps
-review the map but cannot replace it. *(GenAI Security §1)*
+review the map but can't replace it. *(GenAI Security §1)*
 
 **Capability broker / reference monitor**: trusted code between a model proposal and
 an effect. It combines authenticated subject, tenant, roles, object policy, approval,
@@ -442,7 +442,7 @@ untrusted sources, duplicates, and population shifts are quarantined with eviden
 
 **Sink-specific output validation**: treating model output as untrusted input to the
 next interpreter: an exact schema for structured actions, parameter binding for SQL,
-and context-appropriate encoding for HTML. There is no universal sanitizer. *(§5)*
+and context-appropriate encoding for HTML. There's no universal sanitizer. *(§5)*
 
 **Retrieval prefilter**: applying tenant, ACL, and source-approval policy before
 similarity ranking, context construction, tracing, or caching. Filtering afterward is
@@ -479,11 +479,11 @@ a **span** is one timed step inside it (the model call, the retrieval, the guard
 **OpenTelemetry (OTel) / OTLP**: the vendor-neutral standard for emitting spans,
 metrics, and logs, and **OTLP** is its wire protocol. Emit it once and the backend
 (Jaeger, Tempo, Honeycomb, Datadog, Langfuse) becomes a URL you can change. It moves
-telemetry; it does not decide what the numbers mean. *(Observability §11)*
+telemetry; it doesn't decide what the numbers mean. *(Observability §11)*
 
 **Semantic conventions**: the agreed attribute names (`gen_ai.request.model`,
 `gen_ai.usage.input_tokens`) that let any backend understand telemetry it has never
-seen. The GenAI ones are still experimental, and there is deliberately no standard
+seen. The GenAI ones are still experimental, and there's deliberately no standard
 attribute for cost. *(Observability §11)*
 
 **Cardinality**: how many distinct values an attribute takes. Each distinct
@@ -582,7 +582,7 @@ that would reverse it. Useful precisely because it names what would change your 
 
 **Blast radius**: how much of a system a single failure takes with it. An in-process
 model that is OOM-killed takes the health check and the cached responses with it; a
-separate model tier does not. *(Architecture §4)*
+separate model tier doesn't. *(Architecture §4)*
 
 **Circuit breaker**: stop calling a dependency that has stopped answering, so requests
 fail fast instead of holding a worker for the full deadline. A capacity device, not a
@@ -593,7 +593,7 @@ output guard sees them before the user does. Buys containment with first-token l
 *(Architecture §5)*
 
 **Load shedding**: refusing work immediately when the queue is too deep, rather than
-accepting it and making the client wait for a deadline it will not meet.
+accepting it and making the client wait for a deadline it won't meet.
 *(Architecture §3)*
 
 **Sticky routing**: sending every request in a session to the same worker, which makes
@@ -617,7 +617,7 @@ machine; speaks the OpenAI-compatible API. *(Local Models dive)*
 **Quantization**: representing weights (and sometimes activations or KV state) at lower
 precision to reduce memory and potentially change performance. Quality loss, kernel
 support, and speed depend on format, model, workload, runtime, and hardware; bit width
-alone is not a throughput result. *(ML Foundations §10; Local Models; Inference Platform §22.6)*
+alone isn't a throughput result. *(ML Foundations §10; Local Models; Inference Platform §22.6)*
 
 **KV cache**: memory holding the keys/values for tokens in context; grows with
 context length and can rival the weights in size. *(ML Foundations §11; Local Models)*
@@ -637,7 +637,7 @@ request-level head-of-line blocking but still has prefill/decode fairness trade-
 
 **Prefix caching**: reusing prefill KV blocks for an exact token prefix under the same
 model, tokenizer, adapter, and security scope. Visible text or a caller's cache label
-is not sufficient identity. *(Inference Platform §22.5)*
+isn't sufficient identity. *(Inference Platform §22.5)*
 
 **Speculative decoding**: a cheaper draft model proposes several tokens and the target
 model verifies them in parallel, preserving the target distribution under the exact
@@ -652,7 +652,7 @@ physical link topology constrain which compositions are useful. *(Inference Plat
 
 **Admission control**: deciding and reserving worst-case request work before allocation;
 when live capacity and the bounded queue are full, the platform sheds rather than
-accepting work it predicts it cannot serve. *(Inference Platform §22.9)*
+accepting work it predicts it can't serve. *(Inference Platform §22.9)*
 
 ---
 
@@ -661,7 +661,7 @@ accepting work it predicts it cannot serve. *(Inference Platform §22.9)*
 **Evidence portfolio**: the set of check families a release requires, each catching a
 different failure: unit, eval, SDK contract, property, integration, load, fault. The
 required set is declared by the release owner, so the checks that happened to run
-cannot decide which checks were needed. *(Testing & Delivery §23.2)*
+can't decide which checks were needed. *(Testing & Delivery §23.2)*
 
 **Vacuous gate**: a check that derives its expected answer from the same input it
 judges, so it proves only that the input equals itself. Recording a broken response
@@ -679,7 +679,7 @@ its generator, seed, first failure, and shrunk witness. *(Testing & Delivery §2
 
 **Shrinking**: reducing a randomly found failure to the smallest input that still
 fails, so the report explains the bug rather than merely proving one exists. A run
-that exhausts its shrink budget must say the witness is not proven minimal.
+that exhausts its shrink budget must say the witness isn't proven minimal.
 *(Testing & Delivery §23.4)*
 
 **Stub / mock / fake**: a stub returns canned data, a mock asserts an interaction
@@ -692,15 +692,15 @@ to survive. On floating-point values the relation holds within a stated toleranc
 not bit for bit. *(Testing & Delivery §23.6)*
 
 **Nearest-rank percentile**: sort `n` values and take one-based rank
-`ceil(percentile * n)`. The rank is not the value, and the one-based rank is not the
+`ceil(percentile * n)`. The rank isn't the value, and the one-based rank isn't the
 zero-based index; conflating them is the classic p95 bug. *(Testing & Delivery §23.6)*
 
 **After-commit failure**: a fault that lands once the server has made its durable
-change but before the client sees the response. The client cannot tell it from a
+change but before the client sees the response. The client can't tell it from a
 failure that changed nothing, which is what makes a blind retry duplicate the effect.
 *(Testing & Delivery §23.7)*
 
-**Artifact tuple**: the deployable candidate is not a model name but the combination
+**Artifact tuple**: the deployable candidate isn't a model name but the combination
 of source revision, prompt version, model and its features, index revision, schema
 and embedding dimensions, SDK contract version, and dependency lock. Testing one
 combination and shipping another is shipping something untested.
@@ -708,12 +708,12 @@ combination and shipping another is shipping something untested.
 
 **Lock file (`pylock.toml`)**: the PEP 751 standard record of an exact installation
 result, as opposed to `pyproject.toml`, which records acceptable resolution inputs.
-A lock makes inputs reviewable and repeatable; it does not make them safe.
+A lock makes inputs reviewable and repeatable; it doesn't make them safe.
 *(Testing & Delivery §23.9)*
 
 **Support promise vs support evidence**: `requires-python = ">=3.11"` is metadata. It
 becomes evidence only once CI actually runs on 3.11; a green matrix of newer runtimes
-cannot prove the lower bound. *(Testing & Delivery §23.10)*
+can't prove the lower bound. *(Testing & Delivery §23.10)*
 
 **Shadow traffic**: a copy of real requests sent to the candidate with its response
 discarded and external side effects blocked, so behavior can be compared before any
@@ -725,7 +725,7 @@ duration, and pass thresholds chosen before anyone looks at the results.
 
 **Evidence lineage**: binding each passing result to the candidate that produced it
 via a subject digest, source revision, timestamp, and digest of the actual decision
-payload, so a green result cannot be transferred to a different build.
+payload, so a green result can't be transferred to a different build.
 *(Testing & Delivery §23.13)*
 
 ## Asking a database questions
@@ -741,8 +741,8 @@ no words can mean the same thing, and one clause carries most of the meaning.
 *(Structured Data + AI §25.2)*
 
 **Result-set equivalence**: the comparison itself. Row order ignored unless the question
-asked for a ranking, column names ignored because an alias is not a difference,
-multiplicity preserved so duplicate rows cannot pass, and a tolerance on floats.
+asked for a ranking, column names ignored because an alias isn't a difference,
+multiplicity preserved so duplicate rows can't pass, and a tolerance on floats.
 *(Structured Data + AI §25.2)*
 
 **Fan-out join**: joining a parent table to its children, which repeats the parent's row
@@ -757,7 +757,7 @@ and Malloy are implementations. Its relevance to AI is that a text-to-SQL system
 warehouse without one inherits every undefined metric silently.
 *(Structured Data + AI §25.4)*
 
-**Abstention**: producing no query, explicitly, for a question the schema cannot answer.
+**Abstention**: producing no query, explicitly, for a question the schema can't answer.
 Scored as a first-class outcome in both directions, since refusing what you could have
 answered is a real cost and not a safe default.
 *(Structured Data + AI §25.6)*
