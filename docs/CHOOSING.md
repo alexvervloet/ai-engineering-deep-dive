@@ -30,14 +30,14 @@ the [AI Engineering Deep Dives](../README.md).
    └──────────────────────────────────────────────┘  start here
 ```
 
-Climb only when the rung below genuinely cannot do the job, and prove that with an
+Climb only when the rung below genuinely can't do the job, and prove that with an
 [eval](../evals-deep-dive/) rather than a vibe.
 
 ---
 
 ## What each rung changes
 
-The rungs are not interchangeable. Each one changes a different thing, and that is the
+The rungs aren't interchangeable. Each one changes a different thing, and that's the
 distinction worth internalizing.
 
 | Approach | Changes… | Reach for it when… |
@@ -96,14 +96,14 @@ measure that it beat your baseline. → [Fine-tuning](../fine-tuning-deep-dive/)
 > else built and hardened, like Cursor, Claude Code, or a framework's prebuilt loop.
 > The complexity that puts this rung last gets paid once by the tool's author and then
 > hidden, so the hardest rung feels like the cheapest. Building an agent into your own
-> product is the decision this ladder is about, and there it is rarely the cheapest
+> product is the decision this ladder is about, and there it's rarely the cheapest
 > thing that works. Prove the lower rungs fail first.
 
 ---
 
 ## Branches for specific needs
 
-These are not higher rungs. They are side doors for particular requirements.
+These aren't higher rungs. They're side doors for particular requirements.
 
 | You need… | Go to |
 |-----------|-------|
@@ -121,7 +121,7 @@ These are not higher rungs. They are side doors for particular requirements.
 | To stop it being jailbroken or leaking | [Prompt Injection & Guardrails](../prompt-injection-deep-dive/) |
 | To secure the system around the model, meaning identity, supply chain, tenant isolation, egress, budgets, and release gates | [GenAI Security](../genai-security-deep-dive/) |
 | To run any of it for real users | [Production](../ai-in-production-deep-dive/) |
-| To know it is still working weeks later, watching drift, silent regressions, and alerting | [Observability](../observability-deep-dive/) |
+| To know it's still working weeks later, watching drift, silent regressions, and alerting | [Observability](../observability-deep-dive/) |
 | To decide whether a framework beats what you hand-rolled, measured rather than assumed | [Professional Tools](../professional-tools-deep-dive/) |
 | To decide where the pieces go, across state, queues, tiers, and tenant boundaries | [Architecture](../architecture-deep-dive/) |
 | To decide whether a specific build qualifies for promotion, on contract, compatibility, supply-chain, rollout, and rollback evidence | [Testing & Delivery](../testing-and-delivery-deep-dive/) |
