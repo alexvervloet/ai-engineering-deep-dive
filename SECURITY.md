@@ -1,8 +1,8 @@
 # Security
 
 This repo is a set of teaching materials that you download and run on your own
-machine. That is a reasonable thing to be cautious about, especially if you do not
-know me. This page tells you what the code does, what you are trusting when you run
+machine. That's a reasonable thing to be cautious about, especially if you don't
+know me. This page tells you what the code does, what you're trusting when you run
 it, and how to check any of it yourself.
 
 ## Reporting a vulnerability
@@ -14,7 +14,7 @@ days.
 In scope: anything in this repo or its submodules that would harm a reader who
 follows the instructions as written. A lesson that leaks a key, a script that writes
 outside its own directory, a dependency with a known advisory, a link that points
-somewhere it should not.
+somewhere it shouldn't.
 
 Out of scope: the attack payloads in the security dives. Those are supposed to be
 there. See the last section.
@@ -30,33 +30,33 @@ there. See the last section.
   lesson that calls a model. Lessons marked **(offline)** make no network calls at
   all, and in most dives the first runnable thing is one of those.
 
-## What it does not do
+## What it doesn't do
 
 - No install script, and nothing in this repo asks you to pipe a URL into a shell.
 - No compiled or binary artifacts. The parent repo tracks markdown, one workflow
   file, two Python scripts, and the social card PNGs. Nothing else.
-- No telemetry. Nothing here reports back to me, and there is no analytics or
+- No telemetry. Nothing here reports back to me, and there's no analytics or
   crash-reporting dependency to make that possible.
 - No access to your API key beyond the process you launch. Keys live in your OS
   keychain and are injected per command, which is the whole point of
   [SECRETS.md](docs/SECRETS.md). Nothing writes a key to disk.
-- No `sudo`, and no changes outside the directory you are working in.
+- No `sudo`, and no changes outside the directory you're working in.
 
-## What you are actually trusting
+## What you're actually trusting
 
 Being precise about this is more useful than a blanket safety claim.
 
-You are trusting **PyPI and the package maintainers**. Dependencies are pinned to
+You're trusting **PyPI and the package maintainers**. Dependencies are pinned to
 version ranges (`openai>=2.0,<3`) rather than hashes, so `pip install` resolves to
-whatever the index serves that day. That is normal for teaching material, where a
-hard pin goes stale and breaks for readers six months later, but it is a real trust
-boundary and you should know it is there. If you want it closed, generate a lock
+whatever the index serves that day. That's normal for teaching material, where a
+hard pin goes stale and breaks for readers six months later, but it's a real trust
+boundary and you should know it's there. If you want it closed, generate a lock
 file with hashes and install from that.
 
-You are trusting **your model provider** with whatever text you send. That is
+You're trusting **your model provider** with whatever text you send. That's
 OpenAI, Anthropic, or, in the Local Models dive, nobody at all.
 
-You are trusting **me** not to have put something nasty in the Python. The rest of
+You're trusting **me** not to have put something nasty in the Python. The rest of
 this page is about making that last one cheap to check rather than asking you to
 take it on faith.
 
@@ -75,17 +75,17 @@ git config -f .gitmodules --get-regexp url
 
 Continuous integration installs and runs the declared offline path of every
 submodule on a clean GitHub runner, on every push. The logs are public, they show
-the actual commands and their output, and it is a machine I do not control. That is
+the actual commands and their output, and it's a machine I don't control. That's
 better evidence than anything I can assert here. The runs are under the repo's
 Actions tab.
 
-The code is small and it is all source. If you want to read before you run, the
+The code is small and it's all source. If you want to read before you run, the
 whole of a dive's Python is a few thousand lines with comments explaining what each
 part does, which is rather the point of the series.
 
 ## Running it in a container
 
-If you would rather not decide whether to trust me, do not. Everything runs in a
+If you'd rather not decide whether to trust me, don't. Everything runs in a
 throwaway container:
 
 ```bash
@@ -107,11 +107,11 @@ injection payloads, jailbreak attempts, exfiltration patterns, poisoned document
 They will look alarming if you grep for them out of context, and a scanner may flag
 them.
 
-They are there because you cannot teach a defense without the attack it defends
+They are there because you can't teach a defense without the attack it defends
 against, and the whole series is built on showing the real failure rather than a
 sanitized version of it. Every attack targets a deterministic toy system inside the
-same repo. The secrets they steal are made up and protect nothing. There is no
-network exploitation, no malware, and nothing that targets software you did not
+same repo. The secrets they steal are made up and protect nothing. There's no
+network exploitation, no malware, and nothing that targets software you didn't
 write yourself while following the lesson.
 
 Use them on systems you own or are authorized to test.
