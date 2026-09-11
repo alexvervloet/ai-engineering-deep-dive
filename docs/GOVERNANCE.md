@@ -2,17 +2,17 @@
 
 [SAFETY.md](SAFETY.md) is about building a system that is safe to operate.
 [RESPONSIBILITY.md](RESPONSIBILITY.md) is about whether you should build it at all
-and who is accountable when it is wrong. This page is the machinery in between: the
+and who's accountable when it's wrong. This page is the machinery in between: the
 named roles, the written record, and the templates that turn "we thought about it"
 into something a reviewer, an auditor, or your future self can actually read. Part
 of the [AI Engineering Deep Dives](../README.md).
 
 > **Scope.** Everything here is a form you fill in. The templates are deliberately
 > short enough to complete in an afternoon, because a governance process nobody
-> finishes governs nothing. Copy them into your own repo and delete what does not
+> finishes governs nothing. Copy them into your own repo and delete what doesn't
 > apply.
 >
-> **This is not legal advice.** It is engineering practice that makes a legal or
+> **This isn't legal advice.** It's engineering practice that makes a legal or
 > compliance conversation possible. Where a duty is legally specific, the template
 > tells you to go and find out what applies to you.
 
@@ -22,24 +22,24 @@ of the [AI Engineering Deep Dives](../README.md).
 
 > **Governance is a record of decisions, not a committee.**
 
-The failure mode is not "we had no meeting." It is that six months later nobody can
+The failure mode isn't "we had no meeting." It's that six months later nobody can
 say who approved the thing, what they knew, what they assumed, or what would have
 changed their mind. A governance record answers four questions for any system in
 production:
 
-1. What is this, and who owns it?
+1. What's this, and who owns it?
 2. What did we decide, and on what evidence?
 3. What would make us reverse the decision?
 4. Who does the person harmed by it talk to?
 
-If your process produces documents that cannot answer those four, it is producing
+If your process produces documents that can't answer those four, it's producing
 paperwork rather than governance.
 
 ---
 
 ## 1. Roles: who signs what
 
-You do not need a large organization. You need named humans. One person can hold
+You don't need a large organization. You need named humans. One person can hold
 several of these, but a role with nobody's name on it is unowned.
 
 | Role | Owns | Signs |
@@ -50,7 +50,7 @@ several of these, but a role with nobody's name on it is unowned.
 | **Reviewer** | Independent read of the assessment. Not the author. | The review line |
 | **Incident commander** | Named per incident, not standing. | Postmortem ([INCIDENTS.md](INCIDENTS.md)) |
 
-The reviewer must not be the author. That is the whole point of the role, and it is
+The reviewer must not be the author. That's the whole point of the role, and it's
 the first thing dropped when a team is busy. If the same person writes and approves,
 say so on the record rather than pretending otherwise.
 
@@ -64,9 +64,9 @@ Reviewing everything is the same as reviewing nothing. Classify first.
 |---|---|---|
 | **Routine** | Prompt wording, retrieval `k`, UI copy | Eval gate green, normal code review |
 | **Material** | Model swap, new tool, new data source, new user group, retention change | Full assessment update, reviewer sign-off, staged rollout |
-| **Novel** | New decision the system did not make before, new population affected, first irreversible action | Everything above, plus an explicit "should this be an LLM?" answer |
+| **Novel** | New decision the system didn't make before, new population affected, first irreversible action | Everything above, plus an explicit "should this be an LLM?" answer |
 
-The trap is that a model swap looks routine because it is one line of config. It is
+The trap is that a model swap looks routine because it's one line of config. It's
 not. A different model is a different artifact tuple, and everything you measured
 was measured on the old one. See
 [Testing & Delivery](../testing-and-delivery-deep-dive/) on why the candidate is the
@@ -211,7 +211,7 @@ actually cost you, and the answer is usually "correctness."
 
 ## 7. Review cadence
 
-Systems drift even when the code does not. The world moves, the corpus ages, the
+Systems drift even when the code doesn't. The world moves, the corpus ages, the
 model gets deprecated.
 
 | Trigger | Action |
@@ -235,7 +235,7 @@ in them.
 1. Every consequential output carries a visible way to contest it.
 2. A human, not the model, decides the appeal.
 3. The reviewer can see the inputs, the retrieved context, and the output.
-4. There is a stated response time, and it is met or communicated.
+4. There's a stated response time, and it's met or communicated.
 5. Outcomes are counted, and a rising appeal rate is a product signal, not noise.
 
 ```markdown
@@ -254,7 +254,7 @@ in them.
 
 Track two numbers: **appeal rate** and **overturn rate**. A high overturn rate means
 the system is wrong often and the appeal path is working. A near-zero appeal rate on
-a consequential system usually means people cannot find the path, not that they are
+a consequential system usually means people can't find the path, not that they're
 happy. The user-facing half of this lives in [AI-UX.md](AI-UX.md).
 
 ---
@@ -269,7 +269,7 @@ Governance documents make claims. The dives are where the claims get proven.
 | "This exact build was tested and can be rolled back" | [Testing & Delivery](../testing-and-delivery-deep-dive/) |
 | "It resists injection and the blast radius is bounded" | [Prompt Injection](../prompt-injection-deep-dive/), [GenAI Security](../genai-security-deep-dive/) |
 | "We know what it costs and how it behaves under load" | [Production](../ai-in-production-deep-dive/), [Inference Platform](../inference-platform-deep-dive/) |
-| "It is still working weeks later" | [Observability](../observability-deep-dive/) |
+| "It's still working weeks later" | [Observability](../observability-deep-dive/) |
 | "We know where the corpus came from and can delete from it" | [AI Data Engineering](../ai-data-engineering-deep-dive/) |
 | "The boundaries between components are where we say they are" | [Architecture](../architecture-deep-dive/) |
 
@@ -283,25 +283,25 @@ read like a finding.
 
 - **The assessment written after launch.** It documents what you did rather than
   informing what you do. Date it honestly if this happens.
-- **The reviewer who is the author.** Record it rather than disguising it.
-- **Risk accepted with no reversal condition.** That is not acceptance, it is
+- **The reviewer who's the author.** Record it rather than disguising it.
+- **Risk accepted with no reversal condition.** That isn't acceptance, it's
   deferral with extra steps.
 - **A model card copied from the vendor.** Their card describes their model. Yours
   has to describe your system, on your data, for your users.
 - **Governance that only runs at launch.** Most harm shows up in month four, when
   the corpus has drifted and nobody is looking.
 - **An appeal path that routes to the model.** If the thing that made the decision
-  also reviews it, there is no appeal.
+  also reviews it, there's no appeal.
 
 ---
 
 ## Where to start
 
-If you have nothing today, do these three in order, and stop there until they are
+If you have nothing today, do these three in order, and stop there until they're
 real:
 
 1. **A system register entry** for the one system already in production. An hour.
-2. **The reversal conditions line.** What would take it out. Ten minutes, and it is
+2. **The reversal conditions line.** What would take it out. Ten minutes, and it's
    the single most useful sentence in the whole record.
 3. **An appeal path** with a named human on the other end.
 
