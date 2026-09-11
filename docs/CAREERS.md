@@ -9,8 +9,8 @@ manager uses, and to the industry tools that productionize what you built by han
 > **The pitch that lands in interviews.** "I built X from scratch, so I understand what
 > the framework is doing" beats "I've used the framework." A candidate who hand-wrote an
 > agent loop can reason about why a run took twelve steps. One who only called
-> `AgentExecutor.run()` cannot. Lead with the thing you built and name the tool second.
-> That is the whole reason this series builds from scratch. See the "but everyone uses
+> `AgentExecutor.run()` can't. Lead with the thing you built and name the tool second.
+> That's the whole reason this series builds from scratch. See the "but everyone uses
 > agents" note in [CHOOSING.md](CHOOSING.md).
 
 Find the dive you worked through, read the résumé line you can now honestly write, and
@@ -67,7 +67,7 @@ version of the retriever, eval, or loop I built."
 - **Job-description phrases:** "AI/ML security engineering," "AI threat modeling," "secure agentic systems," "model and data supply-chain security," "AI red teaming," "OWASP LLM Top 10," "NIST AI RMF," "least privilege / policy as code," "sandboxing," "AI incident response."
 - **Industry tools:** OPA or Cedar-style policy engines; Sigstore/Cosign and SLSA provenance; garak and promptfoo-style adversarial suites; SBOM and dependency scanners; egress proxies; container or microVM isolation such as gVisor and Firecracker; the organization's SIEM and incident platform.
 - **Résumé line:** *"Built a deterministic GenAI security control plane covering the full OWASP LLM Top 10: threat models, sensitive-data boundaries, signed artifact provenance, poisoning gates, sink validation, trusted agent identity and approvals, tenant-safe retrieval, SSRF and sandbox policy, denial-of-wallet budgets, adversarial release gates, and rehearsed incident recovery."*
-- **Interview:** you can move beyond "we added guardrails" and draw where authority really lives. You can explain why a tool schema is not authorization, why a checksum is not provenance, why post-filtered retrieval leaks, why an allowlisted hostname can still reach metadata, why a Python wrapper is not a sandbox, and why a block-everything red-team result fails the release. This is senior-level evidence because the capstone proves the naive boundary fails, the hardened boundary passes without losing benign utility, and recovery is tied to a regression gate.
+- **Interview:** you can move beyond "we added guardrails" and draw where authority really lives. You can explain why a tool schema isn't authorization, why a checksum isn't provenance, why post-filtered retrieval leaks, why an allowlisted hostname can still reach metadata, why a Python wrapper isn't a sandbox, and why a block-everything red-team result fails the release. This is senior-level evidence because the capstone proves the naive boundary fails, the hardened boundary passes without losing benign utility, and recovery is tied to a regression gate.
 
 ### 8. Production (LLMOps)
 - **Job-description phrases:** "LLMOps," "observability," "cost/latency optimization," "reliability (retries, fallbacks, circuit breakers)," "caching," "prompt versioning," "eval gates."
@@ -79,7 +79,7 @@ version of the retriever, eval, or loop I built."
 - **Job-description phrases:** "LLM observability / monitoring," "data & concept drift," "model performance monitoring," "quality/regression monitoring," "alerting & on-call," "SLOs / error budgets."
 - **Industry tools:** Langfuse, Arize (Phoenix), Evidently, NannyML, WhyLabs, Grafana/Prometheus, OpenTelemetry, PagerDuty; continuous LLM-as-judge scorers.
 - **Résumé line:** *"Built LLM observability from logs: operational metrics (p95 latency, cost/request, refusal rate), input/embedding drift detection, a sampled LLM-as-judge for quality regressions, and z-score + persistence alerting tuned to catch incidents without alert fatigue."*
-- **Interview:** you can explain why LLM monitoring differs from classic tabular MLOps (no feature vector, labels rarely arrive), why quality has to be sampled rather than measured, and the false-alarm-versus-detection-lag tradeoff that alerting cannot escape. Pairs directly with Evals and Production.
+- **Interview:** you can explain why LLM monitoring differs from classic tabular MLOps (no feature vector, labels rarely arrive), why quality has to be sampled rather than measured, and the false-alarm-versus-detection-lag tradeoff that alerting can't escape. Pairs directly with Evals and Production.
 
 ### Context Engineering (bonus)
 - **Job-description phrases:** "context management," "conversation memory," "prompt caching / cost optimization," "long-context handling."
@@ -127,7 +127,7 @@ version of the retriever, eval, or loop I built."
 - **Job-description phrases:** "LLM inference / serving platform," "GPU fleet orchestration," "model serving performance," "capacity planning," "distributed inference," "admission control / load shedding," "SLOs and autoscaling."
 - **Industry tools:** vLLM, SGLang, Hugging Face TGI, NVIDIA Triton/TensorRT-LLM, Ray Serve, Kubernetes device plugins and custom-metric autoscaling, Prometheus/Grafana, GPU/fabric discovery and scheduling.
 - **Résumé line:** *"Designed an LLM inference control plane from memory and workload evidence: sized weights and KV cache, measured TTFT/TPOT/token throughput, evaluated batching/caching/quantization/speculation, selected TP/PP/DP/EP layouts, placed GPU groups, bounded overload, scaled queued token work, gated canaries, and planned burst capacity and cost."*
-- **Interview:** you can explain why weight fit is not service fit, why four-bit is not a throughput claim, when tensor parallelism should stay inside a fast-link domain, why CPU is a poor serving scaler, and how a requirement survives removal of the test case that was meant to prove it. The capstone produces the deciding control for every fleet claim and fails under independent workload, placement, shedding, and rollout counterfactuals.
+- **Interview:** you can explain why weight fit isn't service fit, why four-bit isn't a throughput claim, when tensor parallelism should stay inside a fast-link domain, why CPU is a poor serving scaler, and how a requirement survives removal of the test case that was meant to prove it. The capstone produces the deciding control for every fleet claim and fails under independent workload, placement, shedding, and rollout counterfactuals.
 
 ### Professional Tools (bonus)
 - **Job-description phrases:** "experience with LangChain/LangGraph/LlamaIndex," "LLM observability (Langfuse)," "eval frameworks," "framework evaluation / build-vs-buy," "production LLM tooling."
@@ -145,13 +145,13 @@ version of the retriever, eval, or loop I built."
 - **Job-description phrases:** "CI/CD for ML," "release engineering," "test strategy," "SDLC and quality gates," "supply-chain security," "progressive delivery / canary deploys," "SRE," "build and release provenance."
 - **Industry tools:** pytest and Hypothesis, `unittest.mock` specs and autospeccing, VCR-style contract fixtures, Locust/k6, GitHub Actions matrices, Dependabot and dependency review, CodeQL, `pylock.toml` (PEP 751) and pip-tools/uv, Argo Rollouts and Flagger, feature flags, Sigstore and SLSA provenance.
 - **Résumé line:** *"Built a release-evidence pipeline for an AI system: declared required evidence independently of the checks that ran, held SDK contracts separate from recorded fixtures, proved invariants with property tests and shrinking, derived load evidence with explicit units, tested after-commit retry and idempotency, gated on the artifact tuple, locked dependencies to PEP 751, executed the support promise in CI, bound scanner findings to an independent severity policy, and staged shadow/canary rollout with a verified rollback."*
-- **Interview:** you can explain why a passing test suite is not a release decision, and name the failure shape that proves it, which is a check that reads its expected answer out of the input it judges. You can say that `requires-python = ">=3.11"` is metadata until CI runs on 3.11, that a lost response after commit is what makes a blind retry duplicate a charge, that `unittest` exits green on zero discovered tests, that a green result is worthless unless it names the candidate digest and revision it tested, and that a metamorphic assertion over floats has to state its tolerance. The capstone runs twelve real decisions over one candidate and flips under eight independent perturbations, so every claim it makes has a counterfactual behind it. Strongest dive for release-engineering, SRE, and "how would you ship this safely?" rounds.
+- **Interview:** you can explain why a passing test suite isn't a release decision, and name the failure shape that proves it, which is a check that reads its expected answer out of the input it judges. You can say that `requires-python = ">=3.11"` is metadata until CI runs on 3.11, that a lost response after commit is what makes a blind retry duplicate a charge, that `unittest` exits green on zero discovered tests, that a green result is worthless unless it names the candidate digest and revision it tested, and that a metamorphic assertion over floats has to state its tolerance. The capstone runs twelve real decisions over one candidate and flips under eight independent perturbations, so every claim it makes has a counterfactual behind it. Strongest dive for release-engineering, SRE, and "how would you ship this safely?" rounds.
 
 ### Structured Data + AI (bonus)
 - **Job-description phrases:** "text-to-SQL," "natural-language BI / conversational analytics," "semantic layer," "analytics engineering," "data warehouse," "self-serve analytics," "metric definitions," "row- and column-level security."
 - **Industry tools:** dbt and its metric definitions, Cube, LookML, Malloy, Snowflake/BigQuery/Postgres roles and grants, row-level security, Spider and BIRD as the execution-based benchmarks, query-result caching.
 - **Résumé line:** *"Built and evaluated a natural-language querying layer over a warehouse: scored generated SQL by executing it and comparing result sets rather than text, caught fan-out joins that inflated aggregates, moved undefined metrics into owned definitions, enforced read-only and column-level access at the database role, and scored abstention on questions the schema could not answer."*
-- **Interview:** you can explain why comparing generated SQL as text is not merely noisy but inverted, with the example: the query missing a status filter is a closer text match to the reference than the query that means exactly the same thing, so no threshold separates them. You can describe the fan-out join, why it inflates rather than errors, and why its size moves month to month with the data. You can say that a wrong number is often a specification gap wearing a model-shaped costume, and give the diagnostic (would two analysts have written the same query?). And you can explain why a read-only line in a system prompt is a hint rather than a control, and why an eval that runs with more privilege than production reports a number about a system nobody deploys. Strong for analytics-engineering and data-platform rounds, and unusually good for showing judgment about where a problem actually lives.
+- **Interview:** you can explain why comparing generated SQL as text isn't merely noisy but inverted, with the example: the query missing a status filter is a closer text match to the reference than the query that means exactly the same thing, so no threshold separates them. You can describe the fan-out join, why it inflates rather than errors, and why its size moves month to month with the data. You can say that a wrong number is often a specification gap wearing a model-shaped costume, and give the diagnostic (would two analysts have written the same query?). And you can explain why a read-only line in a system prompt is a hint rather than a control, and why an eval that runs with more privilege than production reports a number about a system nobody deploys. Strong for analytics-engineering and data-platform rounds, and unusually good for showing judgment about where a problem actually lives.
 
 ---
 
@@ -164,10 +164,10 @@ You don't list thirteen line items. You synthesize. A strong summary bullet:
 > against prompt injection; and operated it all in production with cost, caching,
 > and reliability controls."*
 
-Then keep the per-dive lines above as detail bullets for the specific roles you are
+Then keep the per-dive lines above as detail bullets for the specific roles you're
 targeting. In the interview, whatever they dig into, the move is the same. Describe the
 thing you built, then name the tool that productionizes it.
 
 *(The tool names here are examples of their category, current as of writing, and they
-turn over fast. What does not turn over is the thing underneath, which is why this
+turn over fast. What doesn't turn over is the thing underneath, which is why this
 series teaches that.)*
