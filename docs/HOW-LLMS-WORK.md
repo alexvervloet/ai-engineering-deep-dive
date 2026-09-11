@@ -4,7 +4,7 @@ The [deep dives](../README.md) start at the API call and stay hands-on. This pag
 in the mental model underneath. What a large language model (LLM) actually is, how it
 got that way, and why it behaves the way it does. You don't need any of it to start.
 But the first time the model hallucinates, ignores an instruction, or "thinks" before
-answering, it helps to know what is going on. No math, just the ideas.
+answering, it helps to know what's going on. No math, just the ideas.
 
 See also: [GLOSSARY.md](GLOSSARY.md) for one-line definitions · [MODELS.md](MODELS.md)
 for which model to pick · [CHOOSING.md](CHOOSING.md) for which technique.
@@ -23,7 +23,7 @@ and outputs a probability for every possible next token. It picks one, appends i
 repeats, feeding its own output back in, until it decides to stop. The fluent paragraph
 you get back is that loop run a few hundred times.
 
-That is the whole engine. "Write me an email", "is there a bug in this code", "what's
+That's the whole engine. "Write me an email", "is there a bug in this code", "what's
 the capital of France" are all one task to the model, which is to continue this text
 plausibly. Everything else in these dives is about steering that continuation.
 
@@ -52,11 +52,11 @@ forces it to absorb grammar, facts, styles, reasoning patterns, and code, becaus
 of those help predict the next word. This stage is where the model's knowledge comes
 from, and it freezes at the moment training stopped, which is the **knowledge cutoff**.
 Pretraining costs millions of dollars and produces a model that can continue text
-without being a helpful assistant yet. It will happily continue your question with more
+without being a helpful assistant yet. It'll happily continue your question with more
 questions.
 
 **Stage 2, post-training.** A much smaller and more careful stage turns the raw
-predictor into something you would want to talk to.
+predictor into something you'd want to talk to.
 
 - **Instruction tuning** fine-tunes on examples of an instruction paired with a good
   response, so the model learns to answer instead of continuing.
@@ -75,14 +75,14 @@ fine-tuning job while "make it know our docs" is a [RAG](../rag-deep-dive/) job.
 ## 3. Why it hallucinates
 
 A **hallucination** is the model stating something false with total confidence. Once
-you know it is a next-token predictor, this stops being mysterious.
+you know it's a next-token predictor, this stops being mysterious.
 
 - The model optimizes for plausible rather than true. A confident, well-formed wrong
   answer is often a better next-token continuation than "I'm not sure."
 - It has no database to look things up in. Facts are smeared across its weights as
   statistical tendencies rather than stored as records. Ask about something rare or
-  post-cutoff and it will generate a plausible-shaped answer anyway.
-- It cannot tell what it does not know. No confidence meter gates the output, although
+  post-cutoff and it'll generate a plausible-shaped answer anyway.
+- It can't tell what it doesn't know. No confidence meter gates the output, although
   [logprobs](../openai-api-deep-dive/) are a rough proxy.
 
 The engineering response is to stop relying on the model's memory for facts that
@@ -90,7 +90,7 @@ matter. Put the facts in the prompt and tell it to answer only from them, which 
 [RAG](../rag-deep-dive/) does with grounding and citations. Then measure whether the
 answer stayed grounded, which is what [Evals](../evals-deep-dive/) calls faithfulness.
 The [Context Engineering](../context-engineering-deep-dive/) dive is largely about
-getting the right text in front of the model so it does not have to guess.
+getting the right text in front of the model so it doesn't have to guess.
 
 ---
 
@@ -104,7 +104,7 @@ That chooser has one main knob, **temperature**.
 - At higher temperatures it sometimes picks a less likely token. More varied, more
   "creative", and more error-prone.
 
-So an LLM is not a calculator that returns the same thing every time, and a single good
+So an LLM isn't a calculator that returns the same thing every time, and a single good
 or bad result is one sample rather than the truth. The [Evals](../evals-deep-dive/) dive
 takes that seriously: run it several times and report a range instead of one number.
 The [API](../openai-api-deep-dive/) and
@@ -117,11 +117,11 @@ The [API](../openai-api-deep-dive/) and
 
 Everything the model can see for one request has to fit in its **context window**,
 measured in tokens. That means your system prompt, the conversation so far, any
-documents you pasted, and the answer it is generating. Today's windows are large,
+documents you pasted, and the answer it's generating. Today's windows are large,
 128K to 1M tokens, and still finite. Three things follow.
 
-1. **It is the only thing the model knows right now.** Anything not in the window does
-   not exist as far as this request is concerned.
+1. **It's the only thing the model knows right now.** Anything not in the window
+   doesn't exist as far as this request is concerned.
 2. **It fills up.** Long conversations, big documents, and agent tool results all
    compete for the same budget, which is the subject of
    [Context Engineering](../context-engineering-deep-dive/).
@@ -133,7 +133,7 @@ documents you pasted, and the answer it is generating. Today's windows are large
 ## 6. "Reasoning" models, briefly
 
 Newer **reasoning models** (OpenAI's o-series, Claude's extended thinking) do the same
-next-token prediction. They are trained to first generate a long hidden chain of
+next-token prediction. They're trained to first generate a long hidden chain of
 thought, working through the problem step by step, before writing the visible answer.
 That extra thinking buys a lot on math, logic, and coding. You pay for it in tokens,
 since the hidden reasoning is billed, and in latency.
@@ -149,8 +149,8 @@ way.
 
 Models can also turn a piece of text into an **embedding**, a list of numbers that
 captures its meaning closely enough that texts with similar meanings get similar
-numbers. That is the engine of semantic search. Find the stored text whose meaning is
-closest to a question, even when the two share no words at all. It is what
+numbers. That's the engine of semantic search. Find the stored text whose meaning is
+closest to a question, even when the two share no words at all. It's what
 [RAG](../rag-deep-dive/) is built on, and what long-term memory in
 [Context Engineering](../context-engineering-deep-dive/) is built on.
 
@@ -170,7 +170,7 @@ The whole series follows from these mechanics:
 | can't actually *do* anything by itself | give it tools and a loop | [Agents](../agents-deep-dive/) |
 | treats all text in its window as equal | never trust untrusted text in the prompt | [Prompt Injection & Guardrails](../prompt-injection-deep-dive/) |
 
-None of these are tricks for turning the model into something else. They are all ways
+None of these are tricks for turning the model into something else. They're all ways
 of working with a next-token predictor that has frozen knowledge, a fixed window, and a
 talent for sounding sure. Hold that picture and the rest of the series is practical
 detail.
