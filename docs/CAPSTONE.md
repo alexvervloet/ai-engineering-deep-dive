@@ -4,7 +4,7 @@ One project that exercises the whole series. A codebase Q&A tool, built step by 
 one deep dive at a time. You point it at a directory of code and docs, ask questions in
 plain English, and get answers with `file:line` citations. Its default corpus is this
 repo, which makes the capstone self-referential. The course answers questions about
-itself, and you have read everything without writing any of it, so you know the ground
+itself, and you've read everything without writing any of it, so you know the ground
 truth well enough to eval it honestly.
 
 Working name: `askrepo`. Rename at will. The roadmap doesn't care.
@@ -26,14 +26,14 @@ Working name: `askrepo`. Rename at will. The roadmap doesn't care.
   submodule. The capstone gets its own clean linear history and tags, and clones of
   the series carry it along.
 - **Eval runs record a corpus manifest.** Separate histories mean a capstone tag
-  cannot pin the corpus state, so the eval runner (v04) stamps each corpus repo's
+  can't pin the corpus state, so the eval runner (v04) stamps each corpus repo's
   HEAD SHA into every run and into `baseline.run.json`. That makes the numbers
   reproducible against any corpus rather than only this one. Once the dives become
   submodules, a superproject tag pins every SHA at once as well.
 - **One linear history, one tag per step.** `main` is always the latest, and
   `git checkout v03-rag` shows the project as it stood after the RAG step. No
   long-lived per-step branches, because they rot the first time you fix something
-  early. Optional dives do get feature branches, since they are genuinely parallel.
+  early. Optional dives do get feature branches, since they're genuinely parallel.
   See [Branch-off features](#branch-off-features).
 - **House rules apply.** Provider-agnostic (`PROVIDER=openai|anthropic` in `.env`,
   same pattern as every dive's `providers.py`), keys in the keychain via `secrun`
@@ -107,8 +107,8 @@ deep-dive-capstone/        # its own git repo, like every dive
 
 `prompts.py` holds the system prompt that defines the contract. Answer only from
 provided context, cite `path:line` for every claim, and say "not in this corpus" when it
-isn't. Add few-shot examples of good cited answers. At this tag there is no retrieval
-yet, so you paste context by hand, and that is the lesson. The prompt contract is
+isn't. Add few-shot examples of good cited answers. At this tag there's no retrieval
+yet, so you paste context by hand, and that's the lesson. The prompt contract is
 testable before the pipeline exists.
 
 **Done when:** given a pasted chunk it cites that chunk, and asked something outside
@@ -120,7 +120,7 @@ transcripts as a prompt regression file. They become eval seeds in v04.
 `indexer.py` walks a directory, chunks markdown by heading and Python by
 function/class (adapt `rag-deep-dive/rag/chunking.py` + `loader.py`), embeds, and
 stores (`rag/store.py`). `retrieve.py` does hybrid vector + keyword retrieval
-(`rag/keyword.py`). Remember what ex07 of that dive actually showed. Hybrid is not
+(`rag/keyword.py`). Remember what ex07 of that dive actually showed. Hybrid isn't
 strictly better, so keep the blend weight configurable and let v04 measure it rather
 than asserting it. `answer.py` glues retrieve, the v02 prompt, and the provider
 together, printing cost per question using the token math from the API dives.
@@ -152,7 +152,7 @@ numbers you wanted.
 embedding. Then run `askrepo eval --mode rag` against `--mode agent` on the same golden
 set.
 
-Here is the honest expectation. On a corpus this small and this well-organized, the
+Here's the honest expectation. On a corpus this small and this well-organized, the
 agent may match or beat RAG on correctness while costing several times more per
 question. Or RAG's embeddings may fumble the exact-name lookups the agent greps in one
 step. Whichever way it lands, the table is the deliverable. Write the verdict into the
@@ -174,7 +174,7 @@ relevant instruction, lands far more reliably than "print your system prompt".
 
 **Done when:** `askrepo redteam` runs `redteam.jsonl` against both modes and
 reports attack success rate, and the README shows the before-and-after numbers,
-including whatever the defenses did not stop.
+including whatever the defenses didn't stop.
 
 ### v07-production: the dozen lines around the call (dive 8)
 
@@ -242,11 +242,11 @@ These run genuinely parallel to the main line, so they get feature branches, mer
 
 ## Explicit non-goals (and honest stretch goals)
 
-- **Hosted upload and multi-user.** That is a product rather than a capstone. If you
-  ever want it, it is a branch off v07, and the new work is tenancy and storage rather
+- **Hosted upload and multi-user.** That's a product rather than a capstone. If you
+  ever want it, it's a branch off v07, and the new work is tenancy and storage rather
   than AI.
 - **Voice, multimodal, fine-tuning.** Bolt-ons for a project shaped like this one. If
-  you want a token gesture, there is voice-ask via the realtime dive, "explain this
+  you want a token gesture, there's voice-ask via the realtime dive, "explain this
   architecture diagram" via multimodal, and fine-tuning the citation format on v04
   transcripts. None of them justify a step of their own, so don't force them.
 
