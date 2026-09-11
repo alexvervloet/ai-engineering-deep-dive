@@ -222,7 +222,7 @@ compile, and it collapses the first time a reader points it at their own data.
   guess.
 
 ### 16. A guardrail demo can fire correctly and still teach the wrong thing
-Showing a filter *trigger* is not the same as showing what it's *for*. An output guard
+Showing a filter *trigger* isn't the same as showing what it's *for*. An output guard
 that visibly redacts something has "worked" on screen; but if it scrubbed a value that
 belonged in the answer, the reader learns the wrong lesson about the feature. Make the
 example remove what genuinely doesn't belong, and keep what does.
@@ -256,7 +256,7 @@ want one name, rank it by the *unrounded* value.
   fixes, and both were needed: the planner now returns every binding dimension and ranks
   by raw demand, *and* the fixture was changed so one dimension genuinely binds. The
   first alone would have produced an honest report that nothing binds except the floor,
-  which is true but is not the lesson chapter 12 is there to teach.
+  which is true but isn't the lesson chapter 12 is there to teach.
 
 ### 18. Check that the capstone obeys the rule its own chapters teach
 An integrated capstone reimplements, in glue code, decisions the chapters made carefully
@@ -268,13 +268,13 @@ demonstrating the mistake the course exists to prevent. Derive every downstream 
 from the upstream decision object, and add a counterfactual sized to sit *between* the
 right number and the wrong one.
 
-- **Inference platform capstone:** chapter 22.2 exists to say that weight fit is not
+- **Inference platform capstone:** chapter 22.2 exists to say that weight fit isn't
   service fit, because the KV cache grows with live tokens. The capstone described the
   model twice, once for the memory check and once inline for the layout planner, and then
   reserved GPUs using weights plus a runtime constant, dropping the KV reservation it had
   computed one line earlier. Every test passed: the GPUs had 40 GiB and the true
   requirement was 34.75. The tell was two different runtime-overhead constants for one
-  physical quantity. The fix that makes it stay fixed is not the corrected number, it is
+  physical quantity. The fix that makes it stay fixed isn't the corrected number, it's
   the counterfactual: inventory sized between weights-and-runtime and the full footprint,
   which fails loudly if anyone drops the term again.
 
@@ -295,7 +295,7 @@ Each is a symptom the reader would notice, its real diagnosis, and the fix.
 | **capstone: local vs cloud** | local citation metrics dropped sharply | 11 of 14 "failures" cited real sources in a grouped format the strict parser rejects (only 3 ungrounded); and a swapped judge would have confounded the correctness delta | Pinned the judge constant across runs; reported the gap as format-compliance + latency, not accuracy |
 | **capstone: ext-local generality** | "works with any OpenAI-compatible runner" held on Ollama/qwen3:8b | a thinking model (qwen3.6 on LM Studio, another machine) returned blank: reasoning consumed the whole token budget; invisible on the first setup | Tested a deliberately different second runner+model; added the `LOCAL_MAX_TOKENS` fix and bounded the claim with the caveat |
 | **capstone: 35B remote eval** | a bigger local model was predicted to beat the 8b / close the gap | it only *tied* cloud on correctness; hit@k was the sole metric that fell (0.886→0.829), isolating the 0.6B embedder (not the strong answerer) as the weak link | Published the refuted prediction; lesson: on a local RAG stack, upgrade the embedder before the generator |
-| **observability: simulator** | how do you teach detecting drift when logs have no "was this good?" label? | that is the real problem, because a synthetic environment that leaks the label makes the detector read the answer instead of inferring it | Emit realistic logs only; keep the incident schedule as a private answer key used to grade the detector (lag, catch/miss) |
+| **observability: simulator** | how do you teach detecting drift when logs have no "was this good?" label? | that's the real problem, because a synthetic environment that leaks the label makes the detector read the answer instead of inferring it | Emit realistic logs only; keep the incident schedule as a private answer key used to grade the detector (lag, catch/miss) |
 | **observability: segmentation** | the intended "a cohort problem hides in the global average" didn't hide | error rate has ~zero baseline variance, so even a small global bump is many sigma, so the global detector fired | Measured, then switched the incident from cohort error rate to cohort *latency*, which genuinely vanishes into the noisy global p95; didn't loosen the threshold to fake it |
 | **ai-in-production 08: output PII guard** | example "redacts PII" but the guard fired on nothing, then, once "fixed," on the app's own support email | the claimed layer never triggered (no PII on the path); the first fix redacted a *wanted* value, inverting what the guard is for | Leak a *third-party* email so redaction removes what doesn't belong; verified LLM redactors over-redact too (strip the wanted address); pair any redactor with an allowlist |
 
@@ -311,7 +311,7 @@ Each is a symptom the reader would notice, its real diagnosis, and the fix.
 6. **Is the display honest?** Relative scores labeled as such; previews centered on the match.
 7. **If the effect won't reproduce,** isolate it in a tiny purpose-built corpus, or, if you measured that this instance genuinely doesn't show the effect, switch to one that does; don't rig a threshold to fake it.
 8. **If you're teaching detection/inference,** is the ground-truth label *out* of the observable data, and does the signal come from a real simulated change rather than a stamped-in value?
-9. **If you're demoing a guardrail or filter,** does it remove what genuinely doesn't belong rather than a value that should stay? A filter firing on screen is no proof it is doing its job.
+9. **If you're demoing a guardrail or filter,** does it remove what genuinely doesn't belong rather than a value that should stay? A filter firing on screen is no proof it's doing its job.
 10. **If a decision takes a max or top-1 over rounded values,** does the output show everything that tied, and is the named winner ranked by the unrounded number?
 11. **If it's an integrated capstone,** does each stage take its inputs from the previous stage's output rather than restating them, and is there a counterfactual sized between the right number and the plausible wrong one?
 
