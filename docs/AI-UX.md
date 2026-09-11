@@ -7,8 +7,8 @@ useful product or a dangerous one depending almost entirely on whether the inter
 makes the other 15% visible and recoverable. Part of the
 [AI Engineering Deep Dives](../README.md).
 
-> **Scope.** This is guidance and patterns, not a component library. It assumes you
-> have read [RESPONSIBILITY.md](RESPONSIBILITY.md) on who's affected and
+> **Scope.** This is guidance and patterns, not a component library. It assumes you've
+> read [RESPONSIBILITY.md](RESPONSIBILITY.md) on who's affected and
 > [GOVERNANCE.md](GOVERNANCE.md) on appeal paths. This page is where those obligations
 > become pixels.
 
