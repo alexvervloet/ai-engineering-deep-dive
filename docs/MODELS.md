@@ -54,8 +54,8 @@ GPT-4 models below still work, one generation behind.
 > The 5.6 tiers reject `temperature`, `top_p`, and function calling on
 > `/v1/chat/completions` unless you set `reasoning_effort: "none"` or move to the
 > Responses API. `gpt-5.4-nano` defaults `reasoning.effort` to `none`, so tools
-> and sampling knobs work the way the lessons describe, at the same price. That is
-> a real tradeoff rather than an oversight. The newest model is not automatically the
+> and sampling knobs work the way the lessons describe, at the same price. That's
+> a real tradeoff rather than an oversight. The newest model isn't automatically the
 > right teaching default.
 
 > **Long-context pricing.** On all three GPT-5.6 tiers, a request with more than 272K
@@ -105,8 +105,8 @@ Two things to know if you move the Claude dives off Haiku 4.5:
 
 ## Embedding models
 
-Embeddings turn text into a vector for search and RAG. There is no output, so you pay
-for input tokens only, and they are cheap.
+Embeddings turn text into a vector for search and RAG. There's no output, so you pay
+for input tokens only, and they're cheap.
 
 | Model | Provider | $/1M input |
 |-------|----------|-----------:|
