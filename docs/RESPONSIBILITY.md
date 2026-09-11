@@ -1,14 +1,14 @@
 # Responsibility: the cross-cutting view
 
 [SAFETY.md](SAFETY.md) is about building a system that is safe to operate, one that
-does not leak, get hijacked, or produce harmful content. This page is the other half.
-Whether you should build the thing at all, whether you are being honest about what it
-does, what it is built on, who it affects, and who is accountable when it is wrong. None
-of those are features you can `pip install`. They are decisions you make around the
+doesn't leak, get hijacked, or produce harmful content. This page is the other half.
+Whether you should build the thing at all, whether you're being honest about what it
+does, what it's built on, who it affects, and who's accountable when it's wrong. None
+of those are features you can `pip install`. They're decisions you make around the
 code. This is the map. Part of the [AI Engineering Deep Dives](../README.md).
 
 > **Scope.** The rest of the series is hands-on, with every concept a script you run.
-> This page deliberately is not. It holds the judgment the runnable parts cannot encode.
+> This page deliberately is not. It holds the judgment the runnable parts can't encode.
 > It still stays concrete, though. Every concern below points to the dive whose tools
 > operationalize it, because the responsible move is almost always to turn a worry into
 > a measurement or a limit rather than a good intention.
@@ -27,7 +27,7 @@ code. This is the map. Part of the [AI Engineering Deep Dives](../README.md).
 
 ## The concerns, and where the tools live
 
-Four groups. What the system says, who it says it to, what it is built on, and who owns
+Four groups. What the system says, who it says it to, what it's built on, and who owns
 it when it goes wrong.
 
 ### 1. What the system says
@@ -45,8 +45,8 @@ it when it goes wrong.
 
 | Concern | What it is | Operationalized in |
 |---------|-----------|--------------------|
-| **Anthropomorphism & reliance** | A fluent, warm, always-available system invites trust and attachment it cannot support, especially over long sessions | a design decision: persona, memory, and how often you re-disclose ([Context Engineering](../context-engineering-deep-dive/), [Realtime Voice](../realtime-voice-deep-dive/)) |
-| **Vulnerable users & crisis** | Someone in distress, or a minor, reaches your product; a general-purpose assistant is not a clinician | an explicit handoff path, plus [moderation](../prompt-injection-deep-dive/) on the way in and out |
+| **Anthropomorphism & reliance** | A fluent, warm, always-available system invites trust and attachment it can't support, especially over long sessions | a design decision: persona, memory, and how often you re-disclose ([Context Engineering](../context-engineering-deep-dive/), [Realtime Voice](../realtime-voice-deep-dive/)) |
+| **Vulnerable users & crisis** | Someone in distress, or a minor, reaches your product; a general-purpose assistant isn't a clinician | an explicit handoff path, plus [moderation](../prompt-injection-deep-dive/) on the way in and out |
 | **Persuasion & dark patterns** | The system is good at changing minds, and your incentives may not match the user's | keep the model out of the objective function for upsell, retention, and engagement |
 | **Accessibility** | Generated UI text, alt text, transcripts, and latency budgets that assume one kind of user | [Multimodal](../multimodal-deep-dive/) (transcription, image description), your own eval set |
 | **Human oversight & contestability** | A person can review, override, and a user can appeal a consequential output | [Agents](../agents-deep-dive/) (human-in-the-loop), [Production](../ai-in-production-deep-dive/) (feedback) |
@@ -67,7 +67,7 @@ it when it goes wrong.
 |---------|-----------|--------------------|
 | **Accountability** | When it's wrong, a named human owns the outcome, not "the AI did it" | a process you define before launch, not after the incident; [Testing & Delivery](../testing-and-delivery-deep-dive/) makes the artifact side auditable, since every passing result names the candidate digest and source revision it actually tested |
 | **Least privilege over data** | The thing running model-written queries should be unable to read what it must not, rather than instructed not to | [Structured Data + AI](../structured-data-ai-deep-dive/) (a read-only role with column grants, and an eval scored through it so the restriction is visible in the number), [AI Data Engineering](../ai-data-engineering-deep-dive/) (the same argument for a retrieval corpus) |
-| **Autonomy & reversibility** | An agent that *acts* is a different problem than a model that *advises* | [Agents](../agents-deep-dive/) (approval, step limits), [Agent Harnesses](../agent-harness-deep-dive/) (permission policy, sandboxing), [GenAI Security](../genai-security-deep-dive/) (approval bound to one exact irreversible effect), [Testing & Delivery](../testing-and-delivery-deep-dive/) (a rollback path verified before release, and the effects that cannot be rolled back at all) |
+| **Autonomy & reversibility** | An agent that *acts* is a different problem than a model that *advises* | [Agents](../agents-deep-dive/) (approval, step limits), [Agent Harnesses](../agent-harness-deep-dive/) (permission policy, sandboxing), [GenAI Security](../genai-security-deep-dive/) (approval bound to one exact irreversible effect), [Testing & Delivery](../testing-and-delivery-deep-dive/) (a rollback path verified before release, and the effects that can't be rolled back at all) |
 | **Regulatory duties** | Disclosure, record-keeping, and risk classification that now carry deadlines | [below](#the-rules-stopped-being-hypothetical); check what applies to you |
 | **Cost of being wrong** | Whether a mistake is a typo or a denied loan / wrong dosage; sets every bar above | informs your eval bar and whether to ship at all |
 
@@ -76,7 +76,7 @@ it when it goes wrong.
 ## Six principles that cut across all of them
 
 **1. Match the stakes to the safeguards.** A draft-email helper and a system that
-screens job applicants are not the same risk, even if the API call is identical. The
+screens job applicants aren't the same risk, even if the API call is identical. The
 higher the cost of a wrong answer to the person on the receiving end, the higher the
 eval bar, the more human oversight, and the more you should ask whether an LLM belongs
 here *at all*. Calibrate the safeguards to the blast radius on a **human**, not on your
@@ -84,10 +84,10 @@ uptime.
 
 **2. Honesty about limits is part of the product.** The model is right most of the time
 and wrong fluently, in the same confident tone either way. See
-[HOW-LLMS-WORK.md](HOW-LLMS-WORK.md). Responsible design assumes the user cannot tell
+[HOW-LLMS-WORK.md](HOW-LLMS-WORK.md). Responsible design assumes the user can't tell
 the two apart, so it shows its work. Cite sources, show uncertainty, say "I don't know",
-and never let marketing copy promise an accuracy your [evals](../evals-deep-dive/) do
-not back.
+and never let marketing copy promise an accuracy your [evals](../evals-deep-dive/)
+don't back.
 
 That backing is a decision design rather than a small p-value. Declare the useful
 effect, the metrics, the sample size, and the interim looks before you see any outcomes,
@@ -95,12 +95,12 @@ then report uncertainty and practical significance next to the estimate.
 
 **3. Measure fairness per group, not on average.** An aggregate pass rate can hide that
 a system works for one group and fails another. The fix is the same discipline as the
-rest of the series. Slice the eval set and report the metric for each slice. You cannot
+rest of the series. Slice the eval set and report the metric for each slice. You can't
 manage a number you never split.
 → [Evals](../evals-deep-dive/)
 
-**4. Keep a human accountable, because naming the model is not an answer.** "The AI
-decided" is not something a person harmed by a decision can appeal to. For any
+**4. Keep a human accountable, because naming the model isn't an answer.** "The AI
+decided" isn't something a person harmed by a decision can appeal to. For any
 consequential output, define before launch who reviews it, who can override it, and how
 a user contests it. [Human-in-the-loop](../agents-deep-dive/) and a
 [feedback path](../ai-in-production-deep-dive/) are the mechanics. The accountability is
@@ -126,7 +126,7 @@ deviate, deviate on purpose and be able to say why.
 
 The whole [CHOOSING.md](CHOOSING.md) ladder starts at "reach for the simplest thing that
 works." Responsibility adds a rung below the bottom of that ladder. Maybe the simplest
-thing is not an LLM, or not a feature at all. Reach for a rule, a lookup, or a human
+thing isn't an LLM, or not a feature at all. Reach for a rule, a lookup, or a human
 when:
 
 - the cost of a confident wrong answer is paid by a person who didn't opt in (medical,
@@ -145,8 +145,8 @@ an engineering skill.
 ## Where your data came from
 
 The public argument about training data is mostly about what the frontier labs scraped,
-which you do not control. What you do control is every dataset you add yourself: your
-fine-tuning set, your RAG corpus, your eval set, your logs. That is a real
+which you don't control. What you do control is every dataset you add yourself: your
+fine-tuning set, your RAG corpus, your eval set, your logs. That's a real
 responsibility, and it comes down to a small number of concrete questions.
 
 **Before a dataset goes in:**
@@ -156,16 +156,16 @@ responsibility, and it comes down to a small number of concrete questions.
   later. Do it for the eval set too; an eval set full of customer text is customer
   text.
 - **Did the people in it agree to this use?** "It was on the public internet" and
-  "our terms mention analytics" are not the same as consent to train. If you'd be
+  "our terms mention analytics" aren't the same as consent to train. If you'd be
   uncomfortable telling the user their message became a training example, that's the
   answer.
 - **Can you delete from it?** If a user asks for their data out, you can drop a row
-  from a RAG index. You cannot drop it from a model you already fine-tuned; you
+  from a RAG index. You can't drop it from a model you already fine-tuned; you
   retrain. Knowing which of the two you're in is a design decision, made before you
   train, not after the request arrives. → [Fine-tuning](../fine-tuning-deep-dive/),
   [RAG](../rag-deep-dive/)
 - **What leaves your building?** Every prompt is a data transfer to a third party.
-  [Local models](../local-models-deep-dive/) exist partly so that "this data cannot
+  [Local models](../local-models-deep-dive/) exist partly so that "this data can't
   leave" is an option you can actually take, rather than a promise you break where
   nobody sees.
 
@@ -175,7 +175,7 @@ than a vibe. If you ship generated code, review it like third-party code, which 
 closer to what it actually is.
 
 **On labor.** The models you call were tuned with human feedback, much of it done by
-low-paid annotators reviewing material that is genuinely unpleasant. You will not fix
+low-paid annotators reviewing material that is genuinely unpleasant. You won't fix
 that from your app. What you can do is not pretend the pipeline is automated when it
 isn't, and be straight internally about which jobs your product is aimed at. A team
 that says "this augments the support team" while planning otherwise has an honesty
@@ -185,16 +185,16 @@ problem, not an AI problem.
 
 ## The person on the other side
 
-This corner of the debate has moved fastest, and it is what an engineering-focused
+This corner of the debate has moved fastest, and it's what an engineering-focused
 course is most likely to leave out. The system is fluent, patient, awake whenever you
 open it, and it never gets bored of you. That combination does things to people that a
-search box does not.
+search box doesn't.
 
-**Anthropomorphism is not a user error.** People attribute understanding to systems
+**Anthropomorphism isn't a user error.** People attribute understanding to systems
 that produce fluent language, and they do it more the more human the interface is:
 first person, a name, a warm tone, memory of past conversations, and above all a
-[voice](../realtime-voice-deep-dive/). You are not fighting a misconception; you are
-choosing how strongly to invite one. Warmth is not automatically wrong. Warmth plus a
+[voice](../realtime-voice-deep-dive/). You're not fighting a misconception; you're
+choosing how strongly to invite one. Warmth isn't automatically wrong. Warmth plus a
 claim of understanding it doesn't have is.
 
 **Sycophancy is a measurable failure, so measure it.** Agreement feels like quality. The
@@ -205,19 +205,19 @@ the model holds. Track it like any other metric.
 → [Evals](../evals-deep-dive/)
 
 **Engagement is the wrong objective.** If time-in-app or message count is the number
-your team optimizes, you have pointed a persuasion-capable system at keeping people
+your team optimizes, you've pointed a persuasion-capable system at keeping people
 there, and it will find ways you didn't design. Pick an objective that means the user
 got what they came for and left.
 
 **Have a handoff path for people in distress.** A general assistant will eventually
 meet someone in crisis, someone underage, and someone treating it as a therapist. A
-crisis is not a moderation category you refuse without comment and move on from. The
+crisis isn't a moderation category you refuse without comment and move on from. The
 responsible behavior is to answer plainly, point at real human resources, and not
 pretend to be one. In several jurisdictions this is now an explicit legal requirement
 rather than a nice-to-have ([below](#the-rules-stopped-being-hypothetical)).
 
-**Disclosure decays.** One line at the top of a session is not disclosure two hours
-in, and it is nothing at all in a voice interface with no top of session. If the
+**Disclosure decays.** One line at the top of a session isn't disclosure two hours
+in, and it's nothing at all in a voice interface with no top of session. If the
 product invites long or repeated conversations, decide when it re-identifies itself.
 
 ---
@@ -235,7 +235,7 @@ for "a query" is rounding away most of the question. Treat specific figures the 
 [MODELS.md](MODELS.md) treats prices: correct on a date, for one setup, and worth
 re-checking.
 
-**The lever you actually have is the same lever as cost.** You cannot change how the
+**The lever you actually have is the same lever as cost.** You can't change how the
 model was trained. You can change how much inference you cause, and the levers are the
 ones the rest of the series already teaches for other reasons:
 
@@ -248,8 +248,8 @@ ones the rest of the series already teaches for other reasons:
 - an eval that tells you when the cheap option is good enough, so "we need the big
   model" is a finding rather than an assumption → [Evals](../evals-deep-dive/)
 
-So here is the useful framing. Your token bill is a rough proxy for your footprint, and
-you already have the tooling to drive it down. Efficiency is not a complete answer to
+So here's the useful framing. Your token bill is a rough proxy for your footprint, and
+you already have the tooling to drive it down. Efficiency isn't a complete answer to
 the environmental argument, and pretending otherwise is its own kind of dishonesty. It
 is, though, what you have your hands on.
 
@@ -264,12 +264,12 @@ undo it?" Three things change.
 1. **Errors become actions.** A hallucinated fact is a bad sentence. A hallucinated tool
    call is a sent email, a deleted row, a charged card. The eval bar rises because the
    failure mode escaped the chat window.
-2. **Accountability gets diffuse.** With a human in the loop there is a person who
+2. **Accountability gets diffuse.** With a human in the loop there's a person who
    pressed the button. Remove them and "who approved this?" has no answer, which is
    precisely the situation principle 4 exists to prevent.
 3. **Injection becomes a responsibility issue as well as a security one.** An agent
-   reading untrusted text can be steered into acting against the user it is serving.
-   Technically that is [SAFETY.md](SAFETY.md)'s territory, but the harm lands here.
+   reading untrusted text can be steered into acting against the user it's serving.
+   Technically that's [SAFETY.md](SAFETY.md)'s territory, but the harm lands here.
 
 The practical rule: sort actions by reversibility rather than by difficulty. Reading is
 free, writing needs a leash, and anything you can't undo (money out, message sent,
@@ -295,7 +295,7 @@ transparency duties for the rest. The high-risk obligations were deferred by the
 Digital Omnibus, which entered into force on 27 July 2026: stand-alone Annex III
 systems now land on 2 December 2027, and AI embedded in regulated products on
 2 August 2028. **Most of the Article 50 transparency duties still applied from
-2 August 2026**, and those are what touch ordinary products. Telling users they are
+2 August 2026**, and those are what touch ordinary products. Telling users they're
 interacting with an AI, and marking synthetic media.
 
 **Disclosure and crisis handling are becoming statutory, not just ethical.** Twelve US
@@ -307,9 +307,9 @@ extra duties for minors. Colorado's HB 26-1263, signed 1 July 2026 and effective
 1 January 2027, is a representative example; Colorado also repealed and re-enacted its
 broader AI Act via SB 26-189, pushing the automated-decision duties to 1 January 2027.
 
-The engineering takeaway is not "learn compliance." It is that the checklist below
+The engineering takeaway isn't "learn compliance." It's that the checklist below
 increasingly carries legal weight, and the two cheapest items on it, knowing which risk
-tier you are in and keeping records of your evals, are the ones teams skip.
+tier you're in and keeping records of your evals, are the ones teams skip.
 
 Sources for the above, checked 2026-08-11:
 [Gibson Dunn on the Omnibus agreement](https://www.gibsondunn.com/eu-ai-act-omnibus-agreement-postponed-high-risk-deadlines-and-other-key-changes/),
@@ -328,7 +328,7 @@ terms. These are live, and you will meet all of them.
 
 - **Training on public data.** Somewhere between "transformative use that built a
   public good" and "the largest uncompensated appropriation of creative work in
-  history." The courts have not finished, and your position on it is not derivable
+  history." The courts haven't finished, and your position on it isn't derivable
   from your position on the rest of this page.
 - **Open weights.** Releasing weights distributes power away from a handful of labs
   and makes independent safety research possible. It also removes the ability to
@@ -336,7 +336,7 @@ terms. These are live, and you will meet all of them.
   halves are true; the disagreement is about the exchange rate.
 - **Which harms deserve the attention.** One camp holds that present harms (bias,
   labor, surveillance, dependence) are concrete and here, and that speculative
-  long-term risk crowds them out. Another holds the opposite. You do not have to
+  long-term risk crowds them out. Another holds the opposite. You don't have to
   resolve this to do your job well, and you should be suspicious of anyone who insists
   the other list is a distraction.
 - **Displacement.** "It augments people" and "it replaces people" are both used to
