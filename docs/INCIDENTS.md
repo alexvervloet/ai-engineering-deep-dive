@@ -2,24 +2,24 @@
 
 [SAFETY.md](SAFETY.md) is about the limits you build in advance.
 [GOVERNANCE.md](GOVERNANCE.md) is about the record of what you decided. This page is
-for the hour when a limit did not hold. It is a set of playbooks you can follow while
+for the hour when a limit didn't hold. It's a set of playbooks you can follow while
 tired, plus the containment levers you have to build **before** you need them. Part
 of the [AI Engineering Deep Dives](../README.md).
 
-> **Scope.** These are runbooks, not theory. Each one assumes you are mid-incident
-> and skims: what you are looking at, stop the bleeding, find the blast radius, then
+> **Scope.** These are runbooks, not theory. Each one assumes you're mid-incident
+> and skims: what you're looking at, stop the bleeding, find the blast radius, then
 > fix. Adapt the thresholds to your system; the shape holds.
 
 ---
 
 ## 0. The one big idea
 
-> **Most AI incidents are not outages. They are the system working, confidently, and
+> **Most AI incidents aren't outages. They're the system working, confidently, and
 > being wrong.**
 
 A crashed service pages you. A retrieval index that went stale three weeks ago and told
 nobody does not. This changes the job in two ways. Detection has to be something you
-built on purpose, because failure is not self-announcing. And containment is usually
+built on purpose, because failure isn't self-announcing. And containment is usually
 about narrowing what the system is allowed to do, not about restarting it, because
 restarting a confidently wrong system gives you a confidently wrong system.
 
@@ -36,7 +36,7 @@ restarting a confidently wrong system gives you a confidently wrong system.
 
 Two rules that save arguments at 2am:
 
-- **Uncertainty rounds up.** If you cannot tell whether data left, it is a Sev-1
+- **Uncertainty rounds up.** If you can't tell whether data left, it's a Sev-1
   until you can.
 - **Blast radius beats severity of a single case.** One user seeing a bad answer is
   Sev-3. Every user seeing it is Sev-2, even if each instance is mild.
@@ -45,12 +45,12 @@ Two rules that save arguments at 2am:
 
 ## 2. The first thirty minutes
 
-Do these in order. Do not skip to diagnosis; that is the classic way to spend an hour
+Do these in order. Don't skip to diagnosis; that's the classic way to spend an hour
 being clever while harm continues.
 
-1. **Name an incident commander.** One person, said out loud. They coordinate and do
-   not also debug.
-2. **Start a timeline.** One channel, timestamps, decisions as you make them. You are
+1. **Name an incident commander.** One person, said out loud. They coordinate and don't
+   also debug.
+2. **Start a timeline.** One channel, timestamps, decisions as you make them. You're
    writing the postmortem now, badly, so that later you can write it well.
 3. **Contain.** Pull a lever from section 3. Containment before understanding is
    correct here; you can widen again once you know more.
@@ -75,12 +75,12 @@ Build these before you need them, and test them the way you test a rollback.
 | **Model pin** | Forces one known-good model and prompt version | [Testing & Delivery](../testing-and-delivery-deep-dive/) |
 | **Tool disable** | Turns off one tool without taking the system down | [Agents](../agents-deep-dive/), [Agent Harnesses](../agent-harness-deep-dive/) |
 | **Spend cap** | Hard stop on tokens per minute and per tenant | [Production](../ai-in-production-deep-dive/) |
-| **Read-only mode** | Model can answer, cannot act | [GenAI Security](../genai-security-deep-dive/) |
+| **Read-only mode** | Model can answer, can't act | [GenAI Security](../genai-security-deep-dive/) |
 | **Tenant isolation switch** | Cuts one tenant off from shared paths | [Architecture](../architecture-deep-dive/) |
 | **Index rollback** | Reverts to a previous corpus revision | [AI Data Engineering](../ai-data-engineering-deep-dive/) |
 
-The test for each: can an on-call engineer who did not build it trigger it in under
-five minutes, from a runbook, without a deploy? If not, it is a plan, not a lever.
+The test for each: can an on-call engineer who didn't build it trigger it in under
+five minutes, from a runbook, without a deploy? If not, it's a plan, not a lever.
 
 ---
 
@@ -89,15 +89,15 @@ five minutes, from a runbook, without a deploy? If not, it is a plan, not a leve
 **Signs.** Tool calls that no user request explains. Outputs quoting instructions
 from retrieved documents. An agent visiting a domain nobody configured.
 
-1. **Contain:** read-only mode, or disable the specific tool. Do not start by
-   rewriting the system prompt; that is a fix, not containment.
+1. **Contain:** read-only mode, or disable the specific tool. Don't start by
+   rewriting the system prompt; that's a fix, not containment.
 2. **Scope:** find every session that touched the poisoned source. Injection arrives
    through content, so the question is "which documents," not "which users."
 3. **Quarantine the source.** Pull the document, page, or record out of the index.
    Record its revision before you delete it.
 4. **Check what the tools actually did.** Every side effect, not every response.
    Money moved, mail sent, records changed, data read.
-5. **Fix:** the durable fix is almost never a better prompt. It is narrowing what the
+5. **Fix:** the durable fix is almost never a better prompt. It's narrowing what the
    tool can do and who can call it. See
    [Prompt Injection](../prompt-injection-deep-dive/) for why prompt-level defenses
    degrade, and [GenAI Security](../genai-security-deep-dive/) for authorizing effects
@@ -113,14 +113,14 @@ generated content. Support sees an answer containing an address nobody supplied.
 1. **Contain immediately.** Sev-1 by default. Kill switch or read-only, not a patch.
 2. **Determine direction.** Did data leak *out* to a user, or *up* to a provider in a
    prompt? They have different obligations and different fixes.
-3. **Bound it.** Which records, which users saw them, over what window. If logs do
-   not let you answer this, that gap is itself a finding for the postmortem.
+3. **Bound it.** Which records, which users saw them, over what window. If logs don't
+   let you answer this, that gap is itself a finding for the postmortem.
 4. **Check the three touchpoints:** what you send, what you log, what you retain.
    The [PII checklist in SAFETY.md](SAFETY.md) is the short version.
 5. **Purge deliberately.** Prompts and completions live in your logs, your traces,
    your eval sets, and possibly the provider's retention window. Deleting the
    database row is the beginning of the job.
-6. **Disclosure is likely mandatory.** Do not let this decision sit with the on-call
+6. **Disclosure is likely mandatory.** Don't let this decision sit with the on-call
    engineer. Escalate to whoever owns that duty, today.
 
 ---
@@ -133,7 +133,7 @@ generated content. Support sees an answer containing an address nobody supplied.
    record whether you could, since non-reproducible cases are still real.
 2. **Contain by narrowing scope,** not by patching one string. Blocking the exact
    phrase teaches you nothing and stops nothing similar.
-3. **Ask whether it is a class.** One offensive completion is a bug. A prompt pattern
+3. **Ask whether it's a class.** One offensive completion is a bug. A prompt pattern
    that reliably produces them is a Sev-2.
 4. **Handle the person first.** Someone received this. The appeal and remedy path in
    [GOVERNANCE.md](GOVERNANCE.md) applies, and it applies faster than your fix.
@@ -150,7 +150,7 @@ This is the most common serious AI incident and the least likely to page anyone.
 resolve rate falling. A model version changed under you.
 
 1. **Establish when.** Compare against your baseline eval run, not against memory.
-   If you have no baseline, that is finding number one.
+   If you have no baseline, that's finding number one.
 2. **Check the artifact tuple first.** Model version, prompt version, index revision,
    embedding model, SDK version. Regressions usually arrive as a change in one of
    these, and a hosted model can change without you deploying anything.
@@ -174,7 +174,7 @@ Retries amplifying an upstream failure.
    classic version.
 3. **Check for amplification.** One user request causing many model calls is normal
    for agents and pathological past a bound. Find the bound you never set.
-4. **Check whether it is an attack.** Unbounded cost is a denial-of-wallet vector.
+4. **Check whether it's an attack.** Unbounded cost is a denial-of-wallet vector.
 5. **Fix:** step limits, retry budgets, and per-tenant caps.
    [Agents](../agents-deep-dive/) covers step limits;
    [Testing & Delivery](../testing-and-delivery-deep-dive/) covers retry budgets that
@@ -186,9 +186,9 @@ Retries amplifying an upstream failure.
 
 **Signs.** Elevated errors from one provider. A deprecation email with a date on it.
 
-1. **Fail over if you have a tested fallback.** If it is untested, decide
+1. **Fail over if you have a tested fallback.** If it's untested, decide
    consciously whether an untested path is better than a clear error message. Often
-   it is not.
+   it isn't.
 2. **Watch correctness, not just availability.** A fallback model that answers
    everything wrong looks healthy on an uptime graph.
    [Architecture](../architecture-deep-dive/) measures exactly this trade.
@@ -201,14 +201,14 @@ Retries amplifying an upstream failure.
 
 ## 10. Runbook: corpus poisoning or contamination
 
-**Signs.** Confident answers citing a document that should not exist. Content from
+**Signs.** Confident answers citing a document that shouldn't exist. Content from
 one tenant surfacing for another. An ingest job that ran with the wrong permissions.
 
 1. **Freeze ingestion.** Stop making it worse.
 2. **Identify the revision** where the bad content entered. This is why the corpus
-   is versioned. If it is not versioned, that is finding number one.
+   is versioned. If it isn't versioned, that's finding number one.
 3. **Roll the index back,** then re-ingest forward with the fix.
-4. **Check permission propagation.** If ACLs did not travel with the chunk, the leak
+4. **Check permission propagation.** If ACLs didn't travel with the chunk, the leak
    is structural rather than a one-off.
 5. See [AI Data Engineering](../ai-data-engineering-deep-dive/) for versions, lineage,
    and deletes as first-class operations.
@@ -236,8 +236,8 @@ We have limited <feature> while we investigate an issue affecting <what>.
 We will update by <time>.
 ```
 
-Say what is affected and what they can do. Do not explain the cause while you are
-still guessing at it, and do not promise a resolution time you are inventing.
+Say what's affected and what they can do. Don't explain the cause while you're
+still guessing at it, and don't promise a resolution time you're inventing.
 
 **User-facing, after, when someone was actually affected:**
 
@@ -302,7 +302,7 @@ Four numbers tell you whether your incident practice is improving:
 
 - **Time to detect.** The one that matters most for AI systems, and usually the worst.
 - **Time to contain.** Tests whether your levers are real.
-- **Percentage detected by monitoring rather than by users.** Start honest; it is
+- **Percentage detected by monitoring rather than by users.** Start honest; it's
   often low.
 - **Repeat rate.** Incidents recurring from the same root cause mean the postmortem
   produced tickets rather than change.
@@ -311,13 +311,13 @@ Four numbers tell you whether your incident practice is improving:
 
 ## 14. Anti-patterns
 
-- **Diagnosing before containing.** Harm continues while you are being clever.
+- **Diagnosing before containing.** Harm continues while you're being clever.
 - **The fix that is a prompt edit.** Fine as mitigation. As the durable fix for a
-  security incident, it is wishful.
-- **Redeploying before snapshotting.** You have destroyed the evidence.
-- **Severity negotiated down because it is inconvenient.** Write the real severity
+  security incident, it's wishful.
+- **Redeploying before snapshotting.** You've destroyed the evidence.
+- **Severity negotiated down because it's inconvenient.** Write the real severity
   and the reason for the response you chose.
-- **A postmortem with no "what we are not doing" section.** It will be rewritten
+- **A postmortem with no "what we're not doing" section.** It'll be rewritten
   from scratch next time.
 - **No named commander.** Six people investigate, nobody contains, nobody talks to
   the affected user.
