@@ -31,7 +31,7 @@ description · [SAFETY.md](docs/SAFETY.md), the cross-cutting safety view ·
 
 ## Is this safe to run?
 
-A fair thing to ask of a stranger's repo, so here is the short version. The details,
+A fair thing to ask of a stranger's repo, so here's the short version. The details,
 including what to do if you find something, are in [SECURITY.md](SECURITY.md).
 
 - No install script, and nothing here asks you to pipe a URL into a shell.
@@ -42,11 +42,11 @@ including what to do if you find something, are in [SECURITY.md](SECURITY.md).
 - All 25 submodules point at repos under this same account. Check for yourself with
   `git config -f .gitmodules --get-regexp url`.
 - Every commit is signed, and CI installs and runs the offline path of all 25 dives
-  on a clean GitHub runner on every push. Those logs are public and I do not control
+  on a clean GitHub runner on every push. Those logs are public and I don't control
   the machine.
 
-What you are actually trusting is PyPI, because dependencies are version ranges
-rather than hash pins, and whichever model provider you point at. If you would rather
+What you're actually trusting is PyPI, because dependencies are version ranges
+rather than hash pins, and whichever model provider you point at. If you'd rather
 not trust me at all, everything runs in a container, and the offline paths run with
 the network switched off.
 
@@ -55,16 +55,16 @@ the network switched off.
 ## The core path (do these in order)
 
 The eight build on each other. The first two teach the API call, then each one adds a
-layer until you are operating a real app end to end.
+layer until you're operating a real app end to end.
 
 | # | Deep dive | The one big idea |
 |---|-----------|------------------|
 | 1 | [OpenAI API](openai-api-deep-dive/) | You send a list of messages. You get back a message. Everything else is detail on that request. |
 | 2 | [Claude API](claude-api-deep-dive/) | The same idea done the Anthropic way, with content blocks, tool use, and extended thinking. |
 | 3 | [Prompt Engineering](prompt-engineering-deep-dive/) | How you ask shapes what the model does. Zero-shot, few-shot, chain-of-thought, roles, structure. |
-| 4 | [RAG](rag-deep-dive/) | A model can only answer from what is in its context window. RAG is the discipline of putting the right text there. |
-| 5 | [Evals](evals-deep-dive/) | If you cannot measure it you cannot improve it. Turn your app's quality into a number you can rerun. |
-| 6 | [Agents](agents-deep-dive/) | An agent is a loop. The model picks a tool, you run it, you feed the result back, and you repeat until it is done. |
+| 4 | [RAG](rag-deep-dive/) | A model can only answer from what's in its context window. RAG is the discipline of putting the right text there. |
+| 5 | [Evals](evals-deep-dive/) | If you can't measure it you can't improve it. Turn your app's quality into a number you can rerun. |
+| 6 | [Agents](agents-deep-dive/) | An agent is a loop. The model picks a tool, you run it, you feed the result back, and you repeat until it's done. |
 | 7 | [Prompt Injection & Guardrails](prompt-injection-deep-dive/) | Everything the model reads and writes is untrusted. Contain the blast radius. |
 | 8 | [Production](ai-in-production-deep-dive/) | The model call is one line. Production is the dozen lines around it that make it safe, cheap, observable, and reliable. |
 
@@ -74,8 +74,8 @@ Standalone deep dives that extend the core path. Each one notes where it slots i
 
 | Deep dive | The one big idea | Slots in after |
 |-----------|------------------|----------------|
-| [Agent Harnesses](agent-harness-deep-dive/) | Once you have hand-written the loop, most agent work happens on top of a harness. That layer adds hooks, permission policies, sandboxing, subagents, and headless runs. | Agents (6) |
-| [Context Engineering](context-engineering-deep-dive/) | The model only knows what is in its context window, so manage it. Conversation memory, compaction, long-term recall, and what to drop when it will not all fit. | Agents (6); pairs with RAG (4) |
+| [Agent Harnesses](agent-harness-deep-dive/) | Once you've hand-written the loop, most agent work happens on top of a harness. That layer adds hooks, permission policies, sandboxing, subagents, and headless runs. | Agents (6) |
+| [Context Engineering](context-engineering-deep-dive/) | The model only knows what's in its context window, so manage it. Conversation memory, compaction, long-term recall, and what to drop when it won't all fit. | Agents (6); pairs with RAG (4) |
 | [AI Data Engineering](ai-data-engineering-deep-dive/) | A retrieval index is a disposable view of source truth. Ingest and version documents, preserve lineage and ACLs, propagate deletes, reconcile drift, and prove the corpus can be rebuilt. | RAG (4); before Production (8) |
 | [GenAI Security](genai-security-deep-dive/) | The model is an untrusted principal, not a security boundary. Authorize effects in code, verify the supply chain, isolate data and execution, bound resources, and make attacks block releases. | Prompt Injection (7); before Production (8) |
 | [Multimodal](multimodal-deep-dive/) | A multimodal model takes more than text. Put the right images and audio in the right slot, and mind the token cost. | the API dives (1–2); pairs with RAG (4) |
@@ -85,17 +85,17 @@ Standalone deep dives that extend the core path. Each one notes where it slots i
 | [MCP](mcp-deep-dive/) | The Model Context Protocol hands an LLM tools, data, and prompts from a separate process. Write the server once and any client can use it. | Agents (6) |
 | [Local Models](local-models-deep-dive/) | An open-weight model on your machine speaks the same OpenAI API, so running local is mostly an ops choice about privacy, cost, and control. | the API dives (1–2); pairs with Fine-tuning |
 | [Inference Platform Engineering](inference-platform-deep-dive/) | A self-hosted model becomes a service only when memory and queue scheduling turn finite GPUs into measured latency, throughput, reliability, and cost. | Local Models; Production; Architecture |
-| [Observability](observability-deep-dive/) | A prototype gets judged once. A production system gets judged continuously, so watch quality as a trend: drift, silent regressions, and alerting that does not cry wolf. It ends by emitting the same telemetry as real OpenTelemetry over OTLP, so you can see which half of the problem the standard actually solves. | Production (8); pairs with Evals (5) |
+| [Observability](observability-deep-dive/) | A prototype gets judged once. A production system gets judged continuously, so watch quality as a trend: drift, silent regressions, and alerting that doesn't cry wolf. It ends by emitting the same telemetry as real OpenTelemetry over OTLP, so you can see which half of the problem the standard actually solves. | Production (8); pairs with Evals (5) |
 | [Architecture](architecture-deep-dive/) | The seams between the components. Where conversation state lives, what a queue buys, what streaming costs your guardrails, and where the tenant boundary goes. Every decision measured rather than asserted. | Production (8); pairs with Observability |
 | [Testing & Delivery](testing-and-delivery-deep-dive/) | A release is an evidence pipeline. Requirements defined independently decide whether the reproducibility, compatibility, security, rollout, and recovery evidence is good enough to promote. | Evals (5) + Production (8); pairs with GenAI Security |
-| [Structured Data + AI](structured-data-ai-deep-dive/) | Most of what a company knows is in a database. Ask it questions in English, then do the work that makes the answers trustworthy: score by executing the SQL, catch the join that silently multiplies revenue, discover the metric nobody defined, and put the read-only boundary somewhere a prompt cannot reach. | Evals (5); pairs with GenAI Security |
+| [Structured Data + AI](structured-data-ai-deep-dive/) | Most of what a company knows is in a database. Ask it questions in English, then do the work that makes the answers trustworthy: score by executing the SQL, catch the join that silently multiplies revenue, discover the metric nobody defined, and put the read-only boundary somewhere a prompt can't reach. | Evals (5); pairs with GenAI Security |
 | [Professional Tools](professional-tools-deep-dive/) | Volume 2. Rebuild each from-scratch piece with the tool professionals actually reach for (LiteLLM, Instructor, LlamaIndex, DeepEval, LangGraph, Llama Guard, Langfuse) and measure both on the same eval, so "should we adopt this framework?" becomes an experiment instead of a taste. | Everything (you need the pieces first) |
 
 ---
 
 ## Building this in TypeScript?
 
-The series teaches in Python, because that is where the AI world's centre of gravity
+The series teaches in Python, because that's where the AI world's centre of gravity
 still sits. But most software that will end up calling a language model is already
 written, and a great deal of it is written in TypeScript.
 
@@ -103,10 +103,10 @@ written, and a great deal of it is written in TypeScript.
 > and an honest account of what actually changes. Your types stop at the network
 > boundary, so everything a model says is `unknown` until you check it at runtime.
 > Every call is a promise. And one blocking handler stalls the whole process in a way
-> you cannot detect from inside it. Thirteen runnable examples, twelve of which need
+> you can't detect from inside it. Thirteen runnable examples, twelve of which need
 > no API key.
 
-It is a companion rather than a step in the sequence. Nothing above depends on it, and
+It's a companion rather than a step in the sequence. Nothing above depends on it, and
 it replaces no dive. For depth on any subject it touches, the Python dive on that
 subject goes much further. Read it if your AI work ships in TypeScript, or if you want
 to know which of the differences are real and which are folklore.
@@ -155,7 +155,7 @@ to know which of the differences are real and which are folklore.
 The thread runs: build the call (1–2), ask well (3), ground it (4), measure it (5),
 let it act (6), harden it (7), operate it (8). The bonus dives branch off where they
 are most useful. Observability extends Production from one request to six weeks of
-them, and Architecture asks where all these parts belong once there is more than one
+them, and Architecture asks where all these parts belong once there's more than one
 of everything. Testing & Delivery turns those quality, security, and operational
 signals into promotion and rollback evidence you can reproduce.
 ML Foundations takes the numeric path beneath the API call. It belongs before the
@@ -167,18 +167,18 @@ dives where you tune weights, compress them, or schedule their memory.
 ## Applied companions
 
 Each dive stops where a lab should stop. The technique works, on a corpus small
-enough to read, with a mock provider so the first run is free. What a lab cannot
+enough to read, with a mock provider so the first run is free. What a lab can't
 show you is the same technique under the conditions that make it hard. These are
 separate repositories that took one dive further and wrote down what changed.
 
-They are not part of the course and nothing here depends on them. Read one when
+They're not part of the course and nothing here depends on them. Read one when
 a dive leaves you wondering what happens once the corpus is large, the bill is
 real, or someone else is using it.
 
 | Dive | Companion | What it took further |
 |---|---|---|
 | RAG (4) | [rag-at-scale](https://github.com/alexvervloet/rag-at-scale) | Brute force, IVFFlat and HNSW at 1 to 5 million chunks. Recall, latency, build time and memory, measured as the corpus grows. |
-| Evals (5) | [model-swap](https://github.com/alexvervloet/model-swap) | The statistics applied to a deployed app instead of a fixture: a calibrated judge, a predeclared margin, and what a 120-case suite can and cannot detect. |
+| Evals (5) | [model-swap](https://github.com/alexvervloet/model-swap) | The statistics applied to a deployed app instead of a fixture: a calibrated judge, a predeclared margin, and what a 120-case suite can and can't detect. |
 | Agents (6), Prompt Injection (7) | [deskhand](https://github.com/alexvervloet/deskhand) | An agent allowed to move money. Durable runs across a worker crash, an approval gate bound to an argument hash, and 25 trajectory evals as a merge gate. |
 | Production (8) | [knowledge-desk](https://github.com/alexvervloet/knowledge-desk) | The operational layer around a live multi-tenant assistant: tenancy, ACL-aware retrieval, background ingestion, quotas, cost attribution and audit. |
 | Context Engineering (10) | [client-context-compiler](https://github.com/alexvervloet/client-context-compiler) | Packing one window under a token budget when two clients share an advisor, and the attribution failure that every permission check passes. |
@@ -187,7 +187,7 @@ real, or someone else is using it.
 | Professional Tools (18) | [askrepo-langchain](https://github.com/alexvervloet/askrepo-langchain) | The same app rebuilt on LangChain and LangGraph, with both implementations scored on the same gold questions. |
 
 The interesting reading in most of them is `LESSONS.md`, which records what the
-lab did not predict.
+lab didn't predict.
 
 ---
 
@@ -203,7 +203,7 @@ cp .env.example .env               # when the repo has one; config only, no keys
 python check_setup.py              # verifies your environment; makes no API call
 ```
 
-Your API key does not go in `.env`. Store it in your OS keychain and inject it per
+Your API key doesn't go in `.env`. Store it in your OS keychain and inject it per
 command with `secrun`, a one-time setup that takes about two minutes and is written up
 in [SECRETS.md](docs/SECRETS.md). Then run any key-using script as
 `secrun python examples/…`; offline examples need no wrapper. `.env` holds the
@@ -246,7 +246,7 @@ Foundations, the shared vocabulary and the up-front decisions:
 [MODELS.md](docs/MODELS.md) (context windows, prices, which to default to).
 
 Practice, how to run the lessons and what to build:
-[SECRETS.md](docs/SECRETS.md) (where your API keys go, which is not `.env`) ·
+[SECRETS.md](docs/SECRETS.md) (where your API keys go, which isn't `.env`) ·
 [CAPSTONE.md](docs/CAPSTONE.md) (the whole-series build, one tag per dive) ·
 [CAREERS.md](docs/CAREERS.md) (each dive as a résumé line and an interview answer) ·
 [AUTHORING-LESSONS.md](docs/AUTHORING-LESSONS.md) (for anyone extending the series).
