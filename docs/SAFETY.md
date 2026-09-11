@@ -6,7 +6,7 @@ concerns are, which dive covers each one hands-on, and the handful of principles
 tie them together. Part of the [AI Engineering Deep Dives](../README.md).
 
 > **Scope.** This page is about building systems that are safe to operate, meaning
-> they do not leak, get hijacked, produce harmful content, or mislead without anyone
+> they don't leak, get hijacked, produce harmful content, or mislead without anyone
 > noticing. The [Prompt Injection & Guardrails](../prompt-injection-deep-dive/) and
 > [GenAI Security](../genai-security-deep-dive/) dives are strictly defensive, and
 > every attack in them targets its own toy system. Use these techniques only on
@@ -47,15 +47,15 @@ tie them together. Part of the [AI Engineering Deep Dives](../README.md).
 ## Five principles that cut across all of them
 
 **1. Everything the model reads and writes is untrusted.**
-The model cannot reliably tell your instructions from an attacker's. To it, all of it
+The model can't reliably tell your instructions from an attacker's. To it, all of it
 is just text. Untrusted input (user text, retrieved docs, tool results, another
 server's output) can carry instructions, and untrusted output can carry a leak or a
 harmful response. Check both sides. This is the spine of the
 [Prompt Injection](../prompt-injection-deep-dive/) dive.
 
 **2. Contain the blast radius rather than trusting the model to behave.**
-You cannot make a model un-trickable, so make being tricked survivable. The defense
-that does not depend on the model guessing right is limiting what it can cause:
+You can't make a model un-trickable, so make being tricked survivable. The defense
+that doesn't depend on the model guessing right is limiting what it can cause:
 least-privilege tools, allow-listed actions, human approval for anything with a side
 effect, and the dual-LLM pattern that quarantines untrusted text from the model that
 holds authority. Capability limits beat detection.
@@ -83,29 +83,29 @@ metric is attack-success-rate, gate it in CI, and watch it over time. See
 faithfulness eval makes "did it stay grounded?" a tracked number instead of a vibe.
 
 Watch benign traffic in the same gate. A system that blocks everything scores a perfect
-attack-success rate, and a suite that cannot fail its own coverage check is not
+attack-success rate, and a suite that can't fail its own coverage check isn't
 measuring anything either ([GenAI Security](../genai-security-deep-dive/), lesson 11).
 
 **5. The model is a principal, not a boundary.**
 The first four all live around the model. This one says where the line actually falls.
 The model may propose an action, but nothing it says grants authority. Identity,
 policy, provenance, isolation, and budgets get enforced in ordinary code that a
-compromised model cannot argue with. That is the difference between asking a system to
-behave and building one where misbehaving does not help.
+compromised model can't argue with. That's the difference between asking a system to
+behave and building one where misbehaving doesn't help.
 ([GenAI Security](../genai-security-deep-dive/) is the whole dive on this.)
 
 ---
 
 ## Three things people conflate, and shouldn't
 
-- **Injection defense is not moderation.** Injection defense stops the model being
-  hijacked. Moderation stops harmful content coming in or going out. They are
+- **Injection defense isn't moderation.** Injection defense stops the model being
+  hijacked. Moderation stops harmful content coming in or going out. They're
   independent layers, so run both. A bot nobody has jailbroken can still be asked to
   write something hateful.
-- **Hallucination is not a safety bug you can patch.** It is inherent to how the model
-  works, as [HOW-LLMS-WORK.md](HOW-LLMS-WORK.md) explains. You do not fix it. You
+- **Hallucination isn't a safety bug you can patch.** It's inherent to how the model
+  works, as [HOW-LLMS-WORK.md](HOW-LLMS-WORK.md) explains. You don't fix it. You
   manage it: ground answers in retrieved facts, cite sources, and measure faithfulness.
-- **Injection defense is not securing the system.** Injection is one attack in one
+- **Injection defense isn't securing the system.** Injection is one attack in one
   place, the text the model reads. A production system also has identities, tools,
   build artifacts, retrieval indexes, interpreters, networks, and budgets, and every
   one of them can fail without a single crafted prompt. Do
@@ -135,7 +135,7 @@ All three are built and wired together in the
 ## Where to start
 
 - Building anything user-facing → do the
-  [Prompt Injection & Guardrails](../prompt-injection-deep-dive/) dive. It is the one
+  [Prompt Injection & Guardrails](../prompt-injection-deep-dive/) dive. It's the one
   that changes how you think.
 - Putting it in front of real users → [Production](../ai-in-production-deep-dive/) puts
   the guards on a live request path.
