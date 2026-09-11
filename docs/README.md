@@ -1,8 +1,8 @@
 # Reference docs
 
-The series-level docs, meaning everything that is not a dive. Each dive is
+The series-level docs, meaning everything that isn't a dive. Each dive is
 self-contained and links back here for the shared material, so nothing below assumes
-you have finished any particular dive.
+you've finished any particular dive.
 
 The series itself lives one level up, in [the main README](../README.md).
 
@@ -11,18 +11,18 @@ The series itself lives one level up, in [the main README](../README.md).
 ## Foundations
 
 Read these before or alongside the first dive. They hold the shared vocabulary and
-the decisions the dives assume you have already made.
+the decisions the dives assume you've already made.
 
 - [HOW-LLMS-WORK.md](HOW-LLMS-WORK.md) is the mental model underneath the whole
   series. Next-token prediction, training, why models hallucinate, the context
-  window. No math. Read it first if "what is an LLM?" is still fuzzy.
+  window. No math. Read it first if "what's an LLM?" is still fuzzy.
 - [GLOSSARY.md](GLOSSARY.md) defines every term the series assumes (token, embedding,
   context window, temperature, RAG, agent, eval, guardrail, quantization, and the
   rest), each one cross-linked to the dive that teaches it.
 - [CHOOSING.md](CHOOSING.md) is the decision guide. Prompt, few-shot, RAG, fine-tune,
   agent, and when to reach for multimodal, local, or MCP.
 - [MODELS.md](MODELS.md) lists the models the series uses, their context windows and
-  prices, and how to pick one. It is dated, and it tells you how to get current
+  prices, and how to pick one. It's dated, and it tells you how to get current
   numbers.
 
 ## Practice
@@ -60,7 +60,7 @@ other side of the screen experiences.
   data came from, what a fluent system does to the person using it, energy footprint,
   agent autonomy, the 2026 regulatory picture, and the question upstream of all of
   them, which is whether this should be an LLM at all. It ends with the arguments the
-  field has not settled, left unsettled.
+  field hasn't settled, left unsettled.
 - [GOVERNANCE.md](GOVERNANCE.md) is the operational machinery between "we thought
   about it" and a record someone can read. Named roles, change classification, and
   copy-pasteable templates for a system register, a pre-deployment assessment, a risk
