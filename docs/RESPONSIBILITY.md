@@ -206,7 +206,7 @@ the model holds. Track it like any other metric.
 
 **Engagement is the wrong objective.** If time-in-app or message count is the number
 your team optimizes, you've pointed a persuasion-capable system at keeping people
-there, and it will find ways you didn't design. Pick an objective that means the user
+there, and it'll find ways you didn't design. Pick an objective that means the user
 got what they came for and left.
 
 **Have a handoff path for people in distress.** A general assistant will eventually
@@ -324,7 +324,7 @@ Sources for the above, checked 2026-08-11:
 The series' house rule is to
 [show the real tradeoff rather than a clean-but-false claim](AUTHORING-LESSONS.md).
 An ethics page that presented every question as settled would break that rule on its own
-terms. These are live, and you will meet all of them.
+terms. These are live, and you'll meet all of them.
 
 - **Training on public data.** Somewhere between "transformative use that built a
   public good" and "the largest uncompensated appropriation of creative work in
