@@ -54,7 +54,7 @@ lives outside the repo entirely.
 > or read its own environment. A coding agent with shell access is such a process.
 > This defeats *accidental* and *passive* exposure (commits, file scans, `env`
 > dumps, screen-shares), which is the realistic threat for a laptop dev setup. It
-> is not a substitute for a hardware boundary (a secrets broker with per-request
+> isn't a substitute for a hardware boundary (a secrets broker with per-request
 > approval, hardware tokens, a separate machine) when you need one.
 
 ---
