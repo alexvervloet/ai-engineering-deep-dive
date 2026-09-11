@@ -207,3 +207,33 @@ and no ceiling.
 config file that appears in exactly one repo is as likely to be that repo's subject as
 it is to be a gap, and this series is full of files that exist to be examined rather
 than obeyed. Grepping for the filename found the answer in one command.
+
+## A text sweep over hard-wrapped Markdown misses what sits on the line break
+
+**Expected.** Converting uncontracted forms ("it is", "cannot", "does not") to
+contractions across the series looked like a per-line scan. Find the pattern, judge
+whether it's emphasis, rewrite the line.
+
+**What happened.** The prose is hard-wrapped at about 90 characters, so a good number
+of the phrases straddle a newline: `do` ending one line and `not back.` starting the
+next. A line-oriented scanner reports those files as clean. The first pass through the
+parent docs missed roughly sixty of them, and they only surfaced because the same files
+got re-scanned with a detector that joins each line to its successor before matching.
+
+That detector then missed a second batch, because a continuation line inside a
+blockquote or a list starts with `>` or `-` before the word. Stripping the leading
+marker before joining found the rest. Two classes of miss, both invisible to the
+obvious tool, both found by re-running rather than by reading.
+
+The other surprise was the opposite of a miss. A fair number of the matches are text
+that must stay byte-for-byte: `CANNOT ANSWER:` is a sentinel `askdb/generate.py` writes
+and `tests/test_evaluate.py` asserts on, "What is 23 * 47?" is the literal prompt in
+`examples/02_one_tool_call.py`, and "You are a helpful assistant." is a system message
+in `examples/07_token_counting.py`. Prose quoting a string the code also contains is
+not prose. Grepping the source for the quoted phrase before editing settled each case
+in one command.
+
+**Next time.** For any regex sweep over this repo's Markdown, run two detectors, one
+per line and one across each line boundary with list and quote markers stripped, and
+verify by re-scanning after the edits rather than trusting the first pass. Before
+rewriting anything inside quotes, grep the examples for it.
