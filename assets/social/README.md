@@ -47,5 +47,5 @@ reads as one family while consecutive posts stay visually distinct.
 The bottom row is width-fitted in Python rather than by CSS: Chrome will render
 chips past the right edge instead of wrapping them, so `fit_bottom()` estimates
 the row width, shrinks the type a step at a time, and drops trailing chips until
-it fits. If you add a long chip and it silently disappears from a card, that is
+it fits. If you add a long chip and it silently disappears from a card, that's
 why.
