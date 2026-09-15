@@ -47,7 +47,7 @@ there. See the last section.
 Being precise about this is more useful than a blanket safety claim.
 
 You're trusting **PyPI and the package maintainers**. Dependencies are pinned to
-version ranges (`openai>=2.0,<3`) rather than hashes, so `pip install` resolves to
+version ranges (`openai>=3.0,<4`) rather than hashes, so `pip install` resolves to
 whatever the index serves that day. That's normal for teaching material, where a
 hard pin goes stale and breaks for readers six months later, but it's a real trust
 boundary and you should know it's there. If you want it closed, generate a lock
