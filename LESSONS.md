@@ -237,3 +237,43 @@ in one command.
 per line and one across each line boundary with list and quote markers stripped, and
 verify by re-scanning after the edits rather than trusting the first pass. Before
 rewriting anything inside quotes, grep the examples for it.
+
+## The version audit found more in a resolver than in a changelog
+
+**Expected.** A monthly currency sweep reads like a documentation task. Check the
+provider pricing pages, check PyPI and npm for newer releases, update the numbers and
+the pins, done. The interesting findings would be in release notes.
+
+**What happened.** The release notes were the least useful source of the three, and
+two of the four real findings came from running a command rather than reading a page.
+
+Both provider SDKs had gone major, which a changelog tells you. What it doesn't tell
+you is whether your repo can actually take the upgrade. `pip install --dry-run` with
+the proposed pin set answered that in seconds: litellm still requires
+`openai<3.0.0` and `httpx<1.0`, so `professional-tools-deep-dive` cannot install the
+current SDK at all, a month after it shipped. No document anywhere says "this repo is
+blocked." It's an emergent property of two metadata files, and the only way to see it
+is to ask the resolver.
+
+The second one the same way. `anthropic` 1.0's migration guide says the sampling
+parameters were removed. Installing 1.5.0 and running `inspect.signature` on
+`messages.create` showed exactly which names were gone and that `extra_body` was
+there to catch them, which is the difference between writing a note about the change
+and writing the code that survives it.
+
+The third was a caret. `"@anthropic-ai/sdk": "^0.116.0"` had been quietly pinned to
+0.116.x for nine minor releases, because caret on a `0.x` version locks the minor.
+`npm install` never complained, the tests passed, and nothing surfaced it except
+comparing the lockfile to the registry.
+
+And the finding with an actual deadline came from a deprecations page rather than a
+release note: `o4-mini`, the default in a runnable example, shuts down on 2026-10-23.
+Release notes announce what arrived. Only the deprecations page announces what leaves,
+and what leaves is the half that breaks a repo.
+
+**Next time.** Run the audit as four passes, not one. Query the registries for current
+versions (`pypi.org/pypi/<pkg>/json`, `registry.npmjs.org/<pkg>`) rather than reading
+about them. Dry-run the proposed pin set before writing a single number, because a
+bound in a transitive dependency vetoes your upgrade silently. Install the new major
+and introspect the signatures you actually call. And read every provider's
+deprecations page first, before the changelogs, because that's where the dates are.
