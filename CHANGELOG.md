@@ -11,6 +11,74 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-09-15: monthly currency audit
+
+A scheduled sweep for stale tools, prices, and model ids. Four findings had a
+deadline or an outright error behind them; the rest were drift. Two turned up
+only by running a resolver and an installed SDK rather than by reading release
+notes, which is recorded in [LESSONS.md](LESSONS.md).
+
+### Fixed
+
+- **A runnable example was five weeks from breaking.**
+  `openai-api-deep-dive/examples/19_reasoning.py` defaulted `REASONING_MODEL`
+  to `o4-mini`, which shuts down on 2026-10-23 along with `o1` and `o1-pro`
+  (the 2025 `o3` snapshots follow on 2026-12-11). It runs on `gpt-5.6-luna`
+  now, and the lesson is reframed around what actually changed: reasoning is a
+  dial on the mainline tiers, not a separate family of models.
+- **Transcription pointed at a deprecated model.** `whisper-1` was deprecated
+  2026-08-26 and shuts down 2027-02-26. The multimodal dive uses
+  `gpt-transcribe`, and says what the swap costs: no word-level timestamps, no
+  SRT or VTT export, no translate-to-English endpoint.
+- **Three prices were wrong and one flagship was missing.** GPT-6 Astra
+  shipped 2026-09-03 and was absent from [MODELS.md](docs/MODELS.md); Sol is
+  $4/$20, not $5/$30; Claude Sonnet 5 is $2/$10, not $3/$15, which makes it
+  cheaper than the Sonnet 4.6 above it. The pricing modules the doc mirrors
+  were updated to match.
+- **A pointer to a shut-down API.** The agents dive cited OpenAI's Assistants
+  API as a live example of hosted agent loops; it shut down 2026-08-26.
+
+### Changed
+
+- **Both provider SDKs moved a major version.** `openai` to 3.x and
+  `anthropic` to 1.x across every dive that pins them. Both swapped httpx for
+  httpx2 underneath. `anthropic` 1.0 also removed `temperature`, `top_p` and
+  `top_k` from the Messages signatures, so four dives now route them through
+  `extra_body`, and the Claude dive teaches the two retirements as separate
+  events: the models rejecting the knobs, and the client dropping them.
+- **`professional-tools-deep-dive` is held on `openai` 2.x**, and not by
+  choice. litellm requires `openai<3.0.0`, so the current SDK is a resolver
+  conflict there. That is chapter 1's own lesson arriving in its pin file, and
+  it's recorded as lesson 12 in that dive.
+- **The TypeScript dive runs on TypeScript 7**, whose arrival its own README
+  had predicted would need no changes. It needed none. The Anthropic SDK there
+  had been frozen nine minor releases back, because caret on a `0.x` version
+  pins the minor.
+- **Local model tags refreshed** from `llama3.2`/`qwen2.5` to `qwen3:4b` and
+  friends, each verified against the registry, bringing the dive in line with
+  the tags its siblings already use.
+
+### Added
+
+- **Section 13 of [ai-in-production-deep-dive](ai-in-production-deep-dive/):
+  the failure that returns 200 OK.** Every other failure in that dive
+  announces itself by raising, and both the retry and fallback layers are built
+  on that. A refusal doesn't: HTTP 200, `stop_reason: "refusal"`, empty text,
+  no exception, no retry, no movement in the error rate. The example shows the
+  naive read, then the cache storing the empty string and serving it to
+  everyone afterward, then the guard. With a matching runbook in
+  [INCIDENTS.md](docs/INCIDENTS.md) and glossary entries for refusal, stop
+  reason, effort, and adaptive thinking.
+- **Effort named as the lever to try before a model cascade**, in the
+  production dive's cost-routing lesson, including the cost a cascade hides:
+  caches are model-scoped, so routing between tiers forfeits reuse.
+- **Agent-to-agent interop** in the agent-harness dive, separated from
+  coordinating workers you own, with why that layer hasn't converged the way
+  MCP did.
+- **The SDK majors as a compatibility failure** in the testing dive: swapping
+  the HTTP library silently unhooks anything patching `httpx` by module name,
+  so tracing and test doubles keep reporting green while intercepting nothing.
+
 ## 2026-09-07: acting on a curriculum audit
 
 An external audit of the series flagged five concrete defects and recommended
