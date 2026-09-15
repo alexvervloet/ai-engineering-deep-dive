@@ -40,7 +40,7 @@ current sits on the GPT-5 line. The GPT-4 models below still work, one generatio
 
 | Model | Input $/1M | Output $/1M | Context | Notes |
 |-------|-----------:|------------:|--------:|-------|
-| `gpt-6-astra` | 10.00 | 50.00 | 1M | Current flagship, released 2026-09-03. **Tool calling requires the Responses API**: see the caveat below. |
+| `gpt-6-astra` | 10.00 | 50.00 | 1.05M | Current flagship, released 2026-09-03. 128K max output. **Tool calling requires the Responses API**: see the caveat below. |
 | `gpt-5.6-sol` | 4.00 | 20.00 | 1.05M | Top of the 5.6 line. 128K max output. The $4/$20 is promotional through at least 2026-11-21; the list price was $5/$30. |
 | `gpt-5.6-terra` | 2.00 | 12.00 | 1.05M | Mid tier; balances cost and intelligence. 128K max output. |
 | `gpt-5.6-luna` | 0.20 | 1.20 | 1.05M | Cheap tier. 128K max output. **Reads cheap, behaves differently**: see the caveat below. |
