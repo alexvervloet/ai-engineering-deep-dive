@@ -85,11 +85,24 @@ must be judged on separate test data. *(ML Foundations §9)*
 ## Sampling & decoding
 
 **Temperature**: how random the word choice is. 0 = deterministic/most-likely
-(good for facts, extraction); higher = more varied/creative. *(API dives, §4)*
+(good for facts, extraction); higher = more varied/creative. Being retired on the
+frontier: current Claude and OpenAI top tiers reject it outright, and steer with
+**effort** instead. *(API dives, §4; MODELS.md)*
 
 **top_p (nucleus sampling)**: an alternative randomness knob: only consider the
 most-likely tokens whose probabilities sum to *p*. Use temperature *or* top_p, not
-both. *(API dives, §4)*
+both. Retired alongside temperature on the newest models. *(API dives, §4)*
+
+**Effort**: how much deliberation a request gets, as a per-request setting
+(`reasoning_effort` on OpenAI, `output_config.effort` on Claude). It replaced the
+sampling knobs as the steering control: the question moved from "how random should
+the word choices be" to "how hard should the model think about this." Usually a
+cheaper experiment than moving to a bigger model. *(MODELS.md; Claude API §8)*
+
+**Adaptive thinking**: `thinking: {"type": "adaptive"}`, where the model decides when
+and how much to think, rather than being given a fixed `budget_tokens` ceiling. The
+fixed budget is deprecated on Claude 4.6 and returns a 400 from 4.7 onward.
+*(Claude API §8)*
 
 **Stop sequence**: a string that, when generated, halts the response. *(API dives)*
 
@@ -472,6 +485,17 @@ the release gate passes. Evidence preservation begins before destructive repair.
 **Observability**: structured traces of what each request did (inputs, tokens, cost,
 tools, latency). *(Production §3; Observability)*
 
+**Refusal**: a safety classifier declining a request. The distinguishing feature is
+that it **succeeds**: HTTP 200, `stop_reason: "refusal"`, empty text, and a category
+in `stop_details` (which is `None` for every other stop reason, so guard before
+reading it). Nothing raises, so no `except` catches it, no retry fires, and no error
+rate moves. Treat it as a third outcome alongside answer and error, count it
+separately, and decide where it routes. *(Production §13)*
+
+**Stop reason**: why generation stopped. `end_turn` is normal; `max_tokens` means you
+truncated it; `tool_use` means it wants a tool; `refusal` means it declined. Read it
+before you read the text. *(API dives; Production §13)*
+
 **Span / trace**: a **trace** is one request's complete story, carrying a unique id;
 a **span** is one timed step inside it (the model call, the retrieval, the guardrail).
 *(Production §3; Observability §11)*
@@ -483,8 +507,9 @@ telemetry; it doesn't decide what the numbers mean. *(Observability §11)*
 
 **Semantic conventions**: the agreed attribute names (`gen_ai.request.model`,
 `gen_ai.usage.input_tokens`) that let any backend understand telemetry it has never
-seen. The GenAI ones are still experimental, and there's deliberately no standard
-attribute for cost. *(Observability §11)*
+seen. The GenAI ones are still experimental, every one of them, and they moved to
+their own repository (`open-telemetry/semantic-conventions-genai`) in mid-2026. There
+is deliberately no standard attribute for cost. *(Observability §11)*
 
 **Cardinality**: how many distinct values an attribute takes. Each distinct
 combination is its own metric time series, so a request id is free on a span and
