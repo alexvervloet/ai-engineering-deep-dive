@@ -215,6 +215,37 @@ one tenant surfacing for another. An ingest job that ran with the wrong permissi
 
 ---
 
+## 10a. Runbook: a spike in refusals
+
+**Signs.** Users reporting blank replies while every dashboard stays green. A
+refusal counter moving, if you have one. Complaints with no matching errors in the
+logs, which is the tell.
+
+A refusal returns **HTTP 200**. Nothing raises, no retry fires, no error rate moves,
+and the request is counted as a success by every meter you own. If you haven't
+instrumented this specifically, your first signal is a human telling you.
+
+1. **Confirm it's refusals and not an empty-response bug.** Read `stop_reason` on a
+   sample of the affected requests. `refusal` is the answer; `end_turn` with empty
+   text is a different bug with a different fix.
+2. **Read the categories.** The provider says why it declined. A single category
+   dominating points at one prompt or one class of user input; a spread across
+   categories points at something that changed upstream.
+3. **Work out which side moved.** Did you ship a prompt change, or did the provider
+   change a classifier? Diff your prompts against the last known-good version first,
+   because that's the half you control. Check the provider's changelog second.
+4. **Stop caching them.** Confirm no refusal has been written into a cache, an eval
+   golden file, or a stored conversation. One refusal cached is a refusal served to
+   everyone, and it outlives the cause.
+5. **Route them somewhere.** A different model, a canned response, or a human.
+   Anthropic's server-side fallbacks do this by category if you opt in. A blank
+   reply is not an option you chose; it's one you failed to choose.
+6. **Then add the counter,** if this incident is how you found out you didn't have
+   one. See [Production §13](../ai-in-production-deep-dive/) for the guard and
+   [Observability](../observability-deep-dive/) for where the metric goes.
+
+---
+
 ## 11. Communication templates
 
 **Internal, at declaration:**
