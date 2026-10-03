@@ -277,3 +277,29 @@ about them. Dry-run the proposed pin set before writing a single number, because
 bound in a transitive dependency vetoes your upgrade silently. Install the new major
 and introspect the signatures you actually call. And read every provider's
 deprecations page first, before the changelogs, because that's where the dates are.
+
+## The deprecations page lists models, not the libraries that default to them
+
+**Expected.** Last month's lesson said to read every provider's deprecations page first,
+because that's where the dates are. Do that, grep the series for each model id on the
+list, and every deadline is accounted for.
+
+**What happened.** The grep finds the ids the series writes down. It can't find an id a
+library chooses for you. `gpt-3.5-turbo` shuts down on 2026-10-23, and the series only
+mentioned it in prose, so the grep looked harmless. But `llama-index-llms-openai`, even
+at its newest release, still defaults to `gpt-3.5-turbo`, and the professional-tools
+LlamaIndex chapter deliberately scores the library at its defaults. Nothing in the repo
+names the model the chapter will call on that day. Resolving `Settings.llm.model` in
+the dive's own venv found it in one line.
+
+Two smaller surprises. Seven repos show green CI, but none has run since GitHub took
+Node 20 off its runners on 2026-09-23, and they still use node20 actions. A green badge
+dates from the last push, not from today. And a research agent ranked an MCP spec rewrite
+as its second-highest risk, while the MCP dive had already been rewritten for that spec.
+Research says what changed in the world. Only the repo says whether that's news here.
+
+**Next time.** For every library with a model default (LlamaIndex, LangChain, DeepEval,
+litellm), resolve the default at runtime and check it against the deprecations list. Read
+each repo's last CI run date next to its action versions, and treat a run older than a
+runner change as unknown rather than passing. Grep the repo for every outside finding
+before ranking it.
