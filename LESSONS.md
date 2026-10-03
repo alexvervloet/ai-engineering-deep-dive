@@ -303,3 +303,26 @@ litellm), resolve the default at runtime and check it against the deprecations l
 each repo's last CI run date next to its action versions, and treat a run older than a
 runner change as unknown rather than passing. Grep the repo for every outside finding
 before ranking it.
+
+## The cheaper replacement model costs more per photo
+
+**Expected.** OpenAI names `gpt-6-luna` as the replacement for `gpt-5.4-nano`, at half
+the per-token price. The plan was to swap the id, add `reasoning_effort="none"` so
+temperature and tools keep working, and watch the cost examples get cheaper.
+
+**What happened.** Text did get cheaper. Images didn't. Both models bill 1.2 tokens per
+32-pixel patch and cap `detail: "high"` at 3,000 tokens. But when the request leaves
+`detail` out, nano treats it like "high" and luna doesn't shrink the image at all. A
+3000x3000 photo with no `detail` cost 3,000 tokens on nano and 10,603 on luna, so half
+the price per token came out at about 1.8 times the price per photo. Past 30,000 patches
+luna returns a 400 where nano just resized. The multimodal dive never sets `detail`.
+
+Measuring that turned up an older bug. The dive's image estimator used tile constants
+(2,833 base, 5,667 per tile) that put a 512x512 image at 8,500 tokens. Both models
+bill 307. The estimator had been about 28 times high since it was written, and nothing
+caught it, because nothing compared it to a bill.
+
+**Next time.** A model migration needs a probe for every input type the series sends,
+not only text: `usage.prompt_tokens` on a few image sizes with `detail` set and unset.
+And any estimator that teaches a number should have one test that pins it to a measured
+bill, so a wrong constant fails instead of teaching.
