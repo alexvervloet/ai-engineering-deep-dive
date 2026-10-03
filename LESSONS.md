@@ -326,3 +326,20 @@ caught it, because nothing compared it to a bill.
 not only text: `usage.prompt_tokens` on a few image sizes with `detail` set and unset.
 And any estimator that teaches a number should have one test that pins it to a measured
 bill, so a wrong constant fails instead of teaching.
+
+## A green live run can be testing the wrong provider
+
+**Expected.** To verify a dive on the new OpenAI default, run its lessons under
+`secrun` and look for non-zero exit codes. Every dive defaults `PROVIDER` to openai.
+
+**What happened.** All twenty prompt-engineering lessons passed, and none of them had
+called OpenAI. That dive's local `.env` sets `PROVIDER=claude`, `MODEL=claude-haiku-4-5`
+and `REASONING_MODEL=claude-sonnet-4-6`, left over from earlier work, and `load_dotenv()`
+fills them in. The run proved the Claude path still worked, which nobody had changed.
+It only surfaced because a deliberate override test came back with an Anthropic 404 for
+a model named `gpt-4o-mini`. Setting `PROVIDER=openai` alone wasn't enough either, since
+`MODEL` still pointed at a Claude id and every call 404'd.
+
+**Next time.** Before a live verification run, read the dive's `.env` and pin every
+variable that selects a provider or model on the command line, blanking the ones you want
+at their defaults. Then make the run print which model answered, and check it.
