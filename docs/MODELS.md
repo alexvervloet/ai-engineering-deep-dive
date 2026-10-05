@@ -35,19 +35,23 @@ non-urgent work. The API dives cover both.
 
 ### OpenAI
 
-Prices and limits verified 2026-09-15. The flagship is now GPT-6 Astra; everything else
-current sits on the GPT-5 line. The GPT-4 models below still work, one generation behind.
+Prices and limits verified 2026-10-03. The GPT-6 line now has three tiers, Astra, Sol
+and Luna, and the series runs on `gpt-6-luna`. The GPT-5 models below are still served.
+The GPT-4 models still work, one generation behind.
 
 | Model | Input $/1M | Output $/1M | Context | Notes |
 |-------|-----------:|------------:|--------:|-------|
 | `gpt-6-astra` | 10.00 | 50.00 | 1.05M | Current flagship, released 2026-09-03. 128K max output. **Tool calling requires the Responses API**: see the caveat below. |
+| `gpt-6.1-sol` | 2.00 | 10.00 | 1.05M | Released 2026-09-29. No `"none"` effort; tool calling requires the Responses API. |
+| `gpt-6-sol` | 2.00 | 10.00 | 1.05M | Released 2026-09-22. Mid tier. |
+| `gpt-6-luna` | 0.10 | 0.50 | 1.05M | **The series default.** Released 2026-09-22. 128K max output. Reasons by default: see the caveat below. |
 | `gpt-5.6-sol` | 4.00 | 20.00 | 1.05M | Top of the 5.6 line. 128K max output. The $4/$20 is promotional through at least 2026-11-21; the list price was $5/$30. |
 | `gpt-5.6-terra` | 2.00 | 12.00 | 1.05M | Mid tier; balances cost and intelligence. 128K max output. |
 | `gpt-5.6-luna` | 0.20 | 1.20 | 1.05M | Cheap tier. 128K max output. **Reads cheap, behaves differently**: see the caveat below. |
 | `gpt-5.5` | 5.00 | 30.00 | 272K | Sits between the 5.4 and 5.6 lines. |
 | `gpt-5.4` | 2.50 | 15.00 | 400K | |
 | `gpt-5.4-mini` | 0.75 | 4.50 | 400K | Step up from nano when quality matters (judges, capstones). |
-| `gpt-5.4-nano` | 0.20 | 1.25 | 400K | **The series default.** Vision, tools, and structured outputs, and it still accepts `temperature`. |
+| `gpt-5.4-nano` | 0.20 | 1.25 | 400K | The previous series default. **Deprecated 2026-10-01, shuts down 2027-04-01**; `gpt-6-luna` replaces it. |
 | `gpt-5-nano` | 0.05 | 0.40 | 400K | Cheapest current model. Weakest of the line; fine for classification. |
 | `gpt-4o` | 2.50 | 10.00 | 128K | Previous generation. Not deprecated. |
 | `gpt-4o-mini` | 0.15 | 0.60 | 128K | Previous-generation cheap tier. Still the only line that accepts `stop`. |
@@ -70,13 +74,28 @@ Cached input reads bill at 10% of the input rate on the 5.6 tiers and Astra. Cac
 > with any `reasoning_effort` above `"none"`. If you want tools and thinking together,
 > you want Responses. The OpenAI dive's `responses/` directory covers it.
 
-> **Why the series defaults to `gpt-5.4-nano` and not the newer `gpt-5.6-luna`.**
-> The 5.6 tiers reject `temperature`, `top_p`, and function calling on
-> `/v1/chat/completions` unless you set `reasoning_effort: "none"` or move to the
-> Responses API. `gpt-5.4-nano` defaults `reasoning.effort` to `none`, so tools
-> and sampling knobs work the way the lessons describe, at the same price. That's
-> a real tradeoff rather than an oversight. The newest model isn't automatically the
-> right teaching default.
+> **Why every OpenAI call in the series sends `reasoning_effort="none"`.** `gpt-6-luna`
+> defaults to `"medium"` effort. While it's reasoning, it rejects `temperature` and
+> `top_p`, rejects function tools on chat completions (a 400, not a weaker answer), and
+> spends hidden tokens that count against `max_completion_tokens`. With `"none"` it
+> behaves like `gpt-5.4-nano` did: temperature, tools, structured outputs, logprobs, and
+> vision all work, at half nano's price. All of that was probed against the live API on
+> 2026-10-03. The catch is that `"none"` isn't universal. It works on every `gpt-5.x`
+> id, `gpt-6-luna`, and `gpt-6-sol`. It's a 400 on `gpt-5-nano`, `gpt-6-astra`, and
+> `gpt-6.1-sol`, and `gpt-4o`/`gpt-4o-mini` reject the parameter entirely. So code that
+> lets you pick the model only sends it to models that take it.
+
+> **Images cost more on luna unless you set `detail`.** Both nano and luna bill about
+> 1.2 tokens per 32x32-pixel patch, and `"high"` shrinks big images to cap at 3,000
+> tokens. Leave `detail` out and nano treated it like `"high"`, but luna doesn't shrink
+> at all: a 3000x3000 photo cost 10,603 tokens on luna against 3,000 on nano. Half the
+> price per token, about 1.8 times the price per photo. Past 30,000 patches luna returns
+> a 400. The Multimodal dive has the measured table.
+
+> **One dive deliberately stays on an older model.** Prompt Injection attacks
+> `gpt-4o-mini`. Its indirect attacks landed 30 of 40 times on `gpt-4o-mini` and on
+> nano, and 0 of 40 on luna. A lesson about building defenses needs an attack that
+> works first, and the zero is resistance to four public strings, not safety.
 
 > **Long-context pricing.** On all three GPT-5.6 tiers, a request with more than 272K
 > input tokens bills at 2× input and 1.5× output for the whole request. Cache writes
@@ -89,7 +108,7 @@ Three parameter changes on the GPT-5 line will bite code written for GPT-4.
 |-----------|---------------|
 | `max_tokens` | Rejected. Use `max_completion_tokens`. It also covers reasoning tokens you never see, so a generous cap can still return an empty string. |
 | `stop` | Removed from the whole GPT-5 line. Use structured outputs for a shape, `max_completion_tokens` for a length. |
-| `temperature` / `top_p` | Fine on the 5.4 line; rejected on 5.6, which only accepts the default. |
+| `temperature` / `top_p` | Only accepted with reasoning off. Luna and the 5.6 tiers take them at `reasoning_effort="none"` and reject them at any other effort; Astra and 6.1-sol can't switch reasoning off, so they never take them. |
 
 ### Anthropic (Claude)
 
@@ -176,8 +195,8 @@ source. The open Whisper weights are one, since those don't retire with the endp
 
 | Situation | Reach for |
 |-----------|-----------|
-| Learning, prototyping, high-volume simple tasks | **`gpt-5.4-nano`** / **`claude-haiku-4-5`**, cheap and fast |
-| Harder reasoning, code, nuanced writing | a mid tier (`gpt-5.6-terra`, `claude-sonnet-5`) |
+| Learning, prototyping, high-volume simple tasks | **`gpt-6-luna`** (reasoning off) / **`claude-haiku-4-5`**, cheap and fast |
+| Harder reasoning, code, nuanced writing | a mid tier (`gpt-6-sol`, `claude-sonnet-5`), or luna with the effort dial turned up |
 | The hardest multi-step / agentic / long-horizon work | a top model (`gpt-6-astra`, `claude-opus-5`, `claude-fable-5-1`) |
 | Math/logic/planning puzzles | any current tier with the thinking dial turned up: `reasoning_effort` on OpenAI, adaptive thinking plus `output_config.effort` on Claude |
 | Privacy-sensitive or very high volume | a **local** open-weight model (zero per-token cost; see the Local Models dive) |
