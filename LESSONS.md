@@ -386,3 +386,29 @@ gone to zero. The dive now pins `gpt-4o-mini` on purpose and says why.
 refusal, judge bias), measure the failure rate on the new model before migrating, not
 just whether the script exits 0. A model upgrade can remove the very failure a lesson
 exists to show.
+
+## Five demos printed results that contradicted their own prose
+
+**Expected.** The five bugs logged during the luna migration looked like five unrelated
+problems: a retrieval miss, a framework crash, a judge classifier, a fine-tuning
+baseline, and an agent that skipped its tool.
+
+**What happened.** Four of them were the same bug. Each example printed a verdict that
+contradicted the lesson around it, and nobody noticed because the scripts exited 0. The
+agent demo printed "a tool returned an error mid-run: False" right before claiming the
+agent had handled one. The judge-bias demo showed zero flips on every model with the
+pairs it used, because a terse answer against a fuller one isn't close enough for order
+to matter. Measured properly, on near-equal pairs, nano flipped 15 of 20 and luna 0. The
+multimodal RAG demo retrieved the wrong image on every run and then said "the caption
+got us to the right picture." The fine-tuning comparison measured a gpt-4o-mini tune
+against gpt-6-luna and called the gap the tuning effect. The fifth, LangGraph, was a
+framework default that changed under a chapter.
+
+Fixing them took measurement, not editing. The first rewrite of each prompt or question
+was a guess, and two guesses were wrong: the RAG fix still missed once, because my own
+new caption prompt made the word "image" appear in every caption.
+
+**Next time.** When an example prints a verdict (True/False, a count, which item won),
+read that line against the prose next to it, on more than one run and more than one
+model. A demo that can print an outcome contradicting its own claim needs a check that
+fails when it does. Exit code 0 only says the script finished.
