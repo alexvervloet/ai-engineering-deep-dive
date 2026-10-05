@@ -343,3 +343,28 @@ a model named `gpt-4o-mini`. Setting `PROVIDER=openai` alone wasn't enough eithe
 **Next time.** Before a live verification run, read the dive's `.env` and pin every
 variable that selects a provider or model on the command line, blanking the ones you want
 at their defaults. Then make the run print which model answered, and check it.
+
+## Every wrapper library has its own copy of the model list
+
+**Expected.** In professional-tools, the frameworks pass extra keyword arguments through
+to the OpenAI SDK, so moving to `gpt-6-luna` meant adding `reasoning_effort="none"` to
+each call, same as the plain-SDK dives.
+
+**What happened.** Each library had its own opinion of the new model, and the opinions
+disagreed. LlamaIndex 0.7.9 refused to construct a client at all ("Unknown model
+'gpt-6-luna'"), because it looks up context windows by name. DeepEval sends
+`temperature=0` on every judge call even when you never asked for one, so a bare model
+name 400s; it needs the parameter through `generation_kwargs`. LiteLLM 1.101 was fine,
+but the dive's stale venv had 1.92, which rejected `reasoning_effort` for luna, and that
+nearly sent us chasing a bump we didn't need.
+
+The quiet one was cost. DeepEval 4.2.3 has no price for nano or luna, and an unknown
+model doesn't raise, it reports `evaluation_cost` as 0. Since the August move to nano,
+the chapter's "DeepEval costs about 12 times more" comparison would have printed the
+judging pipeline as free. The hand-rolled side of the same comparison was still pricing
+at gpt-4o-mini's rate through a constant named `GPT_4O_MINI_PRICE`.
+
+**Next time.** After a model change, construct each framework's client for the new id
+before editing anything, and probe one call per library. Treat a cost of exactly 0 from
+a paid model as a missing price, not a cheap run. And sync the venv to requirements.txt
+before believing any version-specific failure.
