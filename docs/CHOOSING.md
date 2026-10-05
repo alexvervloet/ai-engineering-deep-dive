@@ -135,7 +135,7 @@ These aren't higher rungs. They're side doors for particular requirements.
 
 1. **Measure, don't guess.** "It seems better" ships regressions. Put a number on
    quality and rerun it. → [Evals](../evals-deep-dive/)
-2. **Start cheap.** Use the small model (`gpt-5.4-nano` or `claude-haiku-4-5`) and the
+2. **Start cheap.** Use the small model (`gpt-6-luna` or `claude-haiku-4-5`) and the
    simplest technique. Climb only when an eval forces you to. → [MODELS.md](MODELS.md)
 3. **They combine.** Real systems stack rungs. A fine-tuned model for behavior, RAG for
    facts, inside an agent, behind guardrails, measured by evals, operated with the
