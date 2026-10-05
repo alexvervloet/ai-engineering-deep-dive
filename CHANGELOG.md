@@ -11,6 +11,59 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-10-05: the OpenAI default moves to gpt-6-luna
+
+`gpt-5.4-nano` was deprecated on 2026-10-01 and shuts down 2027-04-01. Every dive that
+defaulted to it now runs on `gpt-6-luna`, at half the price ($0.10/$0.50). The swap was
+not a rename, and most of what's below is what a rename would have broken.
+
+### Changed
+
+- **Every OpenAI call on the default model sends `reasoning_effort="none"`.** Luna
+  reasons by default. While it does, it rejects `temperature`, rejects function tools on
+  chat completions, and spends hidden tokens against `max_completion_tokens`. With
+  reasoning off it behaves like nano did. Probed live before any code changed. Where a
+  dive lets you pick the model, the parameter is only sent to models that accept it:
+  `gpt-5-nano`, `gpt-6-astra`, `gpt-6.1-sol` and the `gpt-4o` line all 400 on it. The
+  OpenAI dive teaches this in its first example and keeps the check in
+  `utils/models.py`.
+- **Prompt Injection stays on `gpt-4o-mini`, on purpose.** Its four indirect attacks,
+  ten runs each, landed 30 of 40 times on nano and on `gpt-4o-mini`, and 0 of 40 on
+  luna. The dive builds defenses against attacks that work, so it pins the older model
+  and says why, including that the zero isn't safety.
+- **Prices quoted from code moved.** The production dive's mock and the observability
+  dive's simulated traffic are priced like the default, so their numbers fell. The
+  budget demo had stopped blocking anything at the new rate and now uses a $0.00008
+  budget. Observability's cost incident reads $0.000050 against a $0.000023 baseline,
+  +150 sigma, where it read $0.000107, $0.000055 and +115.
+- **`llama-index-llms-openai` 0.7.9 to 0.8.2** in professional-tools. 0.7.9 refused to
+  construct a client for luna.
+
+### Fixed
+
+- **The multimodal image estimator was about 28 times high.** Its tile constants put a
+  512x512 image at 8,500 tokens; both nano and luna bill 307. It now uses the patch
+  rule fitted to 25 live requests and is pinned by a test that CI runs. The quoted
+  "halving saves about 11k tokens" was really 1,939.
+- **Leaving image `detail` out costs more on luna.** Nano treated it like `"high"`;
+  luna doesn't shrink at all, so a 3000x3000 photo went from 3,000 tokens to 10,603. The
+  multimodal provider and the OpenAI vision example now set `"high"`.
+- **Two price constants from the August move to nano** still priced the default at
+  gpt-4o-mini's rate (professional-tools chapters 1 and 4), and DeepEval had no price
+  for nano at all, so chapter 4 would have reported the judging pipeline as free.
+- **`--stop` guards keyed on `gpt-5`** would have turned into 400s on luna, which also
+  rejects `stop`.
+- **The OpenAI vision example's sample image** was deleted from Wikimedia Commons.
+- **A fine-tuned id shown as `ft:gpt-5.4-nano:...`**, a model that could never be
+  fine-tuned.
+
+### Added
+
+- LESSONS.md entries on why each of these surprised us: library defaults hiding retired
+  models, a local `.env` pointing a live run at the wrong provider, each wrapper library
+  judging the new model differently, and a better model removing the failure a lesson
+  needs.
+
 ## 2026-09-15: monthly currency audit
 
 A scheduled sweep for stale tools, prices, and model ids. Four findings had a
