@@ -102,9 +102,13 @@ commands = [["python", "examples/01_quant_math.py"]]
 path = "multimodal-deep-dive"
 runtime = "python"
 python = "3.11"
-claim = "Build multimodal content blocks and inspect local PNG bytes with a mock."
+claim = "Build multimodal content blocks, inspect local PNG bytes with a mock, and price images with an estimator pinned to measured bills."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
-commands = [["python", "examples/01_vision_offline.py"]]
+commands = [
+  ["python", "examples/01_vision_offline.py"],
+  ["python", "examples/09_image_token_math.py"],
+  ["python", "-m", "unittest", "discover", "-s", "tests"],
+]
 environment = { PROVIDER = "openai", NO_COLOR = "1" }
 
 [[repositories]]
