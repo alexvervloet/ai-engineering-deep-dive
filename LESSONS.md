@@ -368,3 +368,21 @@ at gpt-4o-mini's rate through a constant named `GPT_4O_MINI_PRICE`.
 before editing anything, and probe one call per library. Treat a cost of exactly 0 from
 a paid model as a missing price, not a cheap run. And sync the venv to requirements.txt
 before believing any version-specific failure.
+
+## A better model broke the security lessons
+
+**Expected.** Moving the prompt-injection dive to `gpt-6-luna` would be the same edit
+as everywhere else: swap the id, turn reasoning off, check the examples still run.
+
+**What happened.** Every example ran, and the dive stopped teaching anything. Its method
+is to show an attack land and then build the defense that stops it. Measured with 10 runs
+of each of the four indirect attacks: 30 of 40 landed on `gpt-5.4-nano` and on
+`gpt-4o-mini`, 8 of 40 on `gpt-5.4-mini`, and 0 of 40 on luna. A green run hid it, because
+"the injection didn't land" is a valid outcome the examples print politely. Two runs of
+example 03 looked like bad luck, and only a count over many runs showed the rate had
+gone to zero. The dive now pins `gpt-4o-mini` on purpose and says why.
+
+**Next time.** For any lesson whose point is a model failing (injection, hallucination,
+refusal, judge bias), measure the failure rate on the new model before migrating, not
+just whether the script exits 0. A model upgrade can remove the very failure a lesson
+exists to show.
