@@ -11,6 +11,35 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-10-05: five demos that didn't show what they claimed
+
+Found while moving to gpt-6-luna; each one failed the same way on the old default.
+
+### Fixed
+
+- **Agents, error recovery.** "What is 10 divided by 0?" was answered from memory on
+  every run, so the calculator never raised. The question is now
+  4096 / (1728 - 12**3), which reaches the tool and raises 12 of 12 times across nano,
+  luna and Haiku.
+- **Evals, judge bias.** A tie in both orders was counted as position bias, and the
+  pairs were too unequal for order to matter, so no judge ever flipped. The example now
+  tests near-equal pairs with three outcomes, reports that the answer depends on the
+  judge (nano flipped 15 of 20, gpt-4o-mini 5, luna and Haiku 0), and adds a length
+  check that the swap test can't make.
+- **Multimodal, RAG.** The default question retrieved the chart on every run because
+  "the" and "of" were the only words it shared with a caption. Stopwords and captions
+  written for search fix it, 30 of 30 across both providers. Scores are printed, and the
+  example says when a pick was arbitrary, which still happens on Haiku ("itemized" vs
+  "items").
+- **Professional tools, LangGraph.** The prebuilt tool node now re-raises tool
+  exceptions, so the agent crashed on the model's first, invalid calculator input where
+  the hand-rolled loop recovers. `handle_tool_errors=True` restores parity; the chapter
+  verdict records the changed default.
+- **Fine-tuning, the baseline.** Tuned models were compared against the chat default
+  rather than the model they were tuned from. `base_of()` reads the base out of the
+  fine-tuned id. The distillation example also priced its training file for an untunable
+  model and got $0.
+
 ## 2026-10-05: the OpenAI default moves to gpt-6-luna
 
 `gpt-5.4-nano` was deprecated on 2026-10-01 and shuts down 2027-04-01. Every dive that
