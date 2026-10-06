@@ -41,7 +41,7 @@ version of the retriever, eval, or loop I built."
 
 ### 5. Evals
 - **Job-description phrases:** "LLM evaluation," "offline & online evals," "LLM-as-judge," "A/B testing," "quality regression gates."
-- **Industry tools:** Braintrust, promptfoo, Langfuse, Ragas, OpenAI Evals, DeepEval, Arize Phoenix.
+- **Industry tools:** Braintrust, promptfoo, Langfuse, Ragas, Inspect, DeepEval, Arize Phoenix. (OpenAI's hosted Evals platform shuts down 2026-11-30; older postings may still name it.)
 - **Résumé line:** *"Stood up an evaluation harness (judge-bias controls, paired intervals, power planning, and multiplicity-aware release thresholds) and gated releases on reproducible evidence in CI."*
 - **Interview:** most candidates are weakest here, so lead with it. You can explain why "it seems better" ships regressions, why a statistically detectable gain may not matter, and why repeated looks or many metrics need a predeclared error budget.
 
