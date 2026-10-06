@@ -412,3 +412,23 @@ new caption prompt made the word "image" appear in every caption.
 read that line against the prose next to it, on more than one run and more than one
 model. A demo that can print an outcome contradicting its own claim needs a check that
 fails when it does. Exit code 0 only says the script finished.
+
+## One version pin lived in five files
+
+**Expected.** Bumping torch and numpy in ml-foundations meant editing `pyproject.toml`,
+reinstalling, and running the tests. All 52 passed locally and the offline manifest run
+passed too.
+
+**What happened.** CI failed on the push. The same two versions were written down in
+five places: `pyproject.toml`, the README's install commands, the dive's CI workflow,
+the parent's `offline-paths.toml`, and `check_setup.py`, which compares installed
+versions against its own copy and refuses anything else. The local offline run passed
+only because the manifest still installed the old versions, which the old check
+accepted. The same day, a routine langchain-openai bump in professional-tools changed
+which OpenAI endpoint the LangGraph agent called, and two tasks broke on the shape of
+the reply.
+
+**Next time.** Before bumping a pin, grep the whole repo and the parent for the old
+version string, and change every hit in the same commit set. After any bump, push and
+read the CI run instead of trusting the local one, because the local environment is
+the one place the old version can hide.
