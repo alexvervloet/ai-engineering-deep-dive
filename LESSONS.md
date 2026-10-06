@@ -432,3 +432,31 @@ the reply.
 version string, and change every hit in the same commit set. After any bump, push and
 read the CI run instead of trusting the local one, because the local environment is
 the one place the old version can hide.
+
+## Two caches promised to track the embedding model and tracked the provider
+
+**Expected.** Moving the Claude stack from `voyage-3.5` to `voyage-4` was a one-string
+change in three dives. Both dives that persist vectors already said, in comments, that
+they guard against mixing models.
+
+**What happened.** Neither did. The RAG dive's `.rag_index.json` keyed its cache on the
+provider and chunk settings, so a July cache built with voyage-3.5 still "matched"
+after the switch. The capstone's `retrieve.py` said the query is embedded "with the model
+the index was built with", then passed only the stack name, so it would have used the
+stack's new model against the old index. Both would have run without an error, embedding
+the question with one model and comparing it to documents embedded with another. The
+rule existed in the docstrings and the pgvector store enforced it properly, which made
+the gap easy to miss. Nothing had ever changed a model *within* a provider before, so
+nothing had ever tested it.
+
+Two smaller ones from the same pass. Bumping the pgvector image left the database's
+extension at 0.8.6, because an existing volume keeps the version it was created with
+and `CREATE EXTENSION IF NOT EXISTS` never upgrades. And my own rewrite of the MODELS.md
+embedding table put the "Claude stack" label on the wrong row. askrepo, asked which
+model the stack uses, read the doc and gave the wrong answer with a citation, which is
+how it was caught.
+
+**Next time.** When a comment says code guards against X, find what the code actually
+compares, and write a test that changes X and nothing else. A "same provider, new
+model" change is the case to test for anything that stores embeddings. After an image
+bump, check the version the running database reports, not the tag.
