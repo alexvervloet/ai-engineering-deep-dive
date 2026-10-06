@@ -3,12 +3,12 @@
 Which models these deep dives use, what they cost, and how to choose one. Part of the
 [AI Engineering Deep Dives](../README.md).
 
-> **Prices and models change. This is a snapshot, last verified 2026-09-15.**
+> **Prices and models change. This is a snapshot, last verified 2026-10-06.**
 > Always confirm against the provider's own page before relying on a number.
 > [OpenAI pricing](https://platform.openai.com/docs/pricing) ·
 > [Anthropic pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 > For Claude you can also query live capability/price data with the **Models API**
-> (`client.models.retrieve("claude-opus-4-8")` → `max_input_tokens`, `max_tokens`,
+> (`client.models.retrieve("claude-opus-5-5")` → `max_input_tokens`, `max_tokens`,
 > `capabilities`). The numbers below mirror the pricing modules the repos ship
 > (`utils/pricing.py`, `prod/cost.py`), so the cost examples match this table.
 
@@ -26,8 +26,8 @@ cost ≈ (input_tokens × input_price + output_tokens × output_price) / 1,000,0
 ```
 
 Two levers shrink the bill without changing the model. Prompt caching bills a long,
-repeated prefix at about 0.1× on cache reads, and the Batch API takes 50% off
-non-urgent work. The API dives cover both.
+repeated prefix at about 0.1× on cache reads (0.05× on Claude Opus 5.5), and the Batch
+API takes 50% off non-urgent work. The API dives cover both.
 
 ---
 
@@ -48,28 +48,37 @@ The GPT-4 models still work, one generation behind.
 | `gpt-5.6-sol` | 4.00 | 20.00 | 1.05M | Top of the 5.6 line. 128K max output. The $4/$20 is promotional through at least 2026-11-21; the list price was $5/$30. |
 | `gpt-5.6-terra` | 2.00 | 12.00 | 1.05M | Mid tier; balances cost and intelligence. 128K max output. |
 | `gpt-5.6-luna` | 0.20 | 1.20 | 1.05M | Cheap tier. 128K max output. **Reads cheap, behaves differently**: see the caveat below. |
-| `gpt-5.5` | 5.00 | 30.00 | 272K | Sits between the 5.4 and 5.6 lines. |
-| `gpt-5.4` | 2.50 | 15.00 | 400K | |
+| `gpt-5.5` | 5.00 | 30.00 | 1.05M | Sits between the 5.4 and 5.6 lines. Effort defaults to `"medium"`. |
+| `gpt-5.4` | 2.50 | 15.00 | 1.05M | Effort defaults to `"none"`. |
 | `gpt-5.4-mini` | 0.75 | 4.50 | 400K | Step up from nano when quality matters (judges, capstones). |
 | `gpt-5.4-nano` | 0.20 | 1.25 | 400K | The previous series default. **Deprecated 2026-10-01, shuts down 2027-04-01**; `gpt-6-luna` replaces it. |
-| `gpt-5-nano` | 0.05 | 0.40 | 400K | Cheapest current model. Weakest of the line; fine for classification. |
+| `gpt-5-nano` | 0.05 | 0.40 | 400K | Cheapest model listed, weakest of the line. **Its only snapshot shuts down 2026-12-11**; OpenAI names `gpt-5.6-luna` as the replacement. |
 | `gpt-4o` | 2.50 | 10.00 | 128K | Previous generation. Not deprecated. |
 | `gpt-4o-mini` | 0.15 | 0.60 | 128K | Previous-generation cheap tier. Still the only line that accepts `stop`. |
 
 Cached input reads bill at 10% of the input rate on the 5.6 tiers and Astra. Cache
-*writes* cost 1.25x the uncached input rate on GPT-5.6 and later.
+*writes* are a separate price line on GPT-5.6 and later, at 1.25x the uncached input
+rate: $12.50 per 1M on Astra. Moving code to GPT-6 also means replacing
+`prompt_cache_retention` with `prompt_cache_options.ttl` (for example `"30m"`).
+
+Astra also has a new **Ultrafast** service tier (`service_tier: "ultrafast"`, Responses
+API only) at $60 in / $300 out per 1M, six times the standard price, for faster
+generation. It's the price-for-latency trade the Production dive's routing lesson
+describes, taken to an extreme: check whether the wait is the actual problem first.
 
 > **The o-series is being switched off.** `o1`, `o1-pro`, and `o4-mini` shut down on
 > **2026-10-23**, and the 2025 `o3` snapshots on **2026-12-11**. Don't start anything on
 > them. Reasoning is no longer a separate family of models: it's the `reasoning_effort`
-> dial on the mainline tiers (`"none"`, `"low"`, `"medium"`, `"high"`, `"xhigh"`), and
-> on chat completions the GPT-5.6 tiers default it to `"none"`. You get no reasoning
-> unless you ask for it.
+> dial on the mainline tiers. The values are model-dependent and can include `"none"`,
+> `"minimal"`, `"low"`, `"medium"`, `"high"`, `"xhigh"`, and `"max"`, and so are the
+> defaults: the GPT-5.6 tiers and `gpt-5.4` start at `"none"`, `gpt-6-luna` and
+> `gpt-5.5` at `"medium"`, and Astra and 6.1-sol have no `"none"` at all. Check the
+> model page rather than assuming.
 
 > **Astra and tools.** GPT-6 Astra supports chat completions for text only. Every Astra
 > workflow that calls tools has to move to the Responses API. It also rejects
 > `temperature`, `top_p`, `logprobs`, and `top_logprobs` outright, and dropped the
-> `"none"` effort level and `prompt_cache_retention`. The same wall shows up one tier
+> `"none"` effort level and `prompt_cache_retention` (now `prompt_cache_options.ttl`). The same wall shows up one tier
 > down: on chat completions the GPT-5.6 tiers return a 400 for function tools combined
 > with any `reasoning_effort` above `"none"`. If you want tools and thinking together,
 > you want Responses. The OpenAI dive's `responses/` directory covers it.
@@ -97,8 +106,9 @@ Cached input reads bill at 10% of the input rate on the 5.6 tiers and Astra. Cac
 > nano, and 0 of 40 on luna. A lesson about building defenses needs an attack that
 > works first, and the zero is resistance to four public strings, not safety.
 
-> **Long-context pricing.** On all three GPT-5.6 tiers, a request with more than 272K
-> input tokens bills at 2× input and 1.5× output for the whole request. Cache writes
+> **Long-context pricing.** On the models with a 1.05M window (the GPT-5.4, 5.5, 5.6
+> and 6 lines), a request with more than 272K input tokens bills at 2× input and 1.5×
+> output for the whole request. Cache writes
 > cost 1.25× the uncached input rate. A 1.05M context window is a capacity limit, not
 > a promise that every token costs the base rate.
 
@@ -115,8 +125,10 @@ Three parameter changes on the GPT-5 line will bite code written for GPT-4.
 | Model | Model ID | Input $/1M | Output $/1M | Context |
 |-------|----------|-----------:|------------:|--------:|
 | Claude Haiku 4.5 | `claude-haiku-4-5` | 1.00 | 5.00 | 200K |
+| Claude Sonnet 5.5 | `claude-sonnet-5-5` | 2.00 | 10.00 | 1M |
 | Claude Sonnet 5 | `claude-sonnet-5` | 2.00 | 10.00 | 1M |
 | Claude Sonnet 4.6 | `claude-sonnet-4-6` | 3.00 | 15.00 | 1M |
+| Claude Opus 5.5 | `claude-opus-5-5` | 4.00 | 20.00 | 1M |
 | Claude Opus 5 | `claude-opus-5` | 5.00 | 25.00 | 1M |
 | Claude Opus 4.8 | `claude-opus-4-8` | 5.00 | 25.00 | 1M |
 | Claude Fable 5.1 | `claude-fable-5-1` | 10.00 | 50.00 | 1M |
@@ -126,11 +138,13 @@ The Claude dives default to `claude-haiku-4-5` for cheap iteration. Use the exac
 IDs as written and don't append date suffixes. Older Opus 4.6 and 4.7 are also active,
 at the same $5/$25 as 4.8. Fable 5.1 is the most capable widely released model.
 
-Read the first three rows in order. Sonnet 5 is **cheaper** than the Sonnet 4.6 it
-succeeded, $2/$10 against $3/$15. "Pick the older model to save money" is a guess that
-happens to be wrong here, and the only way to know is to look.
+Read the Sonnet and Opus rows in order. Sonnet 5 is **cheaper** than the Sonnet 4.6 it
+succeeded, $2/$10 against $3/$15, and Sonnet 5.5 kept that price. Opus 5.5 is cheaper
+than Opus 5, $4/$20 against $5/$25, and bills cache hits at 0.05× input instead of the
+usual 0.1×. "Pick the older model to save money" is a guess that's now been wrong twice,
+and the only way to know is to look.
 
-Three things to know if you move the Claude dives off Haiku 4.5:
+Four things to know if you move the Claude dives off Haiku 4.5:
 
 - **Thinking.** On 4.6 and newer, the fixed `budget_tokens` thinking budget is
   gone; you use `thinking: {"type": "adaptive"}` plus `output_config.effort`.
@@ -147,6 +161,14 @@ Three things to know if you move the Claude dives off Haiku 4.5:
   message returns a 400 on Opus/Sonnet 4.6 and newer. Haiku 4.5 still allows it,
   and a couple of dives use it to force JSON. Use structured outputs instead if
   you upgrade.
+- **Forced tool use.** `tool_choice` of `{"type": "any"}` or a named tool returns a
+  400 on Opus 5.5, Sonnet 5.5, and Fable 5.1. The Prompt Engineering dive's
+  `structured()` and the TypeScript dive's provider force a tool on the Claude path
+  to get JSON back; that works on Haiku and breaks on those three. Use
+  `tool_choice: auto` with `strict: true`, or structured outputs. Thinking also
+  changed: it can't be turned off at all on Opus 5.5 (lower the effort instead, whose
+  default there is `"medium"`), and Sonnet 5.5 turns it off with
+  `thinking: {"type": "between_tools"}` rather than `"disabled"`.
 
 > Anthropic has no first-party embeddings model and recommends Voyage AI, which needs
 > its own SDK and key. Voyage embedding prices per 1M input tokens: `voyage-3.5-lite`
@@ -182,6 +204,14 @@ native audio API.
 | `gpt-transcribe` | Speech to text on a completed file | 0.0045 |
 | `gpt-live-transcribe` | Speech to text on a live stream | 0.017 |
 | `gpt-4o-mini-tts` | Text to speech | billed per token of input text |
+| `gpt-live-1` | Full-duplex voice sessions on `v1/live/sessions`, GA 2026-09-10 | 0.05 |
+
+`gpt-4o-mini-tts`, `tts-1` and `tts-1-hd` were deprecated on 2026-10-01 and shut down
+**2027-01-06**. OpenAI's named replacement, `gpt-realtime-2.1-mini`, only runs over the
+Realtime API, a streaming session, so there's no like-for-like swap on the simple speech
+endpoint yet. The older realtime and audio models (`gpt-realtime`, `gpt-realtime-mini`,
+`gpt-4o-realtime`, `gpt-4o-mini-realtime`, `gpt-audio`, `gpt-audio-mini`) shut down
+**2027-01-20**; the Realtime Voice dive runs on a simulator, so it isn't affected.
 
 `whisper-1` is deprecated and shuts down **2027-02-26**. `gpt-transcribe` replaced it,
 with lower error rates at a lower price, but it doesn't do everything Whisper did: no
@@ -191,13 +221,29 @@ source. The open Whisper weights are one, since those don't retire with the endp
 
 ---
 
+## Image generation models
+
+Billed in tokens like chat, but image output tokens are expensive. OpenAI only.
+
+| Model | Text in $/1M | Image in $/1M | Image out $/1M | Notes |
+|-------|-------------:|--------------:|---------------:|-------|
+| `gpt-image-2.5-flare` | 5.00 | 8.00 | 30.00 | Fast, everyday generation. The Multimodal dive's default. |
+| `gpt-image-2.5-sunburst` | 5.00 | 8.00 | 30.00 | For edits where precision matters. |
+
+Both take `quality` from `"low"` to `"max"`, plus `"auto"`, the default, which lets the
+model choose. Set it on purpose: a 1024x1024 Flare image measured about $0.006 at
+`"low"` and $0.013 at `"medium"` on 2026-10-05. `gpt-image-1` shuts down **2026-10-23**,
+and `gpt-image-1-mini` and `gpt-image-1.5` follow on **2026-12-01**.
+
+---
+
 ## Which model should I pick?
 
 | Situation | Reach for |
 |-----------|-----------|
 | Learning, prototyping, high-volume simple tasks | **`gpt-6-luna`** (reasoning off) / **`claude-haiku-4-5`**, cheap and fast |
-| Harder reasoning, code, nuanced writing | a mid tier (`gpt-6-sol`, `claude-sonnet-5`), or luna with the effort dial turned up |
-| The hardest multi-step / agentic / long-horizon work | a top model (`gpt-6-astra`, `claude-opus-5`, `claude-fable-5-1`) |
+| Harder reasoning, code, nuanced writing | a mid tier (`gpt-6-sol`, `claude-sonnet-5-5`), or luna with the effort dial turned up |
+| The hardest multi-step / agentic / long-horizon work | a top model (`gpt-6-astra`, `claude-opus-5-5`, `claude-fable-5-1`) |
 | Math/logic/planning puzzles | any current tier with the thinking dial turned up: `reasoning_effort` on OpenAI, adaptive thinking plus `output_config.effort` on Claude |
 | Privacy-sensitive or very high volume | a **local** open-weight model (zero per-token cost; see the Local Models dive) |
 | A repeated, fixed-format task you can cheapen | **fine-tune** a small model, if you still can (see the Fine-tuning dive; OpenAI's self-serve fine-tuning is winding down and closes to existing customers on 2027-01-06) |
