@@ -11,6 +11,53 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-10-06: working through the rest of the currency audit
+
+### Deadlines
+
+- **Image generation moved to `gpt-image-2.5-flare`** ahead of `gpt-image-1`'s
+  2026-10-23 shutdown, with `quality` set explicitly ($0.006 per 1024x1024 image at
+  `"low"`, measured).
+- **LlamaIndex's default model shuts down 2026-10-23.** The newest
+  `llama-index-llms-openai` still defaults to `gpt-3.5-turbo`. The comparison now
+  reports the defaults pipeline as failed instead of crashing, tested by simulating
+  the 404, and the chapter verdict records it.
+- **Text to speech has a shutdown date and no like-for-like replacement.**
+  `gpt-4o-mini-tts` stops on 2027-01-06; OpenAI's named successor only runs over the
+  Realtime API. Recorded in the code and README, not migrated yet.
+- **OpenAI's hosted Evals platform** (shutting 2026-11-30) left the next-steps and
+  careers lists. **`gpt-5-nano` and `gpt-5-mini`'s** only snapshots shut 2026-12-11.
+
+### Changed
+
+- **MODELS.md** re-verified on 2026-10-06: Claude Opus 5.5 ($4/$20) and Sonnet 5.5
+  ($2/$10), correct 1.05M windows for `gpt-5.5` and `gpt-5.4`, model-dependent effort
+  values, the forced-`tool_choice` break on the newest Claude models, Astra's cache
+  write and Ultrafast prices, TTS/realtime/GPT-Live, and a new image-generation table.
+- **Embeddings moved to `voyage-4`** in RAG, Claude API, and the capstone. Same price
+  and dimensions as `voyage-3.5`; the large and code models are a third cheaper.
+- **Python 3.11 is the floor** across the series. 3.10 reached end of life on
+  2026-10-01; four CI matrices that still tested it now test 3.11.
+- **Langfuse self-hosting moved to v4.** The read API changed, so the chapter's
+  comparison queries v4's observations instead of `trace.list()`, which now 404s.
+- **Dependencies:** professional-tools to the newest set that resolves (openai still
+  held below 3 by litellm and llama-index); TypeScript's Anthropic SDK floor to 0.131;
+  torch 2.14.1 and numpy 2.5.3; pgvector 0.8.7.
+
+### Fixed
+
+- **Two embedding caches tracked the provider instead of the model.** The RAG dive's
+  JSON cache and the capstone's query path would both have compared voyage-4 queries
+  against voyage-3.5 documents without an error. Both now use the model recorded with
+  the index, and the capstone has a test that fails without the fix.
+- **A third stale gpt-4o-mini price,** inline in the Langfuse chapter's hand-rolled
+  tracer, had been inflating its cost about 25% against the server's.
+- **langchain-openai 1.6 switched the LangGraph agent to a different endpoint** and
+  changed the reply's shape, which broke two tasks; the agent now pins chat
+  completions like the hand-rolled loop.
+- **The professional-tools PLAN.md** is kept as BUILD-NOTES.md, its venv rebuilt to
+  match its pins.
+
 ## 2026-10-05: five demos that didn't show what they claimed
 
 Found while moving to gpt-6-luna; each one failed the same way on the old default.
