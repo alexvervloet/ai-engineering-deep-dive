@@ -171,8 +171,9 @@ Four things to know if you move the Claude dives off Haiku 4.5:
   `thinking: {"type": "between_tools"}` rather than `"disabled"`.
 
 > Anthropic has no first-party embeddings model and recommends Voyage AI, which needs
-> its own SDK and key. Voyage embedding prices per 1M input tokens: `voyage-3.5-lite`
-> $0.02, `voyage-3.5` $0.06, `voyage-3-large` and `voyage-code-3` $0.18.
+> its own SDK and key. Voyage embedding prices per 1M input tokens: `voyage-4-lite`
+> $0.02, `voyage-4` $0.06, `voyage-4-large` and `voyage-code-4` $0.12. The series moved
+> from `voyage-3.5` to `voyage-4` on 2026-10-06; switching models means re-embedding.
 
 ---
 
@@ -186,9 +187,11 @@ for input tokens only, and they're cheap.
 | `text-embedding-3-small` | OpenAI | 0.02 |
 | `text-embedding-3-large` | OpenAI | 0.13 |
 | `text-embedding-ada-002` | OpenAI | 0.10 |
-| `voyage-3.5-lite` | Voyage (Claude stack) | 0.02 |
-| `voyage-3.5` | Voyage | 0.06 |
-| `voyage-3-large` / `voyage-code-3` | Voyage | 0.18 |
+| `voyage-4-lite` | Voyage | 0.02 |
+| `voyage-4` | Voyage, what the Claude stack embeds with | 0.06 |
+| `voyage-4-large` / `voyage-code-4` | Voyage | 0.12 |
+| `voyage-3.5` | Voyage, previous generation, still served | 0.06 |
+| `voyage-3-large` / `voyage-code-3` | Voyage, previous generation | 0.18 |
 | local (e.g. `nomic-embed-text`) | your machine | **$0** |
 
 ---
