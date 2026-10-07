@@ -82,6 +82,7 @@ commands = [
   ["python", "-m", "unittest", "discover", "-s", "tests", "-v"],
   ["python", "examples/01_anatomy.py"],
   ["python", "examples/02_code_scorers.py"],
+  ["python", "examples/15_hill_climbing.py"],
   ["python", "examples/03_dataset.py"],
   ["python", "examples/04_metrics.py"],
   ["python", "examples/10_agent_trajectory.py"],
@@ -263,6 +264,7 @@ commands = [
   ["python", "-m", "unittest", "discover", "-v"],
   ["python", "examples/13_context_assembly.py"],
   ["python", "examples/14_session_correlation.py"],
+  ["python", "examples/15_audit_records.py"],
 ]
 
 [[repositories]]
