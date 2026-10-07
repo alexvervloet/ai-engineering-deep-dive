@@ -482,3 +482,30 @@ setting `REASONING_MODEL` to an empty string.
 step (`pip install --upgrade -r requirements.txt`), and print the installed SDK
 versions at the top of any live verification run. "Passed live" needs a version next to
 it to mean anything.
+
+## Hardcoded conclusions in demos kept turning out false
+
+**Expected.** Each new lesson would print a closing summary of what it shows: the
+reviewer hands off to a person after three blocks, the train-only climb overstates its
+score, and so on. Write the demo, write the summary, check the run looks right.
+
+**What happened.** Twice the live run contradicted a summary I had already written.
+gpt-6-luna's reviewer allowed a file that the rule reviewer and Haiku blocked, so the
+hand-off never fired, while the text said it had. The hill-climbing summary claimed the
+train-only prompt did worse on test, and on one live run it scored the same. The third
+near-miss was worse, because it was mine. Live, adding keyword rules seemed to halve the
+model's accuracy, which would have made a striking lesson about rules hurting strong
+models. The real cause was a line in my rendered prompt, "otherwise answer other",
+which the model obeyed literally. Every wrong answer was `other`, and reading the wrong
+answers, not the score, is what showed it.
+
+Two process misses from the same stretch. A new test imported `httpx`, which only my
+old venv still had, so it passed locally and failed CI's clean install. And a commit
+block ran in the parent directory instead of a dive, so its `git push` sent parent
+commits whose manifest pointed at dive files not yet bumped.
+
+**Next time.** Compute a demo's conclusion from its own run, and print the case where
+the expected effect didn't appear, instead of asserting it. When a model change looks
+dramatic, read a handful of the individual outputs before believing the aggregate.
+Check new tests in a fresh venv built from requirements alone. Use `git -C` on every
+command that touches more than one repo.
