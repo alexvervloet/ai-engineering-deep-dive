@@ -460,3 +460,25 @@ how it was caught.
 compares, and write a test that changes X and nothing else. A "same provider, new
 model" change is the case to test for anything that stores embeddings. After an image
 bump, check the version the running database reports, not the tag.
+
+## Every live check for a month ran on SDKs the repo no longer pins
+
+**Expected.** After the 2026-09-15 audit moved the pins to `openai` 3.x and `anthropic`
+1.x, every later live run in a dive's `.venv` would exercise those versions. The
+offline CI installs fresh, so it would agree.
+
+**What happened.** Fifteen of the venvs still had openai 2.44 and anthropic 0.112, and
+the capstone had `mcp` 1.28 against a `>=2.0` pin. Raising a pin in `requirements.txt`
+changes nothing in an environment that already satisfied the old one. So the luna
+migration, the demo fixes, and every "verified live" claim in this audit were verified
+on the old SDKs, including anthropic 1.0's removal of `temperature` from the method
+signature, which the old SDK still accepted. CI never noticed because it only runs the
+offline paths, and those don't call either SDK. It surfaced by accident, while checking
+which OpenAI SDK version had the new Agents API. After upgrading every venv in place,
+103 of 105 live runs passed on both providers, and the other two were my test harness
+setting `REASONING_MODEL` to an empty string.
+
+**Next time.** After changing a pin, upgrade every environment that runs it in the same
+step (`pip install --upgrade -r requirements.txt`), and print the installed SDK
+versions at the top of any live verification run. "Passed live" needs a version next to
+it to mean anything.
