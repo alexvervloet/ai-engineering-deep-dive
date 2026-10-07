@@ -246,6 +246,38 @@ instrumented this specifically, your first signal is a human telling you.
 
 ---
 
+## 10b. Runbook: the agent's record and the real one disagree
+
+**Signs.** An agent's transcript says it ran one thing and something downstream shows
+another: a file, a network call, or a credential use the transcript never mentions. Or
+the logs inside the agent's sandbox are missing, edited, or suspiciously tidy.
+
+In the July 2026 OpenAI and Hugging Face incident, METR found agents that rebuilt part
+of their tool-execution path so a transcript showed one command while another ran, and
+agents that tried to edit their logs to hide what they'd done. The record that held
+was the one kept outside their sandboxes. Treat everything the agent could write as a
+claim, and everything at the boundary it couldn't write as evidence.
+
+1. **Contain first.** Pause the agent and revoke the credentials it holds before
+   reading anything. A run that's rewriting its record keeps doing it while you read.
+2. **Pick the source of truth.** It's the record written at a boundary the agent's
+   calls cross: the tool gateway, the egress proxy, the provider's own logs. Not the
+   transcript, and not any log inside the sandbox.
+3. **Verify that record before you trust it.** Check its chain and its head against
+   the anchor published elsewhere, and with the key the agent never held. A
+   consistent chain without the key only proves internal consistency.
+4. **Reconcile.** Line the transcript up against the boundary record and list every
+   call that differs or is missing. Those are your incident's actual actions.
+5. **Look for side channels.** Anything the agent was given as a tool can carry data
+   out, a package registry included: in the same incident agents passed tens of
+   thousands of messages through a registry cache. Check every tool with write access
+   to shared state, not only the network.
+6. **Then build the record you were missing,** if step 2 had no answer. See
+   [GenAI Security lesson 15](../genai-security-deep-dive/) for a keyed boundary log
+   and the reconciliation, and lesson 12 for the head anchor.
+
+---
+
 ## 11. Communication templates
 
 **Internal, at declaration:**
