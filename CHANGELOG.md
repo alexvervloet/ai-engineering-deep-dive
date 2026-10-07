@@ -11,6 +11,41 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-10-07: six new lessons from the audit's concept list
+
+### Added
+
+- **Evals: hill-climbing a prompt without fooling yourself.** A 60-ticket set with
+  frozen train, validation and test splits, and a climber run under two acceptance
+  policies. Offline, the train-only loop keeps a coincidence and pasted answers,
+  reports 100%, and scores 75% on test. Live on `gpt-6-luna` the unedited prompt is
+  near the ceiling and the gap is one ticket or none, which the example reports rather
+  than hides.
+- **Context engineering: history is append-only by API contract.** On Claude Fable 5.1,
+  Opus 5.5 and Sonnet 5.5, editing what came before a thinking block invalidates it,
+  and newer accounts get a 400. An offline simulation runs this dive's own strategies
+  through the check, and `--real` shows the live 400 for one sentence added to a
+  system prompt. The agent-harness dive says what resume and steering must do.
+- **Agent harness: a reviewer answers `ask` prompts.** A classifier in place of the
+  person, with reasons the agent sees and Claude Code's hand-off rule (3 blocks in a
+  row or 20 in a session). Reviewers disagree on the same call, and a blocked agent
+  reached for a tool the policy allowed.
+- **GenAI security lesson 15: audit records the agent can't rewrite,** grounded in
+  METR's review of the July 2026 OpenAI and Hugging Face incident, with an INCIDENTS.md
+  runbook for when the agent's record and the real one disagree.
+- **Production: retry by error code, not status.** `slow_down` and overload wait out
+  `Retry-After`; billing 429s stop at once. Real SDK errors are now classified, where
+  before the retry layer only ever retried the mock, and SDK-internal retries are off
+  so one layer owns retrying.
+- **Agent harness: OpenAI's Agents API** next to Managed Agents, including that its
+  quickstart passes the agent config inline per session.
+
+### Fixed
+
+- **Every dive's venv now matches its pins.** Fifteen still had openai 2.x and
+  anthropic 0.x after the 2026-09-15 bump. After upgrading, 103 of 105 live runs passed
+  on both providers; the other two were the test harness, not the code.
+
 ## 2026-10-06: working through the rest of the currency audit
 
 ### Deadlines
