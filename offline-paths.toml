@@ -62,7 +62,10 @@ runtime = "python"
 python = "3.11"
 claim = "Execute deterministic token-budget planning without a provider."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
-commands = [["python", "examples/01_token_budget.py"]]
+commands = [
+  ["python", "examples/01_token_budget.py"],
+  ["python", "examples/11_append_only_contract.py"],
+]
 environment = { PROVIDER = "mock", NO_COLOR = "1" }
 
 [[repositories]]
