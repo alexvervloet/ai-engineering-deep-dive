@@ -17,7 +17,11 @@ runtime = "python"
 python = "3.11"
 claim = "Validate the deterministic mock harness and its offline capstone."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
-commands = [["python", "check_setup.py"]]
+commands = [
+  ["python", "check_setup.py"],
+  ["python", "examples/16_model_approval.py"],
+  ["python", "-m", "unittest", "discover", "-s", "tests"],
+]
 environment = { PROVIDER = "mock", NO_COLOR = "1" }
 
 [[repositories]]
