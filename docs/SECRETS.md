@@ -88,23 +88,55 @@ security find-generic-password -a "$USER" -s deepdives:OPENAI_API_KEY -w | tr -d
 
 ### 2. Add `secrun` to your shell profile
 
-Paste this into `~/.zshrc` (or `~/.bashrc`; the body is POSIX-ish; adjust the
-first line), then open a new terminal:
+Paste this into `~/.zshrc`, then open a new terminal. It's zsh, macOS's default
+shell; on bash, adapt the Linux version below, swapping its `secret-tool lookup` call
+for the `security find-generic-password` call here.
 
 ```zsh
 # Fetch DeepDives API keys from the macOS Keychain and inject them into ONE
 # command's environment. They never touch your interactive shell or any file.
 #   secrun python examples/01_foo.py
+#   secrun --only OPENAI_API_KEY python examples/01_foo.py
+# A project's .secrun file lists the keys it uses, so it gets only those.
 secrun() {
   emulate -L zsh
-  if (( $# == 0 )); then
-    print -u2 "usage: secrun <command> [args...]   (runs cmd with DeepDives API keys)"
-    return 2
-  fi
   local -a keys=(ANTHROPIC_API_KEY OPENAI_API_KEY VOYAGE_API_KEY)
   # Optional keys: injected when the Keychain item exists, skipped silently
   # when it doesn't (only some projects need them).
   local -a opt_keys=(LANGSMITH_API_KEY)
+  # Narrowing: `secrun --only A,B cmd` for one command, else the nearest
+  # .secrun file up from the current directory (key names, one per line,
+  # # comments; an empty file means no keys). Without either, every key above.
+  local -a only
+  local src=""
+  if [[ $1 == --only ]]; then
+    only=(${(s:,:)2})
+    src="--only"
+    shift 2
+  else
+    local dir=$PWD
+    while [[ $dir != / && ! -f $dir/.secrun ]]; do dir=${dir:h}; done
+    if [[ -f $dir/.secrun ]]; then
+      only=(${(f)"$(sed -e 's/#.*//' -e 's/[[:space:]]//g' $dir/.secrun | grep -v '^$')"})
+      src=$dir/.secrun
+    fi
+  fi
+  if (( $# == 0 )); then
+    print -u2 "usage: secrun [--only KEY[,KEY...]] <command> [args...]   (runs cmd with DeepDives API keys)"
+    return 2
+  fi
+  if [[ -n $src ]]; then
+    local name
+    for name in $only; do
+      if (( ! ${keys[(Ie)$name]} && ! ${opt_keys[(Ie)$name]} )); then
+        print -u2 "secrun: unknown key '$name' (from $src)"
+        return 2
+      fi
+    done
+    # Listed keys keep their status: required ones must exist, optional ones may not.
+    keys=(${keys:*only})
+    opt_keys=(${opt_keys:*only})
+  fi
   (  # subshell: exported keys never leak back into the interactive shell
     local k v
     for k in $keys; do
@@ -138,6 +170,34 @@ python examples/02_offline.py         # offline examples need no wrapper
 
 That's it. Your shell stays key-free (`echo $OPENAI_API_KEY` prints nothing); the
 key exists only inside the wrapped process, for its lifetime.
+
+### Give each command only the keys it uses
+
+By default `secrun` exports every key it knows. A command that only calls OpenAI
+doesn't need your Anthropic or Voyage keys in its environment, and anything it
+runs (a dependency's install script, a test, a coding agent) can read whatever is
+there. Two ways to narrow it:
+
+```bash
+secrun --only OPENAI_API_KEY python examples/01_foo.py   # just this command
+```
+
+Or put a `.secrun` file at a project's root listing the keys that project uses,
+one per line. `secrun` finds the nearest one above the current directory, so
+subfolders are covered too. It holds names only, so commit it:
+
+```
+# Keys `secrun` exports for this project (names only; values stay in the Keychain).
+ANTHROPIC_API_KEY
+VOYAGE_API_KEY
+```
+
+A name `secrun` doesn't know is an error rather than a silent skip, so a typo
+shows up at once. To support another project's key, add it to `opt_keys`.
+
+This narrows what a routine run carries; it isn't a security boundary. Anything
+running as you can still call `security find-generic-password` itself. The
+Linux and Windows wrappers below don't narrow yet.
 
 ---
 
