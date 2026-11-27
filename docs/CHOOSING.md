@@ -81,8 +81,8 @@ do you want a cheaper and faster model on a high-volume task?**
 → **Fine-tune**, but only once a prompt and RAG have fallen short, and only if you can
 measure that it beat your baseline. → [Fine-tuning](../fine-tuning-deep-dive/)
 >
-> Check where you can still do this before you plan around it. OpenAI is winding down
-> self-serve fine-tuning through 2026 and into January 2027, and Anthropic never
+> Check where you can still do this before you plan around it. OpenAI closes
+> self-serve fine-tuning job creation to every org on 2026-12-15, and Anthropic never
 > offered it self-serve at all. In practice this rung now means an open-weight model
 > you tune yourself with LoRA or PEFT, locally or on rented GPUs, which raises the bar
 > for choosing it over a better prompt.
