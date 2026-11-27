@@ -42,9 +42,10 @@ series is not versioned, so entries are grouped by date instead of release.
   newer Claude models reject prefill and forced `tool_choice` (probed live). The series
   stays on Haiku 4.5, because 5.5 rejects prefill, which the Prompt Engineering dive uses.
 - **Dependencies:** professional-tools onto openai 3.3.0 (instructor caps it there),
-  anthropic 2.14, litellm 1.111 and llama-index's OpenAI integrations 0.9/0.8, with
-  chapters 1-6 re-run unchanged. ml-foundations to torch 2.15.0 and numpy 2.5.5.
-  langfuse 5 and huggingface-hub 2 stay held, for the reasons in that requirements file.
+  anthropic 2.14, litellm 1.111, llama-index's OpenAI integrations 0.9/0.8 and
+  langfuse 5.2.0, with all seven chapters re-run unchanged (ch07 on 2026-11-27, once its
+  local server's demo volumes were reset). ml-foundations to torch 2.15.0 and numpy
+  2.5.5. huggingface-hub 2 stays held: deepeval still rejects it.
 - **Thinking-block prefix check:** Fable 5.2 returns a 400 on every account; the other
   models only on accounts created since 2026-08-31.
 - **The offline CI now also runs weekly.**
