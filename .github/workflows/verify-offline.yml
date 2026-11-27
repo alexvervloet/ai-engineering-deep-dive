@@ -3,6 +3,11 @@ name: Verify offline paths
 on:
   push:
   pull_request:
+  # Weekly, because most dependencies are ranges: a new release can break an
+  # offline path with no commit here. That happened once and sat unseen for six
+  # weeks between pushes.
+  schedule:
+    - cron: "0 7 * * 1"
   workflow_dispatch:
 
 permissions:
