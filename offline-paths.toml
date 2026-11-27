@@ -8,8 +8,12 @@ version = 1
 path = "mcp-deep-dive"
 runtime = "python"
 python = "3.11"
-claim = "Render protocol messages without a model, server, key, or network."
-commands = [["python", "examples/01_protocol.py"]]
+claim = "Render protocol messages, then run a policy-enforcing gateway over two local servers, without a model, key, or network."
+install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
+commands = [
+  ["python", "examples/01_protocol.py"],
+  ["python", "examples/12_gateway.py"],
+]
 
 [[repositories]]
 path = "agent-harness-deep-dive"
@@ -20,6 +24,7 @@ install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
 commands = [
   ["python", "check_setup.py"],
   ["python", "examples/16_model_approval.py"],
+  ["python", "examples/17_a2a_handoff.py"],
   ["python", "-m", "unittest", "discover", "-s", "tests"],
 ]
 environment = { PROVIDER = "mock", NO_COLOR = "1" }
@@ -89,6 +94,7 @@ commands = [
   ["python", "examples/11_human_annotation.py"],
   ["python", "examples/12_online_eval.py"],
   ["python", "examples/14_decision_statistics.py"],
+  ["python", "examples/16_pass_hat_k.py"],
 ]
 
 [[repositories]]
@@ -97,7 +103,10 @@ runtime = "python"
 python = "3.11"
 claim = "Validate the simulated fine-tuning path on the offline mock provider."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
-commands = [["python", "check_setup.py"]]
+commands = [
+  ["python", "check_setup.py"],
+  ["python", "examples/11_grpo_rft.py"],
+]
 environment = { PROVIDER = "mock", NO_COLOR = "1" }
 
 [[repositories]]
@@ -112,11 +121,12 @@ commands = [["python", "examples/01_quant_math.py"]]
 path = "multimodal-deep-dive"
 runtime = "python"
 python = "3.11"
-claim = "Build multimodal content blocks, inspect local PNG bytes with a mock, and price images with an estimator pinned to measured bills."
+claim = "Build multimodal content blocks, inspect local PNG bytes with a mock, price images with an estimator pinned to measured bills, and read and strip a real C2PA record."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
 commands = [
   ["python", "examples/01_vision_offline.py"],
   ["python", "examples/09_image_token_math.py"],
+  ["python", "examples/11_content_provenance.py"],
   ["python", "-m", "unittest", "discover", "-s", "tests"],
 ]
 environment = { PROVIDER = "openai", NO_COLOR = "1" }
@@ -211,7 +221,10 @@ runtime = "python"
 python = "3.11"
 claim = "Check the offline reference system imports and its determinism primitive holds."
 install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
-commands = [["python", "check_setup.py"]]
+commands = [
+  ["python", "check_setup.py"],
+  ["python", "examples/11_grpo_rft.py"],
+]
 environment = { PROVIDER = "mock", NO_COLOR = "1" }
 
 [[repositories]]
@@ -276,6 +289,7 @@ install = [["python", "-m", "pip", "install", "-r", "requirements.txt"]]
 commands = [
   ["python", "check_setup.py"],
   ["python", "-m", "unittest", "discover", "-v"],
+  ["python", "examples/13_disaggregation.py"],
 ]
 
 [[repositories]]
