@@ -11,6 +11,21 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-11-27: structured outputs replace the JSON prefill
+
+### Changed
+
+- **Prompt Engineering no longer prefills `{` to force JSON on Claude.** Haiku 5.5,
+  Fable 5.2 and every Sonnet/Opus since 4.6 reject prefill; Haiku 4.5 was the last
+  model it worked on. `structured()` now uses `output_config.format` on Claude instead
+  of a forced tool call, which also makes it work on Sonnet 5.5, Opus 5.5 and Fable,
+  where forced tools are a 400. Claude has no schema-free JSON mode, so `json=True`
+  raises on Claude, lesson 06 says level 2 doesn't exist there, and examples 02 and 06
+  moved to `structured()` with schemas. Checked live on Haiku 4.5, Haiku 5.5,
+  Sonnet 5.5 and gpt-6-luna. A nullable enum has to be `anyOf` for Claude, which
+  rejects an enum on a list of types.
+---
+
 ## 2026-11-26: monthly audit
 
 ### Deadlines
@@ -40,7 +55,7 @@ series is not versioned, so entries are grouped by date instead of release.
   ($0.10/$0.50 up to 100K tokens), GPT-6.2 Astra and Sol, `gpt-6.1-terra`, the
   `gpt-image-2.6` models, `gpt-4o`'s shutdown, corrected replacement names, and which
   newer Claude models reject prefill and forced `tool_choice` (probed live). The series
-  stays on Haiku 4.5, because 5.5 rejects prefill, which the Prompt Engineering dive uses.
+  stays on Haiku 4.5 until every Claude demo has been re-run on 5.5.
 - **Dependencies:** professional-tools onto openai 3.3.0 (instructor caps it there),
   anthropic 2.14, litellm 1.111, llama-index's OpenAI integrations 0.9/0.8 and
   langfuse 5.2.0, with all seven chapters re-run unchanged (ch07 on 2026-11-27, once its
