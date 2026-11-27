@@ -24,6 +24,9 @@ series is not versioned, so entries are grouped by date instead of release.
   moved to `structured()` with schemas. Checked live on Haiku 4.5, Haiku 5.5,
   Sonnet 5.5 and gpt-6-luna. A nullable enum has to be `anyOf` for Claude, which
   rejects an enum on a list of types.
+- **The TypeScript dive's Claude provider** enforces schemas with `output_config.format`
+  too, instead of a forced tool call. Example 05 and `ask.ts --json` checked live on
+  Haiku 4.5, Haiku 5.5 and Sonnet 5.5.
 ---
 
 ## 2026-11-26: monthly audit

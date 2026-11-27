@@ -185,11 +185,11 @@ Four things to know if you move the Claude dives off Haiku 4.5:
   schema needs `additionalProperties: false`.
 - **Forced tool use.** `tool_choice` of `{"type": "any"}` or a named tool returns a
   400 on Opus 5.5, Sonnet 5.5, Fable 5.1, and Fable 5.2. Haiku 5.5 accepts it, and
-  answers with the tool call and no thinking block. The TypeScript dive's provider
-  still forces a tool on the Claude path to get JSON back; that works on both Haikus
-  and breaks on those four. The Prompt Engineering dive's `structured()` moved to
-  structured outputs, which work on all of them (checked on Haiku 4.5 and 5.5 and
-  Sonnet 5.5). Use `tool_choice: auto` with `strict: true`, or structured outputs. Thinking also
+  answers with the tool call and no thinking block. No dive forces a tool to get JSON
+  any more: the Prompt Engineering and TypeScript dives moved to structured outputs
+  (`output_config.format`) on 2026-11-27, which work on all of them (checked on Haiku
+  4.5 and 5.5 and Sonnet 5.5). Use `tool_choice: auto` with `strict: true`, or
+  structured outputs. Thinking also
   changed: it can't be turned off at all on Opus 5.5 (lower the effort instead, whose
   default there is `"medium"`), and Sonnet 5.5 turns it off with
   `thinking: {"type": "between_tools"}` rather than `"disabled"`.
