@@ -11,6 +11,52 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-11-26: monthly audit
+
+### Deadlines
+
+- **Claude's sampling knobs are gone on every model.** API version `2026-10-21`, the
+  default from `anthropic` 2.0 and `@anthropic-ai/sdk` 1.0, returns a 400 for
+  `temperature`, `top_p` or `top_k` on every Claude model, Haiku 4.5 included (probed
+  live). Every dive moved to `anthropic>=2.0,<3` and the TypeScript dive to `^1.14.0`.
+  The evals, prompt-injection and prompt-engineering providers stop sending temperature
+  to Claude. The Claude dive's examples 03 and 05 now show the 400 and what replaces the
+  knobs, and `ask.py` drops the flags with a note.
+- **Prompt Injection moved to `gpt-5.4-mini`** ahead of `gpt-4o-mini`'s 2027-01-14
+  shutdown. Re-measured landing rates on eight models: 19 of 40 on `gpt-5.4-mini`, the
+  only model with no shutdown date that the catalog still beats. On it the delimiter
+  prompt defense stopped all 40 attempts, where on `gpt-4o-mini` it stopped 9 of 30.
+  Example 04 now reports that the verdict depends on the model, examples 04 and 10 use
+  the link attack (the image one lands 0 of 10), and example 09 adds a bot without the
+  prompt defense to show the plain-text phishing line still beats every architectural
+  layer.
+- **OpenAI fine-tuning:** no org can create a self-serve job from 2026-12-15, and the
+  dive's base, `gpt-4o-mini-2024-07-18`, shuts down with its fine-tunes on 2027-01-14.
+  The dive's real path now stops before uploading once the cutoff passes.
+
+### Changed
+
+- **MODELS.md** re-verified on 2026-11-26: Claude Fable 5.2 ($8/$40) and Haiku 5.5
+  ($0.10/$0.50 up to 100K tokens), GPT-6.2 Astra and Sol, `gpt-6.1-terra`, the
+  `gpt-image-2.6` models, `gpt-4o`'s shutdown, corrected replacement names, and which
+  newer Claude models reject prefill and forced `tool_choice` (probed live). The series
+  stays on Haiku 4.5, because 5.5 rejects prefill, which the Prompt Engineering dive uses.
+- **Dependencies:** professional-tools onto openai 3.3.0 (instructor caps it there),
+  anthropic 2.14, litellm 1.111 and llama-index's OpenAI integrations 0.9/0.8, with
+  chapters 1-6 re-run unchanged. ml-foundations to torch 2.15.0 and numpy 2.5.5.
+  langfuse 5 and huggingface-hub 2 stay held, for the reasons in that requirements file.
+- **Thinking-block prefix check:** Fable 5.2 returns a 400 on every account; the other
+  models only on accounts created since 2026-08-31.
+- **The offline CI now also runs weekly.**
+
+### Fixed
+
+- **The production dive's retry tests failed on openai 3.60,** which reads the request
+  attached to an error. Nothing in the repo had changed, and no CI had run for six weeks.
+- `gpt-6.1-terra` now gets `reasoning_effort="none"` wherever a dive picks it by name.
+- CodeQL alert 113, the dive's deliberately fake demo secret, dismissed as a false
+  positive.
+
 ## 2026-10-07: six new lessons from the audit's concept list
 
 ### Added

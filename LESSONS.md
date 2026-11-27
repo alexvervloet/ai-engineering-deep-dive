@@ -509,3 +509,68 @@ the expected effect didn't appear, instead of asserting it. When a model change 
 dramatic, read a handful of the individual outputs before believing the aggregate.
 Check new tests in a fresh venv built from requirements alone. Use `git -C` on every
 command that touches more than one repo.
+
+## The suite broke with no commit, and nothing noticed for six weeks
+
+**Expected.** The offline CI guards every dive. If it's green on the last push, the
+offline paths work.
+
+**What happened.** The last push was 2026-10-12. Re-running the workflow on 2026-11-26
+failed in the production dive: openai 3.60 now scrubs auth headers from the request an
+error carries, and the test's stand-in response had `request = None`. The repo hadn't
+changed. A range pin (`openai>=3.0,<4`) resolved to a newer minor on a fresh install, and
+the workflow only ran on push, so the break existed for weeks with no signal.
+
+**Next time.** Any workflow that installs ranges needs a schedule, not just push
+triggers. It now runs weekly. And a test double for an SDK object should carry every
+attribute the real one has that the SDK might read, not only the ones it reads today.
+
+## The SDK major kept the signatures and changed a header
+
+**Expected.** Last audit's method was to install the new major and introspect the
+signatures you call. If `messages.create` takes the same parameters, the upgrade is safe.
+
+**What happened.** `anthropic` 2.0 has exactly the same `messages.create` signature as
+1.11. The only difference is a default header: `anthropic-version: 2026-10-21` instead of
+`2023-06-01`. On that version the server rejects `temperature` on every model, so the
+`extra_body={"temperature": ...}` line that worked on Haiku 4.5 on 1.x becomes a 400 on
+2.x. Signature introspection says "no change". Printing `client.default_headers` showed
+it in one line, and a live call confirmed it.
+
+**Next time.** When introspecting a new SDK major, diff the client's default headers as
+well as the method signatures. The version header is how a provider changes behavior
+without changing the code you wrote.
+
+## Moving the model changed the defense's verdict, not just the attack rate
+
+**Expected.** Prompt Injection needed a new target model because `gpt-4o-mini` shuts
+down. Find a model where the attacks still land and keep the lessons as they are.
+
+**What happened.** `gpt-5.4-mini` lands 19 of 40, which is enough. But example 04's
+claim, that the delimiter prompt defense lets a task-aligned injection walk straight
+past, turned false. On `gpt-5.4-mini` the defense held 40 of 40; on `gpt-4o-mini` it held
+9 of 30. The red-team eval's "it never reaches zero" also stopped being true, because the
+surviving attack had only ever survived when the prompt layer failed. The image-beacon
+attack two examples relied on went from 10 of 10 to 0 of 10.
+
+**Next time.** A model move in a security dive needs two measurements: how often each
+attack lands with no defense, and how often each defense holds. Then re-read every
+sentence that names an outcome. Here the honest lesson got sharper: a prompt defense is a
+property of the model you're running, and it changes when you upgrade.
+
+## Summaries of the docs were wrong in both directions
+
+**Expected.** Fetching the provider's release notes and docs through a summarizer gives
+the facts needed to write date-stamped claims.
+
+**What happened.** One summary said the Claude release notes had no entry for 2026-11-09.
+They did, and it was the one that mattered. A different summary turned "Fable 5.2
+enforces the prefix check for every account" into "the check is enforced for every
+account," and I wrote that into three files before quoting the verbatim text, which
+showed the other models still depend on account age. Separately, I wrote a code comment
+saying the Claude dive's examples rely on prefill; a grep showed none do.
+
+**Next time.** Before a date or a scope goes into the repo, get the verbatim sentence it
+rests on, and grep the code for any claim about what the code does. A summary is a
+pointer to the sentence, not a substitute for it.
+
