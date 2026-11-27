@@ -153,8 +153,9 @@ availability. Haiku 4.5 has no announced retirement. Sonnet 4.5 retires 2026-11-
 Opus 4.5 on 2027-01-22; no dive uses either.
 
 Haiku 5.5 (2026-10-07) costs a tenth of Haiku 4.5 for prompts up to 100K tokens; past that,
-the higher rate applies to the whole request. The series hasn't moved to it yet, because
-it isn't a drop-in swap: see the list below.
+the higher rate applies to the whole request. The series hasn't moved to it yet. The
+code no longer uses anything 5.5 rejects, but its thinking is on by default and every
+Claude demo needs re-running on it before the default changes: see the list below.
 
 Read the Sonnet and Opus rows in order. Sonnet 5 is **cheaper** than the Sonnet 4.6 it
 succeeded, $2/$10 against $3/$15, and Sonnet 5.5 kept that price. Opus 5.5 is cheaper
@@ -178,14 +179,17 @@ Four things to know if you move the Claude dives off Haiku 4.5:
   older `budget_tokens` form, which is why the dives read the way they do.
 - **Assistant prefill.** Putting words in the assistant's mouth as the last
   message returns a 400 on Opus/Sonnet 4.6 and newer, Fable 5.2 and Haiku 5.5
-  included (probed 2026-11-26). Haiku 4.5 still allows it, and the Prompt Engineering
-  dive uses it to force JSON. Use structured outputs instead if you upgrade.
+  included (probed 2026-11-26). Haiku 4.5 still allows it. No dive uses it any more:
+  the Prompt Engineering dive moved to structured outputs (`output_config.format`) on
+  2026-11-27. Note that Claude has no schema-free JSON mode; every object in the
+  schema needs `additionalProperties: false`.
 - **Forced tool use.** `tool_choice` of `{"type": "any"}` or a named tool returns a
   400 on Opus 5.5, Sonnet 5.5, Fable 5.1, and Fable 5.2. Haiku 5.5 accepts it, and
-  answers with the tool call and no thinking block. The Prompt Engineering dive's
-  `structured()` and the TypeScript dive's provider force a tool on the Claude path
-  to get JSON back; that works on both Haikus and breaks on those four. Use
-  `tool_choice: auto` with `strict: true`, or structured outputs. Thinking also
+  answers with the tool call and no thinking block. The TypeScript dive's provider
+  still forces a tool on the Claude path to get JSON back; that works on both Haikus
+  and breaks on those four. The Prompt Engineering dive's `structured()` moved to
+  structured outputs, which work on all of them (checked on Haiku 4.5 and 5.5 and
+  Sonnet 5.5). Use `tool_choice: auto` with `strict: true`, or structured outputs. Thinking also
   changed: it can't be turned off at all on Opus 5.5 (lower the effort instead, whose
   default there is `"medium"`), and Sonnet 5.5 turns it off with
   `thinking: {"type": "between_tools"}` rather than `"disabled"`.
