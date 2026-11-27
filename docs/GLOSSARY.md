@@ -283,6 +283,11 @@ scores into one decision number. *(Evals §5)*
 
 **pass@k**: fraction of tasks solved within *k* attempts. *(Evals §5)*
 
+**pass^k**: fraction of tasks where *all* k independent attempts succeed. pass@k asks
+"can it?"; pass^k asks "will it, every time?", which is the question for an agent that
+acts once per user. Estimated from n runs with c passes as C(c,k)/C(n,k). *(Evals §5,
+Example 16)*
+
 **Confidence interval**: a range produced by a stated procedure for an unknown
 effect. It shows uncertainty; it doesn't decide what size of change matters.
 *(Evals §10, Example 14)*
@@ -337,6 +342,24 @@ runs. *(Agents §7)*
 
 **MCP (Model Context Protocol)**: a standard for serving tools, data (**resources**),
 and **prompts** to an LLM from a separate process. *(MCP dive)*
+
+**MCP registry / MCP gateway**: a **registry** is a catalog of servers (the official one
+stores `server.json` metadata, not code); a **gateway** is the proxy every tool call
+passes through, where a company puts auth, per-team allowlists, secret custody, and an
+audit log. *(MCP §12)*
+
+**A2A (Agent2Agent)**: a protocol for one agent to hand work to another that someone
+else owns, via an Agent Card and tasks. MCP is vertical (agent to tools), A2A is
+horizontal (agent to agent). Most apps don't need it; in-process subagents suffice.
+*(Agent Harnesses §18)*
+
+**AGENTS.md**: a plain Markdown file of standing instructions for coding agents at a
+repo's root, read by many tools. Claude Code reads `CLAUDE.md` first; an `@AGENTS.md`
+line imports the shared file. *(Agent Harnesses §17)*
+
+**Agent Skill (`SKILL.md`)**: a folder of instructions whose one-line description sits
+in context while the body loads only when needed (progressive disclosure). An open
+format read by many agent tools. *(Agent Harnesses §16)*
 
 **Agent harness**: the layer that runs the agent loop for you and adds the things a
 bare loop lacks: an event stream, hooks, a permission policy, a sandbox, and
@@ -430,6 +453,11 @@ Engineering §10; Claude API)*
 actions, but trusted code derives identity and decides what's authorized. A model's
 intent is never authority. *(GenAI Security)*
 
+**OWASP Top 10 for LLM Applications / for Agentic Applications**: shared risk
+taxonomies. The 2026 LLM list renumbered most entries (Excessive Agency is now LLM03)
+and renamed System Prompt Leakage to Hidden Context Exposure; the agentic list uses
+ASI01-ASI10. Compare reports by name, not number. *(GenAI Security)*
+
 **Threat model / trust boundary**: the system-specific map of assets, owners, entry
 points, data flows, attacker capabilities, and consequences; a trust boundary is where
 data or authority moves between differently trusted components. A top-ten list helps
@@ -484,6 +512,11 @@ the release gate passes. Evidence preservation begins before destructive repair.
 
 **Observability**: structured traces of what each request did (inputs, tokens, cost,
 tools, latency). *(Production §3; Observability)*
+
+**Content provenance (C2PA) / AI marking**: a signed metadata record inside a generated
+file saying it was made by AI, often paired with an invisible watermark. EU AI Act
+Article 50 puts marking on the provider and visible labelling of deepfakes on the
+deployer. Metadata falls off on resize or re-encode. *(Multimodal §12)*
 
 **Refusal**: a safety classifier declining a request. The distinguishing feature is
 that it **succeeds**: HTTP 200, `stop_reason: "refusal"`, empty text, and a category
@@ -582,6 +615,12 @@ comparisons (A is better than B); **reinforcement fine-tuning (RFT)** from a
 *grader* that scores each attempt, used when success is checkable but not easily
 demonstrated (how reasoning models are trained). *(Fine-tuning §11–12)*
 
+**GRPO (group relative policy optimization)**: an RFT method that samples several
+answers per prompt, scores each with a grader, and pushes the model toward answers
+above the group's average, with no separate value model. A group where every answer
+scores the same teaches nothing, and a sloppy grader gets gamed (reward hacking).
+*(Fine-tuning §12)*
+
 **LoRA / PEFT**: efficient fine-tuning that trains a small set of added weights
 instead of all of them. *(Fine-tuning; Local Models)*
 
@@ -646,6 +685,12 @@ alone isn't a throughput result. *(ML Foundations §10; Local Models; Inference 
 
 **KV cache**: memory holding the keys/values for tokens in context; grows with
 context length and can rival the weights in size. *(ML Foundations §11; Local Models)*
+
+**Prefill / decode disaggregation**: running prompt processing (prefill, which sets time
+to first token) and token generation (decode, which sets inter-token latency) on
+separate worker pools and copying the KV cache between them. It protects tail latency
+at the cost of a transfer and more moving parts, and often loses to chunked prefill.
+*(Inference Platform §13)*
 
 **Serving engine**: the program that loads and runs a local model (Ollama,
 llama.cpp, vLLM). *(Local Models)*
