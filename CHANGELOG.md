@@ -11,6 +11,52 @@ series is not versioned, so entries are grouped by date instead of release.
 
 ---
 
+## 2026-11-27: practices audit
+
+A web check of standards and practices that changed or spread in 2026. MCP, the
+OpenTelemetry GenAI conventions (still Development, as the series says), server-side
+compaction, and the RAG baseline were already current. Seven gaps were closed.
+
+### Deadlines
+
+- **EU AI Act Article 50 marking.** Multimodal §12 splits the duty: the provider marks
+  the file, the deployer labels deepfakes where people see them. A new offline example
+  opens the C2PA record inside a real `gpt-image` PNG, then shows a re-save keeps the
+  pixels byte-identical and drops the record. Systems on the market before 2 August
+  2026 must mark output by 2 December 2026 (Regulation (EU) 2026/1744). RESPONSIBILITY.md
+  gained the provider and deployer duties and the Code of Practice's two layers.
+
+### Added
+
+- **GenAI Security moved to the OWASP LLM Top 10 2026.** Most entries renumbered
+  (Excessive Agency is now LLM03), and System Prompt Leakage became Hidden Context
+  Exposure, which also covers retrieved policy text and tool schemas. A new table maps
+  lessons to the Agentic Top 10 (ASI01-ASI10) and says which three the dive doesn't
+  cover.
+- **Evals: pass^k next to pass@k.** Unbiased estimators with tests, and example 16,
+  where pass@4 prefers a flaky agent (98% against 75%) and pass^4 prefers the steady
+  one (27% against 75%). The Agents dive points to it.
+- **Agent Harnesses §16-18:** Agent Skills as an open format now governed by the
+  Agentic AI Foundation, AGENTS.md and how Claude Code reads it, and A2A v1.0 with an
+  offline Agent Card and task exchange. It says most apps need subagents, not A2A.
+- **MCP §12: registries and gateways.** The official registry's `server.json` and
+  preview status, what a gateway centralizes, and an offline gateway over two of the
+  dive's servers that filters each caller's tools, blocks a write before it reaches
+  the server, and audits every call.
+- **Inference Platform lesson 13: prefill/decode disaggregation.** A simulator compares
+  colocated, chunked, and disaggregated serving on the same GPUs. Disaggregation wins
+  only for long prompts on a fast link with a strict latency target; it loses on a slow
+  link and on short prompts, where chunked prefill or colocation is the better choice.
+- **Fine-tuning §12-13: GRPO and where to train now.** A runnable demo of
+  group-relative advantage and of reward hacking: trained on a sloppy grader, the toy
+  policy scores 0.96 on its own reward and 0.04 on the real task. §13 lists where SFT,
+  DPO, and RFT still run, checked on each vendor's docs.
+- **Glossary:** pass^k, MCP registry and gateway, A2A, AGENTS.md, Agent Skill,
+  prefill/decode disaggregation, GRPO, the OWASP lists, and content provenance.
+- The offline manifest runs the new examples.
+
+---
+
 ## 2026-11-27: structured outputs replace the JSON prefill
 
 ### Changed
