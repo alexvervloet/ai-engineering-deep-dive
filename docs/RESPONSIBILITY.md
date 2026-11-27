@@ -282,12 +282,13 @@ step limits, and a sandbox are the mechanics.
 
 ## The rules stopped being hypothetical
 
-> **Dated: August 2026.** This area moves quarterly. Treat the specifics below the way
+> **Dated: August 2026, with the Article 50 marking details checked in November 2026.**
+> This area moves quarterly. Treat the specifics below the way
 > [MODELS.md](MODELS.md) treats prices: verified on a date, and yours to re-check. This
 > is orientation rather than legal advice. If you ship into a regulated domain, get a
 > real opinion.
 
-Two things are worth knowing even if you never read a statute.
+A few things are worth knowing even if you never read a statute.
 
 **The EU AI Act sorts systems by risk, not by technology.** Prohibited uses, then
 high-risk (hiring, credit, education, essential services and similar), then
@@ -297,6 +298,34 @@ systems now land on 2 December 2027, and AI embedded in regulated products on
 2 August 2028. **Most of the Article 50 transparency duties still applied from
 2 August 2026**, and those are what touch ordinary products. Telling users they're
 interacting with an AI, and marking synthetic media.
+
+**Marking synthetic media splits into two duties.** Checked against official EU sources
+on 2026-11-27:
+
+- **Article 50(2), the provider.** Whoever provides the system that generates audio,
+  images, video, or text must mark the output in a machine-readable way, so it can be
+  detected as AI-made. For an image API, that's usually the API vendor. If you put your
+  own generating system on the market under your name, you may be a provider too, so
+  check before assuming the duty is someone else's. Systems placed
+  on the market before 2 August 2026 have until 2 December 2026. That date comes from
+  the new Article 111(4) added by the Digital Omnibus, Regulation (EU) 2026/1744.
+- **Article 50(4), the deployer.** If your app shows a deepfake image, audio, or video,
+  you disclose it. The same goes for AI-generated text published to inform the public
+  on matters of public interest, unless a person reviewed it under editorial
+  responsibility. Article 50(5) asks for a clear disclosure, at the latest at first
+  exposure. The Commission's FAQ says deployers can't rely on the provider's embedded
+  marking for this.
+- **The Code of Practice** on Transparency of AI-generated Content was published on
+  10 June 2026 and assessed as adequate by the Commission and the AI Board. It's
+  voluntary; the law is Article 50. For providers it asks for two layers: signed,
+  time-stamped metadata and an imperceptible watermark, with "very short text" (under
+  200 tokens, for now) exempt from watermarking. Detection tools are to be
+  interoperable by 2 February 2027. For deployers it offers an optional EU "AI" icon.
+
+Metadata is the fragile layer. A resize, a format change, or a screenshot drops it. The
+[Multimodal dive, Section 12](../multimodal-deep-dive/README.md#12-marking-ai-generated-content-and-who-owes-what)
+opens the C2PA record inside a real OpenAI image by hand, strips it, and lists what you
+still owe as the deployer.
 
 **Disclosure and crisis handling are becoming statutory, not just ethical.** Twelve US
 states enacted companion-chatbot laws in the first half of 2026. The recurring pattern
@@ -316,6 +345,11 @@ Sources for the above, checked 2026-08-11:
 [Jones Walker on what still applied 2 August 2026](https://www.joneswalker.com/en/insights/blogs/ai-law-blog/yes-august-2-still-matters-the-eu-approved-a-high-risk-ai-delay-but-most-trans.html),
 [MultiState on state companion-chatbot laws](https://www.multistate.ai/updates/vol-105-state-ai-companion-chatbot-laws),
 [Orrick on 2026 state chatbot laws](https://www.orrick.com/en/Insights/2026/04/2026-State-Chatbot-Laws-Key-Provisions-and-Regulatory-Trends).
+Article 50 marking specifics, checked 2026-11-27:
+[Commission FAQ on Article 50](https://digital-strategy.ec.europa.eu/en/faqs/transparency-obligations-under-article-50-ai-act),
+[the Code of Practice](https://digital-strategy.ec.europa.eu/en/policies/code-practice-ai-generated-content)
+and [its text (PDF)](https://ec.europa.eu/newsroom/dae/redirection/document/129555),
+[Regulation (EU) 2026/1744 on EUR-Lex](https://eur-lex.europa.eu/eli/reg/2026/1744/oj/eng).
 
 ---
 
